@@ -5,7 +5,8 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  main:
+    name: Test & Deploy Alpha
     runs-on: ubuntu-latest
 
     steps:
@@ -24,4 +25,6 @@ jobs:
       run: npm run build:alpha
     
     - name: Deploy
-      run: npm run deploy:alpha
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: npm run deploy:alpha -- --token "$FIREBASE_TOKEN"
