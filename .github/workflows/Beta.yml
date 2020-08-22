@@ -36,9 +36,9 @@ jobs:
 
       - name: Prepare Release
         run: |
-          npm run release:beta
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
+          npm run release:beta
           git push origin beta --follow-tags
           git checkout master
           git merge --no-ff beta
