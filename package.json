@@ -88,6 +88,7 @@
     "pretty-quick": "^2.0.1",
     "protractor": "~5.4.3",
     "puppeteer": "^2.1.1",
+    "standard-version": "^9.0.0",
     "stylelint": "~13.2.1",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-recommended-scss": "~4.2.0",
