@@ -2,7 +2,7 @@ name: Test & Deploy Stable
 
 on:
   push:
-    branches: [ stable ]
+    branches: [stable]
 
 jobs:
   main:
@@ -10,28 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cancel Previous Actions
-      uses: styfle/cancel-workflow-action@0.4.1
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - uses: actions/checkout@v2.3.2
-      with:
-        ref: stable
-    
-    - name: Install
-      run: npm install
-    
-    - name: Check Linting
-      run: npm run lint
-    
-    - name: Run Unit Tests
-      run: npm run test:ci
-    
-    - name: Build
-      run: npm run build:stable
-    
-    - name: Deploy
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      run: npm run deploy -- --token "$FIREBASE_TOKEN"
+      - name: Cancel Previous Actions
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v2.3.2
+        with:
+          ref: stable
+
+      - name: Install
+        run: npm install
+
+      - name: Check Linting
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm run test:ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: npm run deploy -- --token "$FIREBASE_TOKEN"
