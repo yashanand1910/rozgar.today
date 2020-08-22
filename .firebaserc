@@ -1,14 +1,20 @@
 {
+  "projects": {
+    "default": "rozgar-today"
+  },
   "targets": {
     "rozgar-today": {
       "hosting": {
-        "rozgar.today": [
+        "stable": [
           "rozgar-today"
+        ],
+        "beta": [
+          "beta-rozgar-today"
+        ],
+        "alpha": [
+          "alpha-rozgar-today"
         ]
       }
     }
-  },
-  "projects": {
-    "default": "rozgar-today"
   }
 }
