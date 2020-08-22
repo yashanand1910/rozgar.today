@@ -1,0 +1,30 @@
+name: Test & Deploy Stable
+
+on:
+  push:
+    branches: [ stable ]
+
+jobs:
+  main:
+    name: Test & Deploy Stable
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Install
+      run: npm install
+    
+    - name: Check Linting
+      run: npm run lint
+    
+    - name: Run Unit Tests
+      run: npm run test:ci
+    
+    - name: Build
+      run: npm run build:stable
+    
+    - name: Deploy
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: npm run deploy -- --token "$FIREBASE_TOKEN"
