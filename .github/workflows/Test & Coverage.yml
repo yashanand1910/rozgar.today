@@ -1,0 +1,30 @@
+name: Test & Coverage
+
+on:
+  pull_request:
+    branches: [beta, stable]
+
+jobs:
+  test:
+    name: Test & Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Previous Actions
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v2.3.2
+
+      - name: Install
+        run: npm install
+
+      - name: Check Linting
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm run test:ci
+
+      - name: Upload Coverage Reports
+        uses: codecov/codecov-action@v1.0.13
