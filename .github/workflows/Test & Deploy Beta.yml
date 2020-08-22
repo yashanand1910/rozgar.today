@@ -27,4 +27,4 @@ jobs:
     - name: Deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      run: npm run deploy:alpha -- --token "$FIREBASE_TOKEN"
+      run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
