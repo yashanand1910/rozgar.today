@@ -1,0 +1,55 @@
+name: Beta
+
+on:
+  push:
+    branches: [beta]
+
+jobs:
+  main:
+    name: Test, Deploy & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Previous Actions
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v2.3.2
+        with:
+          ref: beta
+
+      - name: Install
+        run: npm install
+
+      - name: Check Linting
+        run: npm run lint
+
+      - name: Run Unit Tests
+        run: npm run test:ci
+
+      - name: Build
+        run: npm run build:beta
+
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Prepare Release
+        run: |
+          npm run release:beta
+          git push origin beta --follow-tags
+          git checkout master
+          git merge --no-ff beta
+          git push origin master
+
+      - name: Deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
+
+      - name: Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: ${{ steps.get_version.outputs.version }}
+          prerelease: true
