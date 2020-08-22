@@ -4,7 +4,7 @@ The rozgar.today web app built on Angular.
 
 ## Deployments
 
-- Alpha ([alpha.rozgar.today](https://dev.rozgar.today)) ![Test & Deploy Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Test%20&%20Deploy%20Alpha/badge.svg?branch=master)
+- Alpha ([alpha.rozgar.today](https://alpha.rozgar.today)) ![Test & Deploy Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Test%20&%20Deploy%20Alpha/badge.svg?branch=master)
 - Beta ([beta.rozgar.today](https://beta.rozgar.today))
 - Stable ([rozgar.today](https://rozgar.today))
 
