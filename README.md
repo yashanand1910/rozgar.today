@@ -4,9 +4,9 @@ The rozgar.today web app built on Angular.
 
 ## Deployments
 
-- Alpha ([alpha.rozgar.today](https://dev.rozgar.today)) [![Build Status](https://travis-ci.com/yashanand1910/rozgar.today.svg?token=gVytP2AeyZBsjbgxU88B&branch=development)](https://travis-ci.com/yashanand1910/rozgar.today) ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/yashanand1910/rozgar.today/development?label=version&color=blue)
-- Beta ([beta.rozgar.today](https://beta.rozgar.today)) [![Build Status](https://travis-ci.com/yashanand1910/rozgar.today.svg?token=gVytP2AeyZBsjbgxU88B&branch=staging)](https://travis-ci.com/yashanand1910/rozgar.today) ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/yashanand1910/rozgar.today/staging?label=prerelease&color=blue)
-- Stable ([rozgar.today](https://rozgar.today)) [![Build Status](https://travis-ci.com/yashanand1910/rozgar.today.svg?token=gVytP2AeyZBsjbgxU88B&branch=master)](https://travis-ci.com/yashanand1910/rozgar.today) ![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/yashanand1910/rozgar.today/master?label=release&color=blue)
+- Alpha ([alpha.rozgar.today](https://dev.rozgar.today))
+- Beta ([beta.rozgar.today](https://beta.rozgar.today))
+- Stable ([rozgar.today](https://rozgar.today))
 
 ## Getting started
 
