@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.js",
-    "build:alpha": "ng build",
+    "build:alpha": "ng build --prod",
     "build:beta": "ng build --prod",
     "build": "ng build --prod",
     "deploy:alpha": "firebase deploy --only hosting:alpha",
