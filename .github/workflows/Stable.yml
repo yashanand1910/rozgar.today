@@ -7,6 +7,7 @@ on:
 jobs:
   main:
     name: Test & Deploy Stable
+    if: "!contains(github.event.head_commit.message, 'release')"
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +32,32 @@ jobs:
       - name: Build
         run: npm run build
 
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Prepare Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "yashanand1910@gmail.com"
+          npm run release
+          git push origin stable --follow-tags
+          git checkout beta
+          git merge --no-ff stable
+          git push origin beta
+          git checkout master
+          git merge --no-ff stable
+          git push origin master
+
       - name: Deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
+
+      - name: Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: ${{ steps.get_version.outputs.version }}
+          prerelease: false
