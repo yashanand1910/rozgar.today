@@ -1,4 +1,4 @@
-name: Tests
+name: Test & Deploy Alpha
 
 on:
   push:
@@ -10,6 +10,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-
-    - name: Run a one-line script
+    
+    - name: Install
+      run: npm install
+    
+    - name: Check Linting
+      run: npm run lint
+    
+    - name: Run Unit Tests
       run: npm run test:ci
+    
+    - name: Build
+      run: npm run build:alpha
+    
+    - name: Deploy
+      run: npm run deploy:alpha
