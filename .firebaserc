@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "rozgar-today": {
+      "hosting": {
+        "rozgar.today": [
+          "rozgar-today"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "rozgar-today"
+  }
+}
