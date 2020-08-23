@@ -6,9 +6,9 @@ The rozgar.today web app built on Angular.
 
 CICD setup using GitHub Actions & Firebase Hosting.
 
-- Alpha ([alpha.rozgar.today](https://alpha.rozgar.today)) ![Test & Deploy Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Test%20&%20Deploy%20Alpha/badge.svg?branch=master)
-- Beta ([beta.rozgar.today](https://beta.rozgar.today)) ![Test & Deploy Beta](https://github.com/yashanand1910/rozgar.today/workflows/Test%20&%20Deploy%20Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?include_prereleases)
-- Stable ([rozgar.today](https://rozgar.today)) ![Test & Deploy Stable](https://github.com/yashanand1910/rozgar.today/workflows/Test%20&%20Deploy%20Stable/badge.svg?branch=stable) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today)
+- Alpha ([alpha.rozgar.today](https://alpha.rozgar.today)) ![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=master)
+- Beta ([beta.rozgar.today](https://beta.rozgar.today)) ![Beta](https://github.com/yashanand1910/rozgar.today/workflows/Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?include_prereleases)
+- Stable ([rozgar.today](https://rozgar.today)) ![Stable](https://github.com/yashanand1910/rozgar.today/workflows/Stable/badge.svg?branch=stable) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today)
 
 ## Getting started
 
