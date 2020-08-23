@@ -43,10 +43,10 @@ jobs:
           git push origin stable --follow-tags
           git fetch
           git checkout beta
-          git merge --no-ff stable
+          git merge stable
           git push origin beta
           git checkout master
-          git merge --no-ff stable
+          git merge beta
           git push origin master
 
       - name: Deploy
