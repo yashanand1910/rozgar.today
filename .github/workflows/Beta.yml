@@ -32,18 +32,18 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
-      - name: Build
-        run: npm run build:beta
+      - name: Run e2e Tests
+        run: npm run e2e
 
       - name: Prepare Pre-Release
         run: |
+          git fetch
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release:beta
           git push origin beta --follow-tags
-          git fetch
           git checkout master
-          git merge --no-ff beta
+          git merge beta
           git push origin master
 
       - name: Deploy
