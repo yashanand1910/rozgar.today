@@ -5,27 +5,8 @@ on:
     branches: [master, beta, stable]
 
 jobs:
-  check:
-    name: Check & Report Coverage
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Cancel Previous Actions
-        uses: styfle/cancel-workflow-action@0.4.1
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/checkout@v2.3.2
-
-      - name: Check Linting
-        run: npm run lint
-
-      - name: Upload Coverage Reports
-        uses: codecov/codecov-action@v1.0.13
   test:
     name: Test & Report Coverage
-    if: github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/stable'
     runs-on: ubuntu-latest
 
     steps:
