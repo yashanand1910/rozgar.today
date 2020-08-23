@@ -50,7 +50,7 @@ jobs:
           npm run release:beta
           git checkout master
           git merge beta --allow-unrelated-histories
-          git push origin beta --follow-tags
+          git push --follow-tags origin beta
           git push origin master
 
       - name: Start Deployment
