@@ -30,5 +30,23 @@ jobs:
       - name: Build
         run: npm run build:alpha
 
+      - name: Start Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Alpha
+
       - name: Deploy
         run: npm run deploy:alpha -- --token "$FIREBASE_TOKEN"
+
+      - name: Finish Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: alpha.rozgar.today

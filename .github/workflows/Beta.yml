@@ -48,9 +48,9 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release:beta
-          git push origin beta --follow-tags
           git checkout master
-          git merge beta
+          git merge beta --allow-unrelated-histories
+          git push origin beta --follow-tags
           git push origin master
 
       - name: Deploy
