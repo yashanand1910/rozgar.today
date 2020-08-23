@@ -10,17 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: log
-        name: Log Commit Message
-        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
       - name: Cancel Previous Actions
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
         uses: styfle/cancel-workflow-action@0.4.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v2.3.2
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
+
+      - id: log
+        name: Log Commit Message
+        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
 
       - name: Install
         if: "!contains(steps.log.outputs.message, 'chore(release)')"
