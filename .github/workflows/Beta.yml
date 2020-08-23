@@ -22,6 +22,15 @@ jobs:
         with:
           ref: beta
           token: ${{ secrets.ACTIONS_TOKEN }}
+          fetch-depth: 0
+
+      - name: Start Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Beta
 
       - name: Install
         run: npm install
@@ -44,23 +53,14 @@ jobs:
       - name: Prepare Pre-Release
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
-          git fetch
+          git fetch --all
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
-          git checkout beta
           npm run release:beta
           git checkout master
           git merge beta --allow-unrelated-histories
           git push --follow-tags origin beta
           git push origin master
-
-      - name: Start Deployment
-        uses: bobheadxi/deployments@v0.4.2
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: Beta
 
       - name: Deploy
         run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
