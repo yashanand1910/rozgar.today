@@ -1,6 +1,6 @@
 # rozgar.today [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/master/graph/badge.svg?token=z4bPzNR9e6)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-The rozgar.today web app built on Angular.
+The rozgar.today web & mobile app built on Angular & Cordova.
 
 ## Deployments
 
