@@ -9,12 +9,12 @@ jobs:
     name: Test, Deploy & Pre-Release
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    if: "!contains(github.event.head_commit.message, 'chore(release)')"
     runs-on: ubuntu-latest
 
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -27,15 +27,22 @@ jobs:
         run: npm install
 
       - name: Check Linting
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run lint
 
       - name: Run Unit Tests
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run test:ci
 
       - name: Run e2e Tests
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run e2e
 
+      - name: Build
+        run: npm run build:beta
+
       - name: Prepare Pre-Release
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
           git fetch
           git config user.name "GitHub Actions"
@@ -50,10 +57,12 @@ jobs:
         run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
 
       - id: get_version
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         name: Get Version
         uses: battila7/get-version-action@v2
 
       - name: Pre-Release
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
