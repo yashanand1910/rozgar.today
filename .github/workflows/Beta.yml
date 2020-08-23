@@ -15,12 +15,12 @@ jobs:
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v2.3.2
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         with:
           ref: beta
           token: ${{ secrets.ACTIONS_TOKEN }}
@@ -29,34 +29,30 @@ jobs:
       - name: Start Deployment
         uses: bobheadxi/deployments@v0.4.2
         id: deployment
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: Beta
 
       - name: Install
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: npm install
 
       - name: Check Linting
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: npm run lint
 
       - name: Run Unit Tests
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: npm run test:ci
 
       - name: Run e2e Tests
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: npm run e2e
 
-      - name: Build
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
-        run: npm run build:beta
-
       - name: Prepare Pre-Release
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: |
           git fetch --all
           git config user.name "GitHub Actions"
@@ -67,12 +63,16 @@ jobs:
           git push --follow-tags origin beta
           git push origin master
 
+      - name: Build
+        if: "!contains(github.event.head_commit.message, '-beta.')"
+        run: npm run build:beta
+
       - name: Deploy
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
 
       - name: Finish Deployment
-        if: ${{ !contains(github.event.head_commit.message, 'chore(release)') && always() }}
+        if: ${{ !contains(github.event.head_commit.message, '-beta.') && always() }}
         uses: bobheadxi/deployments@v0.4.2
         with:
           step: finish
@@ -81,15 +81,11 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://beta.rozgar.today
 
-      - id: get_version
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
-        name: Get Version
-        uses: battila7/get-version-action@v2
-
       - name: Pre-Release
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        if: "!contains(github.event.head_commit.message, '-beta.')"
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body_path: ./CHANGELOG.md
           prerelease: true

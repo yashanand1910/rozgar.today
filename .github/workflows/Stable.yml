@@ -51,10 +51,6 @@ jobs:
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run e2e
 
-      - name: Build
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
-        run: npm run build
-
       - name: Prepare Release
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
@@ -69,6 +65,10 @@ jobs:
           git push --follow-tags origin stable
           git push origin beta
           git push origin master
+
+      - name: Build
+        if: "!contains(github.event.head_commit.message, 'chore(release)')"
+        run: npm run build
 
       - name: Deploy
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
@@ -93,5 +93,6 @@ jobs:
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body_path: ./CHANGELOG.md
