@@ -81,15 +81,11 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://beta.rozgar.today
 
-      - id: get_version
-        if: "!contains(github.event.head_commit.message, '-beta.')"
-        name: Get Version
-        uses: battila7/get-version-action@v2
-
       - name: Pre-Release
         if: "!contains(github.event.head_commit.message, '-beta.')"
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body_path: ./CHANGELOG.md
           prerelease: true
