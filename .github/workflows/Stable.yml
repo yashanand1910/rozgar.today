@@ -22,6 +22,7 @@ jobs:
         with:
           ref: stable
           token: ${{ secrets.ACTIONS_TOKEN }}
+          fetch-depth: 0
 
       - name: Start Deployment
         uses: bobheadxi/deployments@v0.4.2
@@ -52,10 +53,9 @@ jobs:
       - name: Prepare Release
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
-          git fetch
+          git fetch --all
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
-          git checkout stable
           npm run release
           git checkout beta
           git merge stable --allow-unrelated-histories
