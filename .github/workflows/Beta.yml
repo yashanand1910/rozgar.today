@@ -32,8 +32,8 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
-      - name: Build
-        run: npm run build:beta
+      - name: Run e2e Tests
+        run: npm run e2e
 
       - name: Prepare Pre-Release
         run: |
