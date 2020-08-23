@@ -1,4 +1,4 @@
-name: Test & Coverage
+name: Checks
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Test & Coverage
+    name: Tests & Coverage
     runs-on: ubuntu-latest
 
     steps:
