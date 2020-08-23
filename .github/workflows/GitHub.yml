@@ -22,7 +22,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ./CHANGELOG.md
+          body_path: ./CHANGELOG.md
           prerelease: true
 
   release:
@@ -40,5 +40,5 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ./CHANGELOG.md
+          body_path: ./CHANGELOG.md
           prerelease: false
