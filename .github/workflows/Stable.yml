@@ -9,12 +9,13 @@ jobs:
     name: Test, Deploy & Release
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+      SKIP_CI: ${{ "!contains(github.event.head_commit.message, 'chore(release)')" }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
+        if: '!$SKIP_CI'
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -27,15 +28,22 @@ jobs:
         run: npm install
 
       - name: Check Linting
+        if: '!$SKIP_CI'
         run: npm run lint
 
       - name: Run Unit Tests
+        if: '!$SKIP_CI'
         run: npm run test:ci
 
       - name: Run e2e Tests
+        if: '!$SKIP_CI'
         run: npm run e2e
 
+      - name: Build
+        run: npm run build
+
       - name: Prepare Release
+        if: '!$SKIP_CI'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
@@ -53,10 +61,12 @@ jobs:
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
 
       - id: get_version
+        if: '!$SKIP_CI'
         name: Get Version
         uses: battila7/get-version-action@v2
 
       - name: Release
+        if: '!$SKIP_CI'
         uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.get_version.outputs.version }}
