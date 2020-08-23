@@ -9,7 +9,7 @@ jobs:
     name: Check & Deploy
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      SKIP_CI: ${{ "!contains(github.event.head_commit.message, 'chore(release)')" }}
+      SKIP_CI: ${{ !contains(github.event.head_commit.message, 'chore(release)') }}
     runs-on: ubuntu-latest
 
     steps:
