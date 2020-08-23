@@ -1,12 +1,12 @@
-name: Test & Coverage
+name: Common
 
 on:
   pull_request:
-    branches: [beta, stable]
+    branches: [master, beta, stable]
 
 jobs:
   test:
-    name: Test & Coverage
+    name: Test & Report Coverage
     runs-on: ubuntu-latest
 
     steps:

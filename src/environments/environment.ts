@@ -12,8 +12,8 @@ import { env } from './.env';
 
 export const environment = {
   production: false,
-  hmr: true,
-  version: env.npm_package_version + '-dev',
+  hmr: false,
+  version: env.npm_package_version,
   serverUrl: '/api',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
