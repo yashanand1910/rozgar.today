@@ -75,7 +75,7 @@ jobs:
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
 
       - name: Finish Deployment
-        if: ${{ "!contains(github.event.head_commit.message, 'chore(release)')" && always() }}
+        if: ${{ !contains(github.event.head_commit.message, 'chore(release)') && always() }}
         uses: bobheadxi/deployments@v0.4.2
         with:
           step: finish
