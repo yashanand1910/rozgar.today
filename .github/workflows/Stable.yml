@@ -44,20 +44,38 @@ jobs:
       - name: Prepare Release
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
+          git fetch
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release
-          git push origin stable --follow-tags
-          git fetch
           git checkout beta
-          git merge stable
-          git push origin beta
+          git merge stable --allow-unrelated-histories
           git checkout master
-          git merge beta
+          git merge beta --allow-unrelated-histories
+          git push origin stable --follow-tags
+          git push origin beta
           git push origin master
+
+      - name: Start Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Stable
 
       - name: Deploy
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
+
+      - name: Finish Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://rozgar.today
 
       - id: get_version
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
