@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
-        if: ${{ !$SKIP_CI }}
+        if: ${{ "!$SKIP_CI" }}
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Check Linting
-        if: ${{ !$SKIP_CI }}
+        if: ${{ "!$SKIP_CI" }}
         run: npm run lint
 
       - name: Build
