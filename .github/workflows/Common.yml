@@ -10,29 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get the latest commit on PR
+        id: get-latest-commit
+        uses: ActionsRML/get-PR-latest-commit@v1
+
       - name: Cancel Previous Actions
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
         uses: styfle/cancel-workflow-action@0.4.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v2.3.2
-
-      - id: log
-        name: Log Commit Message
-        run: echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
 
       - name: Install
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
         run: npm install
 
       - name: Check Linting
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
         run: npm run lint
 
       - name: Run Unit Tests
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
         run: npm run test:ci
 
       - name: Upload Coverage Reports
-        if: "!contains(steps.log.outputs.message, 'chore(release)')"
+        if: "!contains(steps.get-latest-commit.outputs.latest_commit_message, 'chore(release)')"
         uses: codecov/codecov-action@v1.0.13
