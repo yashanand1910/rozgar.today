@@ -23,6 +23,14 @@ jobs:
           ref: stable
           token: ${{ secrets.ACTIONS_TOKEN }}
 
+      - name: Start Deployment
+        uses: bobheadxi/deployments@v0.4.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: Stable
+
       - name: Install
         run: npm install
 
@@ -56,14 +64,6 @@ jobs:
           git push --follow-tags origin stable
           git push origin beta
           git push origin master
-
-      - name: Start Deployment
-        uses: bobheadxi/deployments@v0.4.2
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: Stable
 
       - name: Deploy
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
