@@ -1,11 +1,11 @@
 {
   "name": "rozgar.today",
-  "version": "0.0.1-beta.0",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.js",
-    "build:alpha": "ng build --prod",
+    "build:alpha": "ng build",
     "build:beta": "ng build --prod",
     "build": "ng build --prod",
     "deploy:alpha": "firebase deploy --only hosting:alpha",
@@ -17,7 +17,8 @@
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
     "test": "ng test",
     "test:ci": "ng test --configuration=ci",
-    "e2e": "ng e2e",
+    "e2e: alpha": "ng e2e",
+    "e2e": "ng e2e --prod",
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",
     "docs": "hads ./docs -o",
     "compodoc": "compodoc -p tsconfig.json -d docs/generated -s -o",

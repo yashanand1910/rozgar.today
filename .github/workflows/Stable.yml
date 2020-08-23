@@ -35,15 +35,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - id: get_version
-        uses: battila7/get-version-action@v2
-
       - name: Prepare Release
         run: |
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release
           git push origin stable --follow-tags
+          git fetch
           git checkout beta
           git merge --no-ff stable
           git push origin beta
@@ -53,6 +51,10 @@ jobs:
 
       - name: Deploy
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
+
+      - id: get_version
+        name: Get Version
+        uses: battila7/get-version-action@v2
 
       - name: Release
         uses: actions/create-release@v1

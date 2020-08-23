@@ -35,21 +35,23 @@ jobs:
       - name: Build
         run: npm run build:beta
 
-      - id: get_version
-        uses: battila7/get-version-action@v2
-
       - name: Prepare Pre-Release
         run: |
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release:beta
           git push origin beta --follow-tags
+          git fetch
           git checkout master
           git merge --no-ff beta
           git push origin master
 
       - name: Deploy
         run: npm run deploy:beta -- --token "$FIREBASE_TOKEN"
+
+      - id: get_version
+        name: Get Version
+        uses: battila7/get-version-action@v2
 
       - name: Pre-Release
         uses: actions/create-release@v1
