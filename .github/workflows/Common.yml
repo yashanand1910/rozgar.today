@@ -25,10 +25,7 @@ jobs:
         uses: codecov/codecov-action@v1.0.13
   test:
     name: Test & Report Coverage
-    if: contains('
-      refs/heads/beta
-      refs/heads/stable
-      ', github.ref)
+    if: github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/stable'
     runs-on: ubuntu-latest
 
     steps:
