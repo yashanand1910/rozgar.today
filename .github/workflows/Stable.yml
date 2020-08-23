@@ -47,6 +47,7 @@ jobs:
           git fetch
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
+          git checkout stable
           npm run release
           git checkout beta
           git merge stable --allow-unrelated-histories
