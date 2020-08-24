@@ -10,6 +10,7 @@ import { CoreModule } from '@core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ShellModule } from '@app/shell/shell.module';
+import { AuthModule } from '@app/auth';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ShellModule } from '@app/shell/shell.module';
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
 
     CoreModule,
+    AuthModule,
     ShellModule,
 
     AppRoutingModule,
