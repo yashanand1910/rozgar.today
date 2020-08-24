@@ -2,13 +2,21 @@
 
 The rozgar.today web & mobile app built on Angular & Cordova.
 
-## Deployments
+## Environments
 
-CICD setup using GitHub Actions & Firebase Hosting.
+CI/CD setup using GitHub Actions & Firebase Hosting.
 
-- Alpha ([alpha.rozgar.today](https://alpha.rozgar.today)) ![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=master)
-- Beta ([beta.rozgar.today](https://beta.rozgar.today)) ![Beta](https://github.com/yashanand1910/rozgar.today/workflows/Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?include_prereleases)
-- Stable ([rozgar.today](https://rozgar.today)) ![Stable](https://github.com/yashanand1910/rozgar.today/workflows/Stable/badge.svg?branch=stable) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today)
+#### Alpha ([alpha.rozgar.today](https://alpha.rozgar.today)) ![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=master)
+
+Master branch directly deployed on every push.
+
+#### Beta ([beta.rozgar.today](https://beta.rozgar.today)) ![Beta](https://github.com/yashanand1910/rozgar.today/workflows/Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?include_prereleases)
+
+Beta branch deployed on every merge from master and is followed by a beta release.
+
+#### Stable ([rozgar.today](https://rozgar.today)) ![Stable](https://github.com/yashanand1910/rozgar.today/workflows/Stable/badge.svg?branch=stable) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today)
+
+Stable branch deployed on every merge from beta and is followed by a beta release.
 
 ## Getting started
 
