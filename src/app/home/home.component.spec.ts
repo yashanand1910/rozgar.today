@@ -3,8 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Angulartics2Module } from 'angulartics2';
 
-import { CoreModule } from '@core';
-import { SharedModule } from '@shared';
+import { CoreModule } from 'core';
+import { SharedModule } from 'shared';
 import { HomeComponent } from './home.component';
 import { QuoteService } from './quote.service';
 

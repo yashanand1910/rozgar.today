@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["@angularclass/hmr"],
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -131,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "rozgar.today"
+  "defaultProject": "rozgar.today",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

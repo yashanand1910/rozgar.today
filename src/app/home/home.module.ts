@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { Angulartics2Module } from 'angulartics2';
 
-import { CoreModule } from '@core';
 import { SharedModule } from '@shared';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
+import { Angulartics2Module } from 'angulartics2';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, CoreModule, SharedModule, Angulartics2Module, HomeRoutingModule],
+  imports: [CommonModule, TranslateModule, SharedModule, Angulartics2Module, HomeRoutingModule],
   declarations: [HomeComponent],
 })
 export class HomeModule {}
