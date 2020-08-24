@@ -16,7 +16,7 @@ Beta branch deployed on every merge from master and is followed by a beta releas
 
 #### Stable ([rozgar.today](https://rozgar.today)) ![Stable](https://github.com/yashanand1910/rozgar.today/workflows/Stable/badge.svg?branch=stable) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today)
 
-Stable branch deployed on every merge from beta and is followed by a beta release.
+Stable branch deployed on every merge from beta and is followed by a stable release.
 
 ## Getting started
 
