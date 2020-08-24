@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import { Logger } from '@app/@core';
+// noinspection ES6PreferShortImport
+import { Logger } from '../logger.service';
 
 const log = new Logger('ErrorHandlerInterceptor');
 
