@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoaderComponent } from 'shared';
+import { LoaderComponent } from '@shared';
 
 describe('LoaderComponent', () => {
   let component: LoaderComponent;

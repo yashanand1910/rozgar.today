@@ -21,6 +21,7 @@
   </head>
   <body>
     <!-- Google Analytics -->
+    <!--suppress CommaExpressionJS -->
     <script>
       (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -50,6 +51,7 @@
       </p>
     </noscript>
     <!-- Include Cordova script only when needed -->
+    <!--suppress HtmlUnknownTarget -->
     <script>
       if (/^app/.test(location.host)) {
         /**
@@ -68,9 +70,10 @@
         document.removeEventListener = function () {
           EventTarget.prototype.removeEventListener.apply(this, arguments);
         };
+        // noinspection HtmlUnknownTarget
         document.write('<script src="cordova.js"><\/script>');
       }
     </script>
-    <app-root></app-root>
+    <app-root>Loading...</app-root>
   </body>
 </html>

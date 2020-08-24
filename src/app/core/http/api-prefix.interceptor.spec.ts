@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { environment } from '@env/environment';
-import { ApiPrefixInterceptor } from 'core';
+import { ApiPrefixInterceptor } from '@core';
 
 describe('ApiPrefixInterceptor', () => {
   let http: HttpClient;

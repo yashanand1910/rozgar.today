@@ -47,7 +47,7 @@ describe('AuthenticationGuard', () => {
     const result = authenticationGuard.canActivate(new ActivatedRouteSnapshot(), mockSnapshot);
 
     // Assert
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login'], {
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth'], {
       queryParams: { redirect: undefined },
       replaceUrl: true,
     });
@@ -60,7 +60,7 @@ describe('AuthenticationGuard', () => {
     mockSnapshot.url = '/about';
 
     authenticationGuard.canActivate(new ActivatedRouteSnapshot(), mockSnapshot);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login'], {
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth'], {
       queryParams: { redirect: mockRouter.url },
       replaceUrl: true,
     });
