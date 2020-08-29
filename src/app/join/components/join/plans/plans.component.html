@@ -1,0 +1,51 @@
+<div class="header-container">
+  <h2 class="title">Select a Plan</h2>
+  <div class="content">
+    Select a plan that suits you! <b>Guaranteed interview calls</b> within the chosen validity. See our full
+    <a href="https://ameyashsolutions.com/our-clients/" target="_blank">list of companies</a>.
+  </div>
+</div>
+<nz-list nzGrid>
+  <ng-container *ngrxLet="plans$; let plans">
+    <div *ngIf="!(isLoading$ | ngrxPush)" nz-row [nzGutter]="[16, 16]">
+      <div *ngFor="let plan of plans" nz-col [nzXs]="24" [nzMd]="8">
+        <app-plan
+          [plan]="plan"
+          [isCurrent]="plan.id === (currentPlanId$ | async)"
+          (selectPlan)="selectPlan($event)"
+        ></app-plan>
+      </div>
+    </div>
+    <div *ngIf="isLoading$ | ngrxPush" nz-row [nzGutter]="[16, 16]">
+      <div nz-col [nzXs]="24" [nzMd]="8">
+        <nz-card>
+          <nz-skeleton [nzActive]="true"></nz-skeleton>
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzMd]="8">
+        <nz-card>
+          <nz-skeleton [nzActive]="true"></nz-skeleton>
+        </nz-card>
+      </div>
+      <div nz-col [nzXs]="24" [nzMd]="8">
+        <nz-card>
+          <nz-skeleton [nzActive]="true"></nz-skeleton>
+        </nz-card>
+      </div>
+    </div>
+  </ng-container>
+</nz-list>
+<div class="footer-container">
+  <div nz-typography nzType="secondary"><i>* Number of calls may vary for higher salaries and experience.</i></div>
+  <button
+    (click)="next()"
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    [nzLoading]=""
+    [disabled]="!(currentPlanId$ | async)"
+    translate
+  >
+    Next <i nz-icon nzType="caret-right" nzTheme="outline"></i>
+  </button>
+</div>

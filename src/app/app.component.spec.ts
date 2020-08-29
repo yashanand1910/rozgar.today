@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { Angulartics2Module } from 'angulartics2';
 
 import { CoreModule } from '@core';
 import { AppComponent } from './app.component';
@@ -24,7 +23,7 @@ describe('AppComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [Angulartics2Module.forRoot(), RouterTestingModule, TranslateModule.forRoot(), CoreModule],
+      imports: [RouterTestingModule, TranslateModule.forRoot(), CoreModule],
       declarations: [AppComponent],
       providers: [
         { provide: Keyboard, useValue: keyboardSpy },

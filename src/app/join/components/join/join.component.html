@@ -1,0 +1,12 @@
+<div class="steps-container">
+  <nz-steps [nzStatus]="status" [nzCurrent]="currentNumber$ | ngrxPush">
+    <nz-step
+      *ngFor="let step of steps$ | ngrxPush; let i = index"
+      [nzTitle]="step.title"
+      [nzIcon]="(currentNumber$ | ngrxPush) === i ? 'loading' : step.icon"
+    ></nz-step>
+  </nz-steps>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>

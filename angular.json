@@ -7,7 +7,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "less",
+          "changeDetection": "OnPush"
         }
       },
       "root": "",
@@ -17,7 +18,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["@angularclass/hmr"],
+            "allowedCommonJsDependencies": [
+              "@angularclass/hmr",
+              "@ant-design/colors",
+              "firebase/app",
+              "@firebase/firestore",
+              "@firebase/app"
+            ],
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -25,16 +32,50 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              },
               "src/favicon.ico",
               "src/apple-touch-icon.png",
               "src/robots.txt",
               "src/manifest.json",
               "src/assets"
             ],
-            "styles": ["src/main.scss"],
+            "styles": ["src/main.less"],
             "scripts": []
           },
           "configurations": {
+            "beta": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "serviceWorker": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.beta.ts"
+                }
+              ]
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
@@ -60,7 +101,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.stable.ts"
                 }
               ]
             },
@@ -132,8 +173,5 @@
       }
     }
   },
-  "defaultProject": "rozgar.today",
-  "cli": {
-    "defaultCollection": "@ngrx/schematics"
-  }
+  "defaultProject": "rozgar.today"
 }

@@ -1,0 +1,55 @@
+@import "../../../../../../theme/theme-variables";
+
+nz-card {
+  border: @border-width-base @border-style-base @border-color-base;
+
+  &:hover {
+    box-shadow: @box-shadow-base;
+    border: @border-width-base @border-style-base @border-color-base;
+  }
+}
+
+nz-card.current {
+  box-shadow: @box-shadow-base;
+  border: @border-width-base @border-style-base @primary-color;
+}
+
+.plan-title {
+  font-size: @heading-2-size;
+  font-weight: bold;
+  margin-bottom: @margin-sm;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-basic {
+  color: @text-color-secondary;
+}
+
+.title-standard {
+  color: @primary-color;
+}
+
+.title-premium {
+  color: @warning-color;
+}
+
+.value-false {
+  color: @error-color;
+}
+
+.value-true {
+  color: @success-color;
+}
+
+.currency {
+  color: @text-color-secondary;
+}
+
+.price {
+  padding-top: @padding-md;
+  font-size: @heading-3-size;
+  font-weight: bold;
+  float: right;
+}

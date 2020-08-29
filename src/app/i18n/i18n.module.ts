@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { LanguageSelectorComponent } from './language-selector.component';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { LanguageSelectorComponent } from '@i18n/components';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, NgbDropdownModule],
+  imports: [CommonModule, TranslateModule],
   declarations: [LanguageSelectorComponent],
   exports: [LanguageSelectorComponent],
 })

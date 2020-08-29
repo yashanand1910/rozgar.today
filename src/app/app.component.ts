@@ -7,18 +7,18 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 import { environment } from '@env/environment';
-import { Logger, untilDestroyed } from '@core';
-import { I18nService } from '@app/i18n';
+import { Logger } from '@core/services';
+import { I18nService } from '@i18n/services';
+import { untilDestroyed } from '@core/utils';
 
 const log = new Logger('App');
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.less'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private splashScreen: SplashScreen,
     // do not remove the analytics injection, even if the call in ngOnInit() is removed
     // this injection initializes page tracking through the router
-    private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     private i18nService: I18nService
   ) {}
 
@@ -43,9 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     log.debug('init');
-
-    this.angulartics2GoogleAnalytics.startTracking();
-    this.angulartics2GoogleAnalytics.eventTrack(environment.version, { category: 'App initialized' });
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
@@ -69,7 +65,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((event) => {
         const title = event.title;
         if (title) {
-          this.titleService.setTitle(this.translateService.instant(title));
+          this.titleService.setTitle(
+            `${this.translateService.instant(title)} – ${this.translateService.instant('APP_NAME')}`
+          );
         }
       });
     // Cordova platform and plugins initialization
@@ -87,7 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private onCordovaReady() {
-    log.debug('device ready');
+    log.debug('Device ready');
 
     if ((window as any).cordova) {
       log.debug('Cordova init');

@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 // noinspection ES6PreferShortImport
-import { Logger } from '../logger.service';
+import { Logger } from '../services/logger.service';
 
 const log = new Logger('ErrorHandlerInterceptor');
 

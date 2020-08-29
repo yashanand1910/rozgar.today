@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent } from './login.component';
+import { LoginComponent } from '@app/auth/components';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, I18nModule, AuthRoutingModule],

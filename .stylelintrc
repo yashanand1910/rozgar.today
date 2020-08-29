@@ -1,7 +1,6 @@
 {
   "extends": [
     "stylelint-config-standard",
-    "stylelint-config-recommended-scss",
     "stylelint-config-prettier"
   ],
   "rules": {
@@ -27,7 +26,6 @@
     "selector-class-pattern": "[a-z-]+",
     "selector-id-pattern": "[a-z-]+",
     "selector-max-id": 0,
-    "selector-no-qualifying-type": true,
     "selector-max-universal": 0,
     "selector-type-no-unknown": [
       true,

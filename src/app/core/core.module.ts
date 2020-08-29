@@ -4,29 +4,36 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { environment } from '@env/environment';
-import { RouteReusableStrategy } from './route-reusable-strategy';
-import { ApiPrefixInterceptor } from './http/api-prefix.interceptor';
-import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
+import { RouteReusableStrategy } from '@core/utils';
+import { ErrorHandlerInterceptor } from '@core/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { Angulartics2Module } from 'angulartics2';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFireModule } from '@angular/fire';
+import { reducers, metaReducers } from './reducers';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   imports: [
     CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     TranslateModule.forRoot(),
-    Angulartics2Module.forRoot(),
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot(),
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiPrefixInterceptor,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,

@@ -30,6 +30,7 @@
         ]
       }
     ],
+    "semicolon": [true, "always"],
     "interface-name": false,
     "max-classes-per-file": false,
     "no-consecutive-blank-lines": false,

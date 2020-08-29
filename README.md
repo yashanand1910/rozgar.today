@@ -49,10 +49,10 @@ src/                         project source code
 |  +- ...                    additional modules and components
 |- assets/                   app assets (images, fonts, sounds...)
 |- environments/             values for various build environments
-|- theme/                    app global scss variables and theme
+|- theme/                    app global less variables and theme
 |- translations/             translations files
 |- index.html                html entry point
-|- main.scss                 global style entry point
+|- main.less                 global style entry point
 |- main.ts                   app entry point
 |- polyfills.ts              polyfills needed by Angular
 +- setup-jest.ts             unit tests entry point
@@ -82,7 +82,7 @@ Task automation is based on [NPM scripts](https://docs.npmjs.com/misc/scripts).
 | `npm run translations:extract`                          | Extract strings from code and templates to `src/app/translations/template.json`                                 |
 | `npm run docs`                                          | Display project documentation and coding guides                                                                 |
 | `npm run compodoc`                                      | Generates and display generates documentation from code                                                         |
-| `npm run prettier`                                      | Automatically format all `.ts`, `.js` & `.scss` files                                                           |
+| `npm run prettier`                                      | Automatically format all `.ts`, `.js` & `.less` files                                                           |
 
 When building the application, you can specify the target configuration using the additional flag
 `--configuration <name>` (do not forget to prepend `--` to pass arguments to npm scripts).
@@ -110,7 +110,7 @@ Tasks are mostly based on the `angular-cli` tool. Use `ng help` to get more help
 
 ## Code formatting
 
-All `.ts`, `.js` & `.scss` files in this project are formatted automatically using [Prettier](https://prettier.io),
+All `.ts`, `.js` & `.less` files in this project are formatted automatically using [Prettier](https://prettier.io),
 and enforced via the `test:ci` script.
 
 A pre-commit git hook has been configured on this project to automatically format staged files, using
@@ -154,7 +154,6 @@ Development, build and quality processes are based on [angular-cli](https://gith
 
 - [Angular](docs/coding-guides/angular.md)
 - [TypeScript](docs/coding-guides/typescript.md)
-- [Sass](docs/coding-guides/sass.md)
 - [HTML](docs/coding-guides/html.md)
 - [Unit tests](docs/coding-guides/unit-tests.md)
 - [End-to-end tests](docs/coding-guides/e2e-tests.md)

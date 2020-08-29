@@ -1,0 +1,21 @@
+<nz-card (click)="selectPlan.emit(plan.id)" [class.current]="isCurrent" nzHoverable>
+  <nz-card-meta [nzTitle]="title" [nzDescription]="description"></nz-card-meta>
+  <ng-template #title>
+    <div nz-typography class="plan-title title-{{ plan.type.toLowerCase() }}">
+      {{ plan.type | translate }}<i *ngIf="isCurrent" nz-icon nzType="check-circle" nzTheme="fill"></i>
+    </div>
+  </ng-template>
+  <ng-template #description>
+    <nz-list>
+      <nz-list-item *ngFor="let point of plan.points">
+        <span nz-typography>{{ point.key }}</span>
+        <span *ngIf="!isBoolean(point.value)" nz-typography class="value">{{ point.value }}</span>
+        <span *ngIf="isBoolean(point.value)" nz-typography class="value value-{{ point.value }}">
+          <i *ngIf="!point.value" nz-icon nzType="close-circle" nzTheme="outline"></i>
+          <i *ngIf="point.value" nz-icon nzType="check-circle" nzTheme="outline"></i>
+        </span>
+      </nz-list-item>
+      <span nz-typography class="price"><span class="currency">₹</span>{{ plan.price }}</span>
+    </nz-list>
+  </ng-template>
+</nz-card>

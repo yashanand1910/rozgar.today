@@ -21,6 +21,12 @@
       "@core/*": ["src/app/core/*"],
       "@shared": ["src/app/shared"],
       "@shared/*": ["src/app/shared/*"],
+      "@auth": ["src/app/auth"],
+      "@auth/*": ["src/app/auth/*"],
+      "@i18n": ["src/app/i18n"],
+      "@i18n/*": ["src/app/i18n/*"],
+      "@shell": ["src/app/shell"],
+      "@shell/*": ["src/app/shell/*"],
       "@env/*": ["src/environments/*"]
     }
   },
