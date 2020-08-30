@@ -1,9 +1,9 @@
 <div class="steps-container">
-  <nz-steps [nzStatus]="status" [nzCurrent]="currentNumber$ | ngrxPush">
+  <nz-steps [nzCurrent]="currentNumber$ | ngrxPush" nzStatus="process">
     <nz-step
       *ngFor="let step of steps$ | ngrxPush; let i = index"
-      [nzTitle]="step.title"
       [nzIcon]="(currentNumber$ | ngrxPush) === i ? 'loading' : step.icon"
+      [nzTitle]="step.title"
     ></nz-step>
   </nz-steps>
 </div>

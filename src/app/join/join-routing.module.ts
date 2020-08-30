@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
-import { JoinComponent } from './components';
-import { PlansComponent } from './components';
-import { SetupProfileComponent } from './components';
-import { PaymentComponent } from './components';
+import { JoinComponent, PaymentComponent, PlansComponent } from './components';
 import { extract } from '@i18n/services';
+import { ProfileComponent } from './components/join/profile/profile.component';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -25,7 +23,7 @@ const routes: Routes = [
         },
         {
           path: 'profile',
-          component: SetupProfileComponent,
+          component: ProfileComponent,
           data: { title: extract('Setup Profile') },
         },
         {
@@ -37,6 +35,7 @@ const routes: Routes = [
     },
   ]),
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

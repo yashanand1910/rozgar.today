@@ -14,17 +14,17 @@
             <i class="far fa-3x fa-user-circle text-muted"></i>
           </h4>
           <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
-            <div class="alert alert-danger" [hidden]="!error || isLoading" translate>
+            <div [hidden]="!error || isLoading" class="alert alert-danger" translate>
               Username or password incorrect.
             </div>
             <div class="form-group">
               <label class="d-block">
                 <input
-                  type="text"
+                  [placeholder]="'Username' | translate"
+                  autocomplete="username"
                   class="form-control"
                   formControlName="username"
-                  autocomplete="username"
-                  [placeholder]="'Username' | translate"
+                  type="text"
                 />
                 <span hidden translate>Username</span>
                 <small
@@ -37,12 +37,12 @@
               </label>
               <label class="d-block">
                 <input
-                  type="password"
+                  [placeholder]="'Password' | translate"
+                  autocomplete="current-password"
                   class="form-control"
                   formControlName="password"
-                  autocomplete="current-password"
-                  [placeholder]="'Password' | translate"
                   required
+                  type="password"
                 />
                 <span hidden translate>Password</span>
                 <small
@@ -55,13 +55,13 @@
               </label>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input" formControlName="remember" />
+                  <input class="form-check-input" formControlName="remember" type="checkbox" />
                   <span translate>Remember me</span>
                 </label>
               </div>
             </div>
-            <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
-              <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+            <button [disabled]="loginForm.invalid || isLoading" class="btn btn-primary w-100" type="submit">
+              <i [hidden]="!isLoading" class="fas fa-cog fa-spin"></i>
               <span translate>Login</span>
             </button>
           </form>

@@ -18,7 +18,6 @@ export class JoinComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   currentNumber$: Observable<number>;
   steps$: Observable<Step[]>;
-  status = 'process';
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -34,7 +33,6 @@ export class JoinComponent implements OnInit, OnDestroy {
         untilDestroyed(this)
       )
       .subscribe((path: string) => {
-        console.log(path);
         this.store.dispatch(JoinActions.setCurrentStepFromPath({ path }));
       });
   }

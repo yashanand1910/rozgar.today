@@ -1,4 +1,4 @@
-import { Routes, Route } from '@angular/router';
+import { Route, Routes } from '@angular/router';
 
 import { ShellComponent } from '@shell/components';
 

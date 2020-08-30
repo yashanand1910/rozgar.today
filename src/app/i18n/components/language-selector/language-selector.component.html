@@ -1,6 +1,6 @@
 <div [ngClass]="{ 'nav-item': inNavbar }">
   <!--suppress XmlDuplicatedId -->
-  <a *ngIf="inNavbar; else button" id="language-dropdown" class="nav-link">
+  <a *ngIf="inNavbar; else button" class="nav-link" id="language-dropdown">
     {{ currentLanguage | translate }}
   </a>
   <ng-template #button>
@@ -9,8 +9,8 @@
       {{ currentLanguage }}
     </button>
   </ng-template>
-  <div aria-labelledby="language-dropdown" [ngClass]="menuClass">
-    <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
+  <div [ngClass]="menuClass" aria-labelledby="language-dropdown">
+    <button (click)="setLanguage(language)" *ngFor="let language of languages" class="dropdown-item">
       {{ language | translate }}
     </button>
   </div>

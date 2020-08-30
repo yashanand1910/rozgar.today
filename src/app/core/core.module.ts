@@ -13,7 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from '@angular/fire';
-import { reducers, metaReducers } from './reducers';
+import { metaReducers, reducers } from './reducers';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';

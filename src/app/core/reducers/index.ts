@@ -13,6 +13,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 
 const log = new Logger('Action');
+
 // Debug logger
 export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State> {
   return (state, action) => {

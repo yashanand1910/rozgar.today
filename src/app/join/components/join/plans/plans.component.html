@@ -7,27 +7,27 @@
 </div>
 <nz-list nzGrid>
   <ng-container *ngrxLet="plans$; let plans">
-    <div *ngIf="!(isLoading$ | ngrxPush)" nz-row [nzGutter]="[16, 16]">
-      <div *ngFor="let plan of plans" nz-col [nzXs]="24" [nzMd]="8">
+    <div *ngIf="!(isLoading$ | ngrxPush)" [nzGutter]="[16, 16]" nz-row>
+      <div *ngFor="let plan of plans" [nzMd]="8" [nzXs]="24" nz-col>
         <app-plan
-          [plan]="plan"
-          [isCurrent]="plan.id === (currentPlanId$ | async)"
           (selectPlan)="selectPlan($event)"
+          [isCurrent]="plan.id === (currentPlanId$ | async)"
+          [plan]="plan"
         ></app-plan>
       </div>
     </div>
-    <div *ngIf="isLoading$ | ngrxPush" nz-row [nzGutter]="[16, 16]">
-      <div nz-col [nzXs]="24" [nzMd]="8">
+    <div *ngIf="isLoading$ | ngrxPush" [nzGutter]="[16, 16]" nz-row>
+      <div [nzMd]="8" [nzXs]="24" nz-col>
         <nz-card>
           <nz-skeleton [nzActive]="true"></nz-skeleton>
         </nz-card>
       </div>
-      <div nz-col [nzXs]="24" [nzMd]="8">
+      <div [nzMd]="8" [nzXs]="24" nz-col>
         <nz-card>
           <nz-skeleton [nzActive]="true"></nz-skeleton>
         </nz-card>
       </div>
-      <div nz-col [nzXs]="24" [nzMd]="8">
+      <div [nzMd]="8" [nzXs]="24" nz-col>
         <nz-card>
           <nz-skeleton [nzActive]="true"></nz-skeleton>
         </nz-card>
@@ -39,13 +39,13 @@
   <div nz-typography nzType="secondary"><i>* Number of calls may vary for higher salaries and experience.</i></div>
   <button
     (click)="next()"
-    nz-button
-    nzType="primary"
-    nzSize="large"
+    [disabled]="(currentPlanId$ | ngrxPush) === null"
     [nzLoading]=""
-    [disabled]="!(currentPlanId$ | async)"
+    nz-button
+    nzSize="large"
+    nzType="primary"
     translate
   >
-    Next <i nz-icon nzType="caret-right" nzTheme="outline"></i>
+    Next <i nz-icon nzTheme="outline" nzType="caret-right"></i>
   </button>
 </div>

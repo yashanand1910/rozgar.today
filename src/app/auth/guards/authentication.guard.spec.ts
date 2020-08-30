@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { CredentialsService } from '@auth/services';
 import { MockCredentialsService } from '../services/credentials.service.mock';

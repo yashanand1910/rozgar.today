@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CredentialsService, Credentials } from './credentials.service';
+import { Credentials, CredentialsService } from './credentials.service';
 
 const credentialsKey = 'credentials';
 

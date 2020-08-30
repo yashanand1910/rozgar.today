@@ -1,28 +1,28 @@
 <nz-header>
-  <nz-col [nzMd]="{ span: 24 }" [nzLg]="{ span: 18, offset: 3 }">
+  <nz-col [nzLg]="{ span: 18, offset: 3 }" [nzMd]="{ span: 24 }">
     <div class="logo" translate>APP_NAME</div>
-    <ul nz-menu nzTheme="dark" class="menu-left" nzMode="horizontal">
+    <ul class="menu-left" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
-        [hidden]="menuItem.disabled"
         *ngFor="let menuItem of menuItemsLeft"
+        [hidden]="menuItem.disabled"
+        [routerLink]="menuItem.link"
         nz-menu-item
         nzMatchRouter
-        [routerLink]="menuItem.link"
         translate
       >
         {{ menuItem.title }}
       </li>
     </ul>
-    <ul nz-menu nzTheme="dark" class="menu-right" nzMode="horizontal">
+    <ul class="menu-right" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
-        [hidden]="menuItem.disabled"
         *ngFor="let menuItem of menuItemsRight"
-        nz-menu-item
+        [hidden]="menuItem.disabled"
         [routerLink]="menuItem.link"
+        nz-menu-item
         nzMatchRouter
         translate
       >
-        <i *ngIf="menuItem.icon" nz-icon [nzType]="menuItem.icon" nzTheme="outline"></i>
+        <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
         {{ menuItem.title }}
       </li>
     </ul>

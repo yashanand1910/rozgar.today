@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { JoinRoutingModule } from './join-routing.module';
-import { JoinComponent } from './components';
+import { JoinComponent, PaymentComponent, PlansComponent } from './components';
 import {
   NzButtonModule,
   NzCardModule,
@@ -14,9 +14,6 @@ import {
   NzTagModule,
   NzTypographyModule,
 } from 'ng-zorro-antd';
-import { PlansComponent } from './components';
-import { SetupProfileComponent } from './components';
-import { PaymentComponent } from './components';
 import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import * as fromJoin from './reducers';
@@ -24,9 +21,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { JoinEffects, PlanEffects } from './effects';
 import { PlanComponent } from './components/join/plans/plan/plan.component';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { ProfileComponent } from './components/join/profile/profile.component';
 
 @NgModule({
-  declarations: [JoinComponent, PlansComponent, SetupProfileComponent, PaymentComponent, PlanComponent],
+  declarations: [JoinComponent, PlansComponent, PaymentComponent, PlanComponent, ProfileComponent],
   imports: [
     CommonModule,
     JoinRoutingModule,

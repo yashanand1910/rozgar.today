@@ -16,8 +16,15 @@ const credentialsKey = 'credentials';
   providedIn: 'root',
 })
 export class CredentialsService {
-  private _credentials: Credentials | null = null;
+  /**
+   * Gets the user credentials.
+   * @return The user credentials or null if the user is not authenticated.
+   */
+  get credentials(): Credentials | null {
+    return this._credentials;
+  }
 
+  private _credentials: Credentials | null = null;
   constructor() {
     const savedCredentials = sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey);
     if (savedCredentials) {
@@ -31,14 +38,6 @@ export class CredentialsService {
    */
   isAuthenticated(): boolean {
     return !!this.credentials;
-  }
-
-  /**
-   * Gets the user credentials.
-   * @return The user credentials or null if the user is not authenticated.
-   */
-  get credentials(): Credentials | null {
-    return this._credentials;
   }
 
   /**

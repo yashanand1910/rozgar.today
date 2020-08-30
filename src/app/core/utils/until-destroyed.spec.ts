@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy } from '@angular/core';
+import { OnDestroy, OnInit } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 
 import { untilDestroyed } from './until-destroyed';

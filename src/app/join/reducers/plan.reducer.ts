@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Plan } from '@app/join/models';
 import * as PlanActions from '../actions/plan.actions';
 
@@ -8,6 +8,7 @@ export const plansFeatureKey = 'plans';
 export interface State extends EntityState<Plan> {
   currentPlanId: Plan['id'] | null;
   isLoading: boolean;
+  hasLoaded: boolean;
 }
 
 export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
@@ -18,6 +19,7 @@ export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
 export const initialState: State = adapter.getInitialState({
   currentPlanId: null,
   isLoading: true,
+  hasLoaded: false,
 });
 
 export const reducer = createReducer(
@@ -25,10 +27,12 @@ export const reducer = createReducer(
   on(PlanActions.loadPlans, (state) => ({
     ...state,
     isLoading: true,
+    hasLoaded: false,
   })),
   on(PlanActions.loadPlansSuccess, (state, action) => ({
     ...adapter.setAll(action.plans, state),
     isLoading: false,
+    hasLoaded: true,
   })),
   on(PlanActions.setCurrentPlan, (state, action) => ({
     ...state,
@@ -38,3 +42,4 @@ export const reducer = createReducer(
 
 export const getCurrentPlanId = (state: State) => state.currentPlanId;
 export const getIsLoading = (state: State) => state.isLoading;
+export const getHasLoaded = (state: State) => state.hasLoaded;

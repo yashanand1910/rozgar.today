@@ -3,43 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
     <title>rozgar.today</title>
     <base href="/" />
     <meta
-      name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+      name="viewport"
     />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="theme-color" content="#4e8ef7" />
-    <link rel="manifest" href="manifest.json" />
+    <meta content="no" name="msapplication-tap-highlight" />
+    <meta content="#4e8ef7" name="theme-color" />
+    <link href="manifest.json" rel="manifest" />
 
     <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="default" name="apple-mobile-web-app-status-bar-style" />
+    <link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
   </head>
   <body>
-    <!-- Google Analytics -->
-    <!--suppress CommaExpressionJS -->
-    <script>
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        (i[r] =
-          i[r] ||
-          function () {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        // noinspection JSValidateTypes
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-      ga('create', '147300073', 'auto');
-    </script>
-    <!-- End Google Analytics -->
     <!--[if lt IE 10]>
       <p>
         You are using an <strong>outdated</strong> browser. Please

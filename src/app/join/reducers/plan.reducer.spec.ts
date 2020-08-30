@@ -1,4 +1,4 @@
-import { reducer, initialState } from '../reducers/plan.reducer';
+import { initialState, reducer } from '../reducers/plan.reducer';
 
 describe('Plan Reducer', () => {
   describe('unknown action', () => {

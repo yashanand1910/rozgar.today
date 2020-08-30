@@ -39,6 +39,11 @@ export class HeaderComponent implements OnInit {
     private credentialsService: CredentialsService
   ) {}
 
+  get username(): string | null {
+    const credentials = this.credentialsService.credentials;
+    return credentials ? credentials.username : null;
+  }
+
   ngOnInit(): void {}
 
   toggleMenu() {
@@ -47,10 +52,5 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout().subscribe(() => this.router.navigate(['/auth'], { replaceUrl: true }));
-  }
-
-  get username(): string | null {
-    const credentials = this.credentialsService.credentials;
-    return credentials ? credentials.username : null;
   }
 }

@@ -3,7 +3,7 @@
  * See docs/coding-guide/e2e-tests.md for more info.
  */
 
-import { browser, element, by } from 'protractor';
+import { browser } from 'protractor';
 
 export class AppSharedPage {
   async navigateAndSetLanguage() {

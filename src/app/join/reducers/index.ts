@@ -89,3 +89,5 @@ export const { selectAll: selectAllPlans } = fromPlan.adapter.getSelectors(selec
 export const selectCurrentPlanId = createSelector(selectPlanState, fromPlan.getCurrentPlanId);
 
 export const selectPlansIsLoading = createSelector(selectPlanState, fromPlan.getIsLoading);
+
+export const selectPlansHasLoaded = createSelector(selectPlanState, fromPlan.getHasLoaded);
