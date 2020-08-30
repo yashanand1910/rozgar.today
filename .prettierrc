@@ -1,1 +1,11 @@
-{}
+{
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.less",
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}

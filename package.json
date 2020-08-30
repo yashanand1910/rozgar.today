@@ -126,17 +126,6 @@
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "~3.9.7"
   },
-  "prettier": {
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.less",
-        "options": {
-          "singleQuote": false
-        }
-      }
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged && npm run lint",

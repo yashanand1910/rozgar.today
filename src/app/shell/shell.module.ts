@@ -7,7 +7,7 @@ import { I18nModule } from '@app/i18n';
 import { ShellComponent } from '@shell/components';
 import { HeaderComponent } from './components/shell/header/header.component';
 import { FooterComponent } from './components/shell/footer/footer.component';
-import { NzGridModule, NzIconModule, NzLayoutModule, NzMenuModule } from 'ng-zorro-antd';
+import { NzAlertModule, NzGridModule, NzIconModule, NzLayoutModule, NzMenuModule } from 'ng-zorro-antd';
 
 @NgModule({
   imports: [
@@ -19,6 +19,7 @@ import { NzGridModule, NzIconModule, NzLayoutModule, NzMenuModule } from 'ng-zor
     NzGridModule,
     NzMenuModule,
     NzIconModule,
+    NzAlertModule,
   ],
   declarations: [HeaderComponent, ShellComponent, FooterComponent],
 })
