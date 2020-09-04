@@ -26,7 +26,7 @@
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",
     "docs": "hads ./docs -o",
     "compodoc": "compodoc -p tsconfig.json -d docs/generated -s -o",
-    "env": "ngx-scripts env npm_package_version",
+    "env": "ngx-scripts env npm_package_version FIREBASE_API_KEY",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "postinstall": "npm run prettier -s && npm run env && ngcc",

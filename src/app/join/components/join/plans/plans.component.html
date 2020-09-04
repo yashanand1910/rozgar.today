@@ -17,17 +17,7 @@
       </div>
     </div>
     <div *ngIf="isLoading$ | ngrxPush" [nzGutter]="[16, 16]" nz-row>
-      <div [nzMd]="8" [nzXs]="24" nz-col>
-        <nz-card>
-          <nz-skeleton [nzActive]="true"></nz-skeleton>
-        </nz-card>
-      </div>
-      <div [nzMd]="8" [nzXs]="24" nz-col>
-        <nz-card>
-          <nz-skeleton [nzActive]="true"></nz-skeleton>
-        </nz-card>
-      </div>
-      <div [nzMd]="8" [nzXs]="24" nz-col>
+      <div *ngFor="let i of [1, 1, 1]" [nzMd]="8" [nzXs]="24" nz-col>
         <nz-card>
           <nz-skeleton [nzActive]="true"></nz-skeleton>
         </nz-card>

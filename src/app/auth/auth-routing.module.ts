@@ -8,9 +8,19 @@ import { Shell } from '@app/shell/services/shell.service';
 const routes: Routes = [
   Shell.childRoutes([
     {
-      path: '',
-      component: LoginComponent,
-      data: { title: extract('Login') },
+      path: 'auth',
+      children: [
+        {
+          path: '',
+          redirectTo: 'login',
+          pathMatch: 'full',
+        },
+        {
+          path: 'login',
+          component: LoginComponent,
+          data: { title: extract('Login') },
+        },
+      ],
     },
   ]),
 ];

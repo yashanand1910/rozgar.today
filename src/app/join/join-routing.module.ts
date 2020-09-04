@@ -3,13 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
 import { JoinComponent, PaymentComponent, PlansComponent } from './components';
 import { extract } from '@i18n/services';
-import { ProfileComponent } from './components/join/profile/profile.component';
-import { EnsurePreviousStepsGuard } from './guards/ensure-previous-steps.guard';
+import { AccountComponent } from './components/join/account/account.component';
+import { EnsurePlanSelectedGuard } from './guards';
 
 const routes: Routes = [
   Shell.childRoutes([
     {
       path: '',
+      redirectTo: 'join',
+      pathMatch: 'full',
+    },
+    {
+      path: 'join',
       component: JoinComponent,
       children: [
         {
@@ -20,19 +25,19 @@ const routes: Routes = [
         {
           path: 'plan',
           component: PlansComponent,
-          data: { title: extract('Select a Plan') },
+          data: { title: extract('Plan') },
         },
         {
-          path: 'profile',
-          component: ProfileComponent,
-          data: { title: extract('Setup Profile') },
-          canActivate: [EnsurePreviousStepsGuard],
+          path: 'account',
+          component: AccountComponent,
+          data: { title: extract('Account') },
+          canActivate: [EnsurePlanSelectedGuard],
         },
         {
           path: 'payment',
           component: PaymentComponent,
           data: { title: extract('Payment') },
-          canActivate: [EnsurePreviousStepsGuard],
+          canActivate: [EnsurePlanSelectedGuard],
         },
       ],
     },

@@ -1,5 +1,10 @@
 <nz-layout>
-  <app-header></app-header>
+  <app-header
+    [menuItemsLeft]="headerMenuItemsLeft"
+    [menuItemsRight]="headerMenuItemsRight"
+    [isLoading]="isLoading$ | ngrxPush"
+    (menuItemClick)="invokeAction($event.action)"
+  ></app-header>
   <nz-content>
     <div [nzLg]="{ span: 18, offset: 3 }" [nzMd]="{ span: 24 }" nz-col>
       <router-outlet></router-outlet>

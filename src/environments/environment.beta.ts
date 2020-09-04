@@ -13,8 +13,8 @@ export const environment = {
   version: env.npm_package_version,
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
-  firebaseConfig: {
-    apiKey: 'AIzaSyBKw3V9xplIuiP_FuTYGUzbiNDTGU2z-gc',
+  firebase: {
+    apiKey: env.FIREBASE_API_KEY,
     authDomain: 'rozgar-today.firebaseapp.com',
     databaseURL: 'https://rozgar-today.firebaseio.com',
     projectId: 'rozgar-today',

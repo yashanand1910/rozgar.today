@@ -7,9 +7,11 @@ import { CoreModule } from '@core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ShellModule } from '@app/shell/shell.module';
+import { AuthModule } from '@auth';
+import { JoinModule } from '@app/join';
 
 @NgModule({
-  imports: [CoreModule, ShellModule, AppRoutingModule],
+  imports: [CoreModule, ShellModule, JoinModule, AuthModule, AppRoutingModule],
   declarations: [AppComponent],
   providers: [Keyboard, StatusBar, SplashScreen],
   bootstrap: [AppComponent],

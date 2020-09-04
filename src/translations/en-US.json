@@ -1,5 +1,8 @@
 {
   "APP_NAME": "rozgar.today",
+  "auth/invalid-email": "Please enter a valid email",
+  "auth/weak-password": "Please enter a stronger password",
+  "auth/email-already-in-use": "Email is already in use",
   "About": "About",
   "Hello world !": "Hello world !",
   "Home": "Home",

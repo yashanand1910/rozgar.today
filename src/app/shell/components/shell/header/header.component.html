@@ -4,19 +4,22 @@
     <ul class="menu-left" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
         *ngFor="let menuItem of menuItemsLeft"
-        [hidden]="menuItem.disabled"
-        [routerLink]="menuItem.link"
+        [hidden]="menuItem.hidden | ngrxPush"
+        [nzDisabled]="menuItem.disabled || isLoading"
+        [routerLink]="menuItem.link ? menuItem.link : ''"
         nz-menu-item
         nzMatchRouter
         translate
       >
+        <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
         {{ menuItem.title }}
       </li>
     </ul>
     <ul class="menu-right" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
         *ngFor="let menuItem of menuItemsRight"
-        [hidden]="menuItem.disabled"
+        [hidden]="(menuItem.hidden | ngrxPush) || !!menuItem.submenu"
+        [nzDisabled]="menuItem.disabled || isLoading"
         [routerLink]="menuItem.link"
         nz-menu-item
         nzMatchRouter
@@ -24,6 +27,28 @@
       >
         <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
         {{ menuItem.title }}
+      </li>
+      <li
+        *ngFor="let menuItem of menuItemsRight"
+        [hidden]="(menuItem.hidden | ngrxPush) || !menuItem.submenu"
+        [nzIcon]="menuItem.icon"
+        [nzDisabled]="menuItem.disabled || isLoading"
+        [nzTitle]="menuItem.title"
+        nz-submenu
+      >
+        <ul>
+          <li
+            (click)="menuItemClick.emit(item)"
+            *ngFor="let item of menuItem.submenu"
+            [hidden]="item.hidden | ngrxPush"
+            [nzDisabled]="item.disabled || isLoading"
+            nzMatchRouter
+            nz-menu-item
+          >
+            <i *ngIf="item.icon" [nzType]="item.icon" nz-icon nzTheme="outline"></i>
+            {{ item.title }}
+          </li>
+        </ul>
       </li>
     </ul>
   </nz-col>

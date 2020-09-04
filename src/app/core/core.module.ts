@@ -2,7 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
 import { environment } from '@env/environment';
 import { RouteReusableStrategy } from '@core/utils';
 import { ErrorHandlerInterceptor } from '@core/http';
@@ -18,6 +18,14 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { autoTips } from '@shared/validators';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+const ngZorroConfig: NzConfig = {
+  form: {
+    nzAutoTips: autoTips,
+  },
+};
 
 @NgModule({
   imports: [
@@ -28,7 +36,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     HttpClientModule,
     NzMessageModule,
     TranslateModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([]),
@@ -44,6 +53,10 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy,
+    },
+    {
+      provide: NZ_CONFIG,
+      useValue: ngZorroConfig,
     },
   ],
 })

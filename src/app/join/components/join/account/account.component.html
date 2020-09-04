@@ -1,0 +1,11 @@
+<ng-container *ngrxLet="isLoading$; let isLoading">
+  <div *ngIf="isLoading; else content" class="loading-container">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+  <ng-template #content>
+    <ng-container *ngrxLet="user$; let user">
+      <app-verify *ngIf="user"></app-verify>
+      <app-create *ngIf="!user"></app-create>
+    </ng-container>
+  </ng-template>
+</ng-container>

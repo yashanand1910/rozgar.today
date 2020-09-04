@@ -23,7 +23,8 @@
               "@ant-design/colors",
               "firebase/app",
               "@firebase/firestore",
-              "@firebase/app"
+              "@firebase/app",
+              "@firebase/auth"
             ],
             "outputPath": "www",
             "index": "src/index.html",

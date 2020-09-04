@@ -1,7 +1,6 @@
 @import "../../../../theme/theme-variables";
 
 .steps-container {
-  background-color: @white;
   padding: @padding-lg*3 0;
 }
 
@@ -23,4 +22,19 @@
   display: flex;
   justify-content: space-between;
   padding-top: @padding-md*2;
+}
+
+@media (max-width: @screen-md-max) {
+  .illustration-container {
+    display: none;
+  }
+}
+
+.illustration-container {
+  text-align: center;
+  opacity: 0.75;
+
+  img {
+    width: 50%;
+  }
 }

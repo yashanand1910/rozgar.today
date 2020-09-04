@@ -12,6 +12,7 @@ import { environment } from '@env/environment';
 import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
 import { untilDestroyed } from '@core/utils';
+import { en_US, NzI18nService } from 'ng-zorro-antd';
 
 const log = new Logger('App');
 
@@ -21,6 +22,10 @@ const log = new Logger('App');
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private nzI18nLanguageMap = {
+    'en-US': en_US,
+  };
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -32,7 +37,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private splashScreen: SplashScreen,
     // do not remove the analytics injection, even if the call in ngOnInit() is removed
     // this injection initializes page tracking through the router
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private nzI18n: NzI18nService
   ) {}
 
   async ngOnInit() {
@@ -45,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
+    this.nzI18n.setLocale(this.nzI18nLanguageMap[environment.defaultLanguage]);
 
     const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
 
