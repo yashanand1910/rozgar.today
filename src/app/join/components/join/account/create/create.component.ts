@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -13,26 +13,17 @@ import * as AuthActions from '@auth/actions';
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.less', '../../join.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateComponent implements OnInit, OnDestroy {
   passwordVisible: boolean;
-  signupForm: FormGroup;
+  signupForm!: FormGroup;
   error$: Observable<string>;
   isLoading$: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.signupForm = this.formBuilder.group({
-      firstName: [null, [CustomValidators.required]],
-      lastName: [null, [CustomValidators.required]],
-      email: [null, [CustomValidators.required, CustomValidators.email]],
-      phoneNumberPrefix: ['+91'],
-      phoneNumber: [null, [CustomValidators.required, CustomValidators.phoneNumber]],
-      password: [null, [CustomValidators.required, CustomValidators.minLength(6)]],
-      confirmPassword: [null, [CustomValidators.required, this.confirmPasswordValidator]],
-    });
+    this.createForm();
     this.signupForm.controls.password.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       this.signupForm.controls.confirmPassword.updateValueAndValidity();
     });
@@ -42,15 +33,6 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
-
-  confirmPasswordValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { error: true, required: true };
-    } else if (control.value !== this.signupForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
 
   back() {
     this.store.dispatch(JoinActions.previousStep());
@@ -70,4 +52,25 @@ export class CreateComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(AuthActions.signUp({ signupContext: this.signupForm.value }));
   }
+
+  private createForm() {
+    this.signupForm = this.formBuilder.group({
+      firstName: [null, [CustomValidators.required]],
+      lastName: [null, [CustomValidators.required]],
+      email: [null, [CustomValidators.required, CustomValidators.email]],
+      phoneNumberPrefix: ['+91'],
+      phoneNumber: [null, [CustomValidators.required, CustomValidators.phoneNumber]],
+      password: [null, [CustomValidators.required, CustomValidators.minLength(6)]],
+      confirmPassword: [null, [CustomValidators.required, this.confirmPasswordValidator]],
+    });
+  }
+
+  private confirmPasswordValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { error: true, required: true };
+    } else if (control.value !== this.signupForm.controls.password.value) {
+      return { confirm: true, error: true };
+    }
+    return {};
+  };
 }

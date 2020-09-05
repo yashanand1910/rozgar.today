@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromAuth from '@auth/reducers';
 import * as AuthSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
 import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
+import { User } from '@auth/models';
 
 export interface MenuItem {
-  title: string;
+  title: string | Observable<string>;
   icon?: string;
   link?: string;
   disabled?: boolean;
@@ -20,10 +21,9 @@ export interface MenuItem {
   selector: 'app-shell',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShellComponent implements OnInit, OnDestroy {
-  isLoggedIn$: Observable<boolean>;
+  user$: Observable<User>;
   isLoading$: Observable<boolean>;
   headerMenuItemsLeft: MenuItem[];
   headerMenuItemsRight: MenuItem[];
@@ -33,55 +33,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(AuthActions.getUser());
     this.isLoading$ = this.store.pipe(select(AuthSelectors.selectIsLoading));
-    this.isLoggedIn$ = this.store.pipe(
-      share(),
-      select(AuthSelectors.selectUser),
-      map((user) => !!user)
-    );
+    this.user$ = this.store.pipe(share(), select(AuthSelectors.selectUser));
     this.updateHeader();
-  }
-
-  updateHeader() {
-    this.headerMenuItemsLeft = [
-      {
-        title: 'Home',
-        link: '/home',
-        hidden: of(true),
-      },
-      {
-        title: 'About',
-        link: '/about',
-        hidden: of(true),
-      },
-    ];
-    this.headerMenuItemsRight = [
-      {
-        title: 'Join',
-        link: '/join',
-      },
-      {
-        title: 'Login',
-        hidden: this.isLoggedIn$,
-        link: '/auth',
-      },
-      {
-        title: 'User',
-        hidden: this.isLoggedIn$.pipe(map((val) => !val)),
-        icon: 'user',
-        submenu: [
-          {
-            title: 'Settings',
-            disabled: true,
-            icon: 'setting',
-          },
-          {
-            title: 'Logout',
-            icon: 'logout',
-            action: this.logout,
-          },
-        ],
-      },
-    ];
   }
 
   ngOnDestroy() {}
@@ -90,7 +43,43 @@ export class ShellComponent implements OnInit, OnDestroy {
     action.call(this);
   }
 
-  logout() {
+  private logout() {
     this.store.dispatch(AuthActions.logOut());
   }
+
+  private updateHeader() {
+    this.headerMenuItemsLeft = [];
+    this.headerMenuItemsRight = [
+      {
+        title: of('Join'),
+        link: '/join',
+      },
+      {
+        title: of('Login'),
+        hidden: this.user$.pipe(map((user) => !!user)),
+        link: '/auth',
+      },
+      {
+        title: this.user$.pipe(map((user) => this.getFirstName(user?.displayName))),
+        hidden: this.user$.pipe(map((user) => !user)),
+        icon: 'user',
+        submenu: [
+          {
+            title: of('Settings'),
+            disabled: true,
+            icon: 'setting',
+          },
+          {
+            title: of('Logout'),
+            icon: 'logout',
+            action: this.logout,
+          },
+        ],
+      },
+    ];
+  }
+
+  private getFirstName = (displayName: string) => {
+    return displayName?.split(' ')[0];
+  };
 }

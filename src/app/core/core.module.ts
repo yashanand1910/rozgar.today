@@ -20,10 +20,14 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { autoTips } from '@shared/validators';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ErrorEffects } from '@core/effects';
 
 const ngZorroConfig: NzConfig = {
   form: {
     nzAutoTips: autoTips,
+  },
+  message: {
+    nzDuration: 4000,
   },
 };
 
@@ -40,7 +44,7 @@ const ngZorroConfig: NzConfig = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ErrorEffects]),
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
   ],

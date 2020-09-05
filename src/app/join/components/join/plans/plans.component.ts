@@ -12,7 +12,6 @@ import { untilDestroyed } from '@core/utils';
   selector: 'app-plans',
   templateUrl: './plans.component.html',
   styleUrls: ['./plans.component.less', '../join.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlansComponent implements OnInit, OnDestroy {
   currentPlanId$: Observable<Plan['id']>;

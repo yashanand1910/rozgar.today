@@ -12,7 +12,6 @@ import { untilDestroyed } from '@core/utils';
   selector: 'app-join',
   templateUrl: './join.component.html',
   styleUrls: ['./join.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JoinComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;

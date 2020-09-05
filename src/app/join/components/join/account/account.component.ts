@@ -9,16 +9,17 @@ import { User } from '@auth/models';
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountComponent implements OnInit {
   user$: Observable<User>;
   isLoading$: Observable<boolean>;
+  signupIsLoading$: Observable<boolean>;
 
   constructor(private store: Store<fromAuth.State>) {}
 
   ngOnInit() {
     this.user$ = this.store.pipe(select(AuthSelectors.selectUser));
     this.isLoading$ = this.store.pipe(select(AuthSelectors.selectIsLoading));
+    this.signupIsLoading$ = this.store.pipe(select(AuthSelectors.selectSignupIsLoading));
   }
 }

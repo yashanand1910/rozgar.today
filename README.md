@@ -18,6 +18,10 @@ Beta branch deployed on every merge from master and is followed by a beta releas
 
 Stable branch deployed on every merge from beta and is followed by a stable release.
 
+## Contribute
+
+If you wish to contribute, write to us at _development@rozgar.today_.
+
 ## Getting started
 
 1. Go to project folder and install dependencies:

@@ -45,11 +45,33 @@ export const additionalReducer = createReducer(
       error: null,
     };
   }),
+  on(AuthActions.getPartialUserSuccess, (state, action) => {
+    return {
+      ...state,
+      isLoading: false,
+      user: {
+        ...state.user,
+        ...action.user,
+      },
+    };
+  }),
   on(AuthActions.getUserFailed, (state, action) => {
     return {
       ...state,
       isLoading: false,
       error: action.error,
+    };
+  }),
+  on(AuthActions.logOut, (state) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(AuthActions.logOutSuccess, (state, action) => {
+    return {
+      ...state,
+      error: null,
     };
   })
 );

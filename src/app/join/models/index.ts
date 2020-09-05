@@ -1,6 +1,6 @@
 export * from './plan.model';
 
-export enum FirebaseCollection {
+export enum FirestoreCollection {
   Plans = 'plans',
 }
 

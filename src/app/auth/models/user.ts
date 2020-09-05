@@ -8,6 +8,11 @@ export interface User {
   phoneNumber: FirebaseUser['phoneNumber'];
 }
 
-export interface UserProfile {
-  phoneNumber: string;
+export interface StoreUser {
+  profile: Profile;
+}
+
+export interface Profile {
+  displayName?: User['displayName'];
+  phoneNumber?: User['phoneNumber'];
 }

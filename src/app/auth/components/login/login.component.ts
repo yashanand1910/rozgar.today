@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { environment } from '@env/environment';
-import { Logger } from '@core/services';
-
-const log = new Logger('Login');
+import { Store } from '@ngrx/store';
+import * as fromAuth from '@auth/reducers';
+import * as AuthActions from '@auth/actions';
 
 @Component({
   selector: 'app-login',
@@ -13,16 +11,20 @@ const log = new Logger('Login');
   styleUrls: ['./login.component.less'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  version: string | null = environment.version;
-  error: string | undefined;
   loginForm!: FormGroup;
-  isLoading = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private store: Store<fromAuth.State>
+  ) {
     this.createForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(AuthActions.ensureLogOut());
+  }
 
   ngOnDestroy() {}
 

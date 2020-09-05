@@ -39,6 +39,18 @@ export const reducer = createReducer(
       isLoading: false,
     };
   }),
+  on(SignupActions.sendVerificationEmailFailed, (state, action) => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
+  on(SignupActions.sendVerificationEmailSuccess, (state, action) => {
+    return {
+      ...state,
+      error: null,
+    };
+  }),
   on(SignupActions.clearSignupError, (state) => {
     return {
       ...state,

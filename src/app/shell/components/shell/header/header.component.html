@@ -1,10 +1,10 @@
 <nz-header>
-  <nz-col [nzLg]="{ span: 18, offset: 3 }" [nzMd]="{ span: 24 }">
+  <nz-col [nzXl]="{ span: 16, offset: 4 }" [nzLg]="{ span: 24, offset: 0 }" [nzMd]="{ span: 24 }">
     <div class="logo" translate>APP_NAME</div>
     <ul class="menu-left" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
         *ngFor="let menuItem of menuItemsLeft"
-        [hidden]="menuItem.hidden | ngrxPush"
+        [hidden]="(menuItem.hidden | ngrxPush) || (!!menuItem.hidden && isLoading)"
         [nzDisabled]="menuItem.disabled || isLoading"
         [routerLink]="menuItem.link ? menuItem.link : ''"
         nz-menu-item
@@ -12,13 +12,13 @@
         translate
       >
         <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
-        {{ menuItem.title }}
+        {{ menuItem.title | ngrxPush }}
       </li>
     </ul>
     <ul class="menu-right" nz-menu nzMode="horizontal" nzTheme="dark">
       <li
         *ngFor="let menuItem of menuItemsRight"
-        [hidden]="(menuItem.hidden | ngrxPush) || !!menuItem.submenu"
+        [hidden]="(menuItem.hidden | ngrxPush) || !!menuItem.submenu || (!!menuItem.hidden && isLoading)"
         [nzDisabled]="menuItem.disabled || isLoading"
         [routerLink]="menuItem.link"
         nz-menu-item
@@ -26,27 +26,27 @@
         translate
       >
         <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
-        {{ menuItem.title }}
+        {{ menuItem.title | ngrxPush }}
       </li>
       <li
         *ngFor="let menuItem of menuItemsRight"
-        [hidden]="(menuItem.hidden | ngrxPush) || !menuItem.submenu"
+        [hidden]="(menuItem.hidden | ngrxPush) || !menuItem.submenu || (!!menuItem.hidden && isLoading)"
         [nzIcon]="menuItem.icon"
         [nzDisabled]="menuItem.disabled || isLoading"
-        [nzTitle]="menuItem.title"
+        [nzTitle]="menuItem.title | ngrxPush"
         nz-submenu
       >
         <ul>
           <li
             (click)="menuItemClick.emit(item)"
             *ngFor="let item of menuItem.submenu"
-            [hidden]="item.hidden | ngrxPush"
+            [hidden]="(item.hidden | ngrxPush) || (!!item.hidden && isLoading)"
             [nzDisabled]="item.disabled || isLoading"
             nzMatchRouter
             nz-menu-item
           >
             <i *ngIf="item.icon" [nzType]="item.icon" nz-icon nzTheme="outline"></i>
-            {{ item.title }}
+            {{ item.title | ngrxPush }}
           </li>
         </ul>
       </li>

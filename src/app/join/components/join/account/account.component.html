@@ -4,8 +4,10 @@
   </div>
   <ng-template #content>
     <ng-container *ngrxLet="user$; let user">
-      <app-verify *ngIf="user"></app-verify>
-      <app-create *ngIf="!user"></app-create>
+      <ng-container *ngrxLet="signupIsLoading$; let signupIsLoading">
+        <app-verify *ngIf="user && !signupIsLoading"></app-verify>
+        <app-create *ngIf="!user || signupIsLoading"></app-create>
+      </ng-container>
     </ng-container>
   </ng-template>
 </ng-container>

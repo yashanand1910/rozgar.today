@@ -35,8 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private keyboard: Keyboard,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
-    // do not remove the analytics injection, even if the call in ngOnInit() is removed
-    // this injection initializes page tracking through the router
     private i18nService: I18nService,
     private nzI18n: NzI18nService
   ) {}

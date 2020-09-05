@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as fromJoin from '../reducers';
 import * as JoinActions from '../actions';
 import * as JoinSelectors from '../selectors';
-import { exhaustMap, map, take } from 'rxjs/operators';
+import { exhaustMap, take, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ export class JoinEffects {
           this.store.pipe(
             select(JoinSelectors.selectNextStepPath),
             take(1),
-            map((path) => this.router.navigate([`/join/${path}`]).then())
+            tap((path) => this.router.navigate([`/join/${path}`]).then())
           )
         )
       );
@@ -35,7 +35,7 @@ export class JoinEffects {
           this.store.pipe(
             select(JoinSelectors.selectPreviousStepPath),
             take(1),
-            map((path) => this.router.navigate([`/join/${path}`]).then())
+            tap((path) => this.router.navigate([`/join/${path}`]).then())
           )
         )
       );
