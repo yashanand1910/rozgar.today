@@ -1,6 +1,7 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import * as fromRoot from '@core/reducers';
 import * as fromSignup from './signup.reducer';
+import * as fromLogin from './login.reducer';
 import * as AuthActions from '../actions';
 import { User } from '@auth/models';
 
@@ -15,6 +16,7 @@ export interface AdditionalState {
 
 export interface AuthState {
   [fromSignup.signupFeatureKey]: fromSignup.State;
+  [fromLogin.loginFeatureKey]: fromLogin.State;
   [additionalKey]: AdditionalState;
 }
 
@@ -77,6 +79,7 @@ export const additionalReducer = createReducer(
 );
 
 export const reducers: ActionReducerMap<AuthState> = {
+  [fromLogin.loginFeatureKey]: fromLogin.reducer,
   [fromSignup.signupFeatureKey]: fromSignup.reducer,
   [additionalKey]: additionalReducer,
 };

@@ -1,11 +1,13 @@
 @import "src/theme/theme-variables";
 
 .auth-layout {
+  padding: @padding-lg;
   height: 100vh;
 
   .auth-container {
     padding: @padding-lg*2;
     width: @auth-layout-width;
+    background: @white;
   }
 }
 
@@ -20,11 +22,10 @@
   }
 
   .subtitle {
-    font-size: large;
+    font-size: @font-size-lg;
   }
 }
 
 .form-button {
   width: 100%;
-  margin: @margin-lg 0;
 }

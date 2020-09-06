@@ -10,4 +10,5 @@ export interface SignupContext {
 export interface LoginContext {
   email: string;
   password: string;
+  remember: boolean;
 }

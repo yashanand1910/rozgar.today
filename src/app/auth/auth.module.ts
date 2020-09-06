@@ -5,21 +5,23 @@ import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from '@app/auth/components';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects, SignupEffects } from './effects';
+import { AuthEffects, LoginEffects, SignupEffects } from './effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromAuth from './reducers';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  NzAlertModule,
   NzButtonModule,
   NzCheckboxModule,
   NzFormModule,
   NzGridModule,
+  NzIconModule,
   NzInputModule,
   NzLayoutModule,
 } from 'ng-zorro-antd';
-import { AuthComponent } from '@auth/components';
-import { ForgotPasswordComponent } from '@auth/components';
+import { AuthComponent, ForgotPasswordComponent } from '@auth/components';
 import { SharedModule } from '@shared';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -29,7 +31,7 @@ import { SharedModule } from '@shared';
     I18nModule,
     AuthRoutingModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducers),
-    EffectsModule.forFeature([AuthEffects, SignupEffects]),
+    EffectsModule.forFeature([AuthEffects, SignupEffects, LoginEffects]),
     NzGridModule,
     NzFormModule,
     NzLayoutModule,
@@ -37,6 +39,9 @@ import { SharedModule } from '@shared';
     NzInputModule,
     NzCheckboxModule,
     NzButtonModule,
+    NzIconModule,
+    ReactiveComponentModule,
+    NzAlertModule,
   ],
   declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent],
 })
