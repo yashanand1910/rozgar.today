@@ -2,7 +2,7 @@
 
 ## tl;dr's
 
-rozgar. comes with a very helpful `env` script that will save environment-variables set at build time to constants
+rozgar.today comes with a very helpful `env` script that will save environment-variables set at build time to constants
 that can be used as configuration for your code. When combined with the `dotenv-cli` package, it enables maximum
 configurability while maintaining lots of simplicity for local development and testing.
 

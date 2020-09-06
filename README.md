@@ -18,6 +18,6 @@ Beta branch deployed on every merge from master and is followed by a beta releas
 
 Stable branch deployed on every merge from beta and is followed by a stable release.
 
-## Contribute
+## Contributing
 
-If you wish to contribute, write to us at _development@rozgar.today_.
+If you wish to contribute, write to us at _development@rozgar.today_. See [documentation](https://github.com/yashanand1910/rozgar.today/blob/master/docs).
