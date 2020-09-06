@@ -5,8 +5,8 @@
     [isLoading]="isLoading$ | ngrxPush"
     (menuItemClick)="invokeAction($event.action)"
   ></app-header>
-  <nz-content>
-    <div [nzXl]="{ span: 16, offset: 4 }" [nzLg]="{ span: 24, offset: 0 }" [nzMd]="{ span: 24 }" nz-col>
+  <nz-content nz-row nzJustify="center">
+    <div class="shell-content" nz-col>
       <router-outlet></router-outlet>
     </div>
   </nz-content>

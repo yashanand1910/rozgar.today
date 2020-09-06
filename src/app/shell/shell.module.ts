@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@app/i18n';
 import { ShellComponent } from '@shell/components';
 import { HeaderComponent } from './components/shell/header/header.component';
-import { FooterComponent } from './components/shell/footer/footer.component';
 import {
   NzAlertModule,
   NzGridModule,
@@ -16,6 +15,7 @@ import {
   NzTypographyModule,
 } from 'ng-zorro-antd';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { SharedModule } from '@shared';
 
 @NgModule({
   imports: [
@@ -30,7 +30,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzAlertModule,
     NzTypographyModule,
     ReactiveComponentModule,
+    SharedModule,
   ],
-  declarations: [HeaderComponent, ShellComponent, FooterComponent],
+  declarations: [HeaderComponent, ShellComponent],
 })
 export class ShellModule {}

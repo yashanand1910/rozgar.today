@@ -5,11 +5,21 @@ import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from '@app/auth/components';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects } from './effects';
+import { AuthEffects, SignupEffects } from './effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromAuth from './reducers';
-import { SignupEffects } from './effects';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  NzButtonModule,
+  NzCheckboxModule,
+  NzFormModule,
+  NzGridModule,
+  NzInputModule,
+  NzLayoutModule,
+} from 'ng-zorro-antd';
+import { AuthComponent } from '@auth/components';
+import { ForgotPasswordComponent } from '@auth/components';
+import { SharedModule } from '@shared';
 
 @NgModule({
   imports: [
@@ -20,7 +30,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthRoutingModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducers),
     EffectsModule.forFeature([AuthEffects, SignupEffects]),
+    NzGridModule,
+    NzFormModule,
+    NzLayoutModule,
+    SharedModule,
+    NzInputModule,
+    NzCheckboxModule,
+    NzButtonModule,
   ],
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent],
 })
 export class AuthModule {}

@@ -2,27 +2,30 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { extract } from '@app/i18n/services';
-import { LoginComponent } from '@app/auth/components';
-import { Shell } from '@app/shell/services/shell.service';
+import { AuthComponent, ForgotPasswordComponent, LoginComponent } from '@app/auth/components';
 
 const routes: Routes = [
-  Shell.childRoutes([
-    {
-      path: 'auth',
-      children: [
-        {
-          path: '',
-          redirectTo: 'login',
-          pathMatch: 'full',
-        },
-        {
-          path: 'login',
-          component: LoginComponent,
-          data: { title: extract('Login') },
-        },
-      ],
-    },
-  ]),
+  {
+    path: 'auth',
+    component: AuthComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+        data: { title: extract('Login') },
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+        data: { title: extract('Forgot Password') },
+      },
+      {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
+    ],
+  },
 ];
 
 @NgModule({
