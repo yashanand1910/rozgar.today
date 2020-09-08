@@ -9,6 +9,25 @@
 
 @body-background: @layout-body-background;
 
+.shell-layout {
+  padding: @layout-header-padding;
+}
+
+.auth-layout {
+  padding: @padding-lg;
+}
+
+@media (max-width: @screen-sm-max) {
+  .shell-layout {
+    padding: 0 @padding-lg;
+  }
+
+  .auth-layout {
+    padding: 0;
+    background: @white;
+  }
+}
+
 @shell-layout-background: @white;
 
 @shell-layout-width: @screen-lg-max;

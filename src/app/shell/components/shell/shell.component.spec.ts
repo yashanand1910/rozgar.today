@@ -9,7 +9,7 @@ import { MockCredentialsService } from '@app/auth/services/credentials.service.m
 
 import { I18nModule } from '@i18n';
 import { ShellComponent } from './shell.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from '@shell/components';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ShellComponent', () => {
@@ -21,10 +21,10 @@ describe('ShellComponent', () => {
       imports: [RouterTestingModule, TranslateModule.forRoot(), I18nModule, CoreModule],
       providers: [
         { provide: AuthenticationService, useClass: MockAuthenticationService },
-        { provide: CredentialsService, useClass: MockCredentialsService },
+        { provide: CredentialsService, useClass: MockCredentialsService }
       ],
       declarations: [HeaderComponent, ShellComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

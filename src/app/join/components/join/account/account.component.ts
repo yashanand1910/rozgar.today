@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as fromAuth from '@auth/reducers';
 import * as AuthSelectors from '@auth/selectors';
@@ -8,7 +8,7 @@ import { User } from '@auth/models';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.less'],
+  styleUrls: ['./account.component.less']
 })
 export class AccountComponent implements OnInit {
   user$: Observable<User>;

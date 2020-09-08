@@ -14,7 +14,7 @@ describe('PlanEffects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
-      providers: [PlanEffects, provideMockActions(() => actions$)],
+      providers: [PlanEffects, provideMockActions(() => actions$)]
     });
 
     effects = TestBed.inject(PlanEffects);

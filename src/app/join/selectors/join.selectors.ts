@@ -4,26 +4,25 @@ import * as fromAuth from '../reducers';
 
 export const selectJoinState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.joinFeatureKey);
 
-export const selectSteps = createSelector(selectJoinState, (state) => state[fromAuth.additionalKey].steps);
+export const selectJoinAdditionalState = createSelector(selectJoinState, (state) => state[fromAuth.additionalKey]);
 
-export const selectStepsCurrentNumber = createSelector(
-  selectJoinState,
-  (state) => state[fromAuth.additionalKey].currentStepNumber
-);
+export const selectSteps = createSelector(selectJoinAdditionalState, (state) => state.steps);
+
+export const selectStepsCurrentNumber = createSelector(selectJoinAdditionalState, (state) => state.currentStepNumber);
 
 export const selectCurrentStep = createSelector(
-  selectJoinState,
-  (state) => state[fromAuth.additionalKey].steps[state[fromAuth.additionalKey].currentStepNumber]
+  selectJoinAdditionalState,
+  (state) => state.steps[state.currentStepNumber]
 );
 
 export const selectNextStepPath = createSelector(
-  selectJoinState,
-  (state) => state[fromAuth.additionalKey].steps[state[fromAuth.additionalKey].currentStepNumber + 1].path
+  selectJoinAdditionalState,
+  (state) => state.steps[state.currentStepNumber + 1].path
 );
 
 export const selectPreviousStepPath = createSelector(
-  selectJoinState,
-  (state) => state[fromAuth.additionalKey].steps[state[fromAuth.additionalKey].currentStepNumber - 1].path
+  selectJoinAdditionalState,
+  (state) => state.steps[state.currentStepNumber - 1].path
 );
 
-export const selectStepsIsLoading = createSelector(selectJoinState, (state) => state[fromAuth.additionalKey].isLoading);
+export const selectStepsIsLoading = createSelector(selectJoinAdditionalState, (state) => state.isLoading);

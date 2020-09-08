@@ -6,7 +6,7 @@ import { MenuItem } from '@shell/components';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   @Input() menuItemsLeft: MenuItem[];

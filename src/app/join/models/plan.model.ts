@@ -1,7 +1,7 @@
 export enum PlanType {
   Basic = 'Basic',
   Standard = 'Standard',
-  Premium = 'Premium',
+  Premium = 'Premium'
 }
 
 interface Point {

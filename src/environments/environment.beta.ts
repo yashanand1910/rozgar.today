@@ -21,6 +21,6 @@ export const environment = {
     storageBucket: 'rozgar-today.appspot.com',
     messagingSenderId: '712869014206',
     appId: '1:712869014206:web:f50f15e740eb256e450cef',
-    measurementId: 'G-C5170PLTS4',
-  },
+    measurementId: 'G-C5170PLTS4'
+  }
 };

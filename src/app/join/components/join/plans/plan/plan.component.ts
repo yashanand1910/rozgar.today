@@ -5,7 +5,7 @@ import { Plan } from '@app/join/models';
   selector: 'app-plan',
   templateUrl: './plan.component.html',
   styleUrls: ['./plan.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanComponent implements OnInit {
   @Input() plan: Plan;

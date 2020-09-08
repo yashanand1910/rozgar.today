@@ -1,9 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { SignupContext } from '@auth/models';
 import Error = firebase.auth.Error;
-import UserCredential = firebase.auth.UserCredential;
 
-export const signUp = createAction('[Signup] Sign Up', props<{ signupContext: SignupContext }>());
+export const signUp = createAction('[Signup] Sign Up', props<{ context: SignupContext }>());
 
 export const signUpSuccess = createAction('[Signup] Sign Up Success');
 

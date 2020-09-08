@@ -7,6 +7,6 @@ import { LanguageSelectorComponent } from '@i18n/components';
 @NgModule({
   imports: [CommonModule, TranslateModule],
   declarations: [LanguageSelectorComponent],
-  exports: [LanguageSelectorComponent],
+  exports: [LanguageSelectorComponent]
 })
 export class I18nModule {}

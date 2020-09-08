@@ -12,7 +12,7 @@ describe('LanguageSelectorComponent', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [LanguageSelectorComponent],
-      providers: [I18nService],
+      providers: [I18nService]
     }).compileComponents();
   }));
 

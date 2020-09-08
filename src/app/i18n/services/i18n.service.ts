@@ -19,7 +19,7 @@ export function extract(s: string) {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class I18nService {
   defaultLanguage!: string;

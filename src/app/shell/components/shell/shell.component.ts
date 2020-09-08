@@ -4,7 +4,7 @@ import * as fromAuth from '@auth/reducers';
 import * as AuthSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
 import { Observable, of } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { User } from '@auth/models';
 
 export interface MenuItem {
@@ -20,7 +20,7 @@ export interface MenuItem {
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.less'],
+  styleUrls: ['./shell.component.less']
 })
 export class ShellComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
@@ -31,9 +31,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromAuth.State>) {}
 
   ngOnInit() {
-    this.store.dispatch(AuthActions.getUser());
     this.isLoading$ = this.store.pipe(select(AuthSelectors.selectIsLoading));
-    this.user$ = this.store.pipe(share(), select(AuthSelectors.selectUser));
+    this.user$ = this.store.pipe(select(AuthSelectors.selectUser));
     this.updateHeader();
   }
 
@@ -52,12 +51,13 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.headerMenuItemsRight = [
       {
         title: of('Join'),
-        link: '/join',
+        hidden: this.user$.pipe(map((user) => !!user)),
+        link: '/join'
       },
       {
         title: of('Login'),
         hidden: this.user$.pipe(map((user) => !!user)),
-        link: '/auth',
+        link: '/auth'
       },
       {
         title: this.user$.pipe(map((user) => this.getFirstName(user?.displayName))),
@@ -67,15 +67,15 @@ export class ShellComponent implements OnInit, OnDestroy {
           {
             title: of('Settings'),
             disabled: true,
-            icon: 'setting',
+            icon: 'setting'
           },
           {
             title: of('Logout'),
             icon: 'logout',
-            action: this.logout,
-          },
-        ],
-      },
+            action: this.logout
+          }
+        ]
+      }
     ];
   }
 

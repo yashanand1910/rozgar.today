@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Step } from '@app/join/models';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as fromRoot from '@app/core/reducers';
+import * as fromJoin from '@app/join/reducers';
 import * as JoinSelectors from '@app/join/selectors';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
@@ -11,19 +11,15 @@ import { untilDestroyed } from '@core/utils';
 @Component({
   selector: 'app-join',
   templateUrl: './join.component.html',
-  styleUrls: ['./join.component.less'],
+  styleUrls: ['./join.component.less']
 })
 export class JoinComponent implements OnInit, OnDestroy {
-  isLoading$: Observable<boolean>;
-  currentNumber$: Observable<number>;
-  steps$: Observable<Step[]>;
+  state$: Observable<fromJoin.JoinState['additional']>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
-    this.steps$ = this.store.pipe(select(JoinSelectors.selectSteps));
-    this.isLoading$ = this.store.pipe(select(JoinSelectors.selectStepsIsLoading));
-    this.currentNumber$ = this.store.pipe(select(JoinSelectors.selectStepsCurrentNumber));
+    this.state$ = this.store.pipe(select(JoinSelectors.selectJoinAdditionalState));
 
     this.store
       .pipe(

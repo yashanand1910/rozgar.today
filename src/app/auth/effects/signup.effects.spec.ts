@@ -11,7 +11,7 @@ describe('SignupEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SignupEffects, provideMockActions(() => actions$)],
+      providers: [SignupEffects, provideMockActions(() => actions$)]
     });
 
     effects = TestBed.inject(SignupEffects);

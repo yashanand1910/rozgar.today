@@ -1,7 +1,7 @@
 export * from './plan.model';
 
 export enum FirestoreCollection {
-  Plans = 'plans',
+  Plans = 'plans'
 }
 
 export interface Step {

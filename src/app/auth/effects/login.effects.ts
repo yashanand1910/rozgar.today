@@ -13,15 +13,15 @@ export class LoginEffects {
   logIn$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LoginActions.logIn),
-      map((action) => action.loginContext),
+      map((action) => action.context),
       exhaustMap((context) => {
         return Promise.all([
           this.afa.setPersistence(
             context.remember ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION
           ),
-          this.afa.signInWithEmailAndPassword(context.email, context.password),
+          this.afa.signInWithEmailAndPassword(context.email, context.password)
         ])
-          .then(([output, userCredential]) => {
+          .then(([, userCredential]) => {
             this.messageService.success(`${userCredential.user.displayName} logged in.`);
             this.router.navigate(['']).then();
             return LoginActions.logInSuccess();

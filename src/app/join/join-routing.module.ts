@@ -11,7 +11,7 @@ const routes: Routes = [
     {
       path: '',
       redirectTo: 'join',
-      pathMatch: 'full',
+      pathMatch: 'full'
     },
     {
       path: 'join',
@@ -20,32 +20,32 @@ const routes: Routes = [
         {
           path: '',
           redirectTo: 'plan',
-          pathMatch: 'full',
+          pathMatch: 'full'
         },
         {
           path: 'plan',
           component: PlansComponent,
-          data: { title: extract('Plan') },
+          data: { title: extract('Plan') }
         },
         {
           path: 'account',
           component: AccountComponent,
           data: { title: extract('Account') },
-          canActivate: [EnsurePlanSelectedGuard],
+          canActivate: [EnsurePlanSelectedGuard]
         },
         {
           path: 'payment',
           component: PaymentComponent,
           data: { title: extract('Payment') },
-          canActivate: [EnsurePlanSelectedGuard],
-        },
-      ],
-    },
-  ]),
+          canActivate: [EnsurePlanSelectedGuard]
+        }
+      ]
+    }
+  ])
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class JoinRoutingModule {}

@@ -6,28 +6,28 @@
 </div>
 <div nzGrid>
   <div nz-row>
-    <div nz-col [nzXl]="12" [nzLg]="16" [nzXs]="24">
-      <form [nzAutoTips] [formGroup]="signupForm" (ngSubmit)="submit()" nz-form nzLayout="vertical">
-        <div nz-row [nzGutter]="12">
-          <div nz-col [nzSpan]="12">
+    <div [nzLg]="16" [nzXl]="12" [nzXs]="24" nz-col>
+      <form (ngSubmit)="submit()" [formGroup]="signupForm" [nzAutoTips] nz-form nzLayout="vertical">
+        <div [nzGutter]="12" nz-row>
+          <div [nzSpan]="12" nz-col>
             <nz-form-item>
               <nz-form-label nzFor="firstName" translate>First Name</nz-form-label>
               <nz-form-control>
-                <input id="firstName" formControlName="firstName" nzSize="large" nz-input placeholder="e.g. Ravi" />
+                <input formControlName="firstName" id="firstName" nz-input nzSize="large" placeholder="e.g. Ravi" />
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="12">
+          <div [nzSpan]="12" nz-col>
             <nz-form-item>
               <nz-form-label nzFor="lastName" translate>Last Name</nz-form-label>
               <nz-form-control>
-                <input id="lastName" formControlName="lastName" nzSize="large" nz-input placeholder="e.g. Kumar" />
+                <input formControlName="lastName" id="lastName" nz-input nzSize="large" placeholder="e.g. Kumar" />
               </nz-form-control>
             </nz-form-item>
           </div>
         </div>
-        <div nz-row [nzGutter]="12">
-          <div nz-col [nzXs]="24" [nzMd]="12">
+        <div [nzGutter]="12" nz-row>
+          <div [nzMd]="12" [nzXs]="24" nz-col>
             <nz-form-item>
               <nz-form-label translate>Email</nz-form-label>
               <nz-form-control nzHasFeedback>
@@ -37,11 +37,11 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzXs]="24" [nzMd]="12">
+          <div [nzMd]="12" [nzXs]="24" nz-col>
             <nz-form-item>
               <nz-form-label nzFor="phoneNumber">Phone Number</nz-form-label>
               <nz-form-control nzHasFeedback>
-                <nz-input-group nzSize="large" [nzSuffix]="suffixTemplateInfo" [nzAddOnBefore]="addOnBeforeTemplate">
+                <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate" [nzSuffix]="suffixTemplateInfo" nzSize="large">
                   <ng-template #addOnBeforeTemplate>
                     <nz-select formControlName="phoneNumberPrefix">
                       <nz-option nzLabel="+91" nzValue="+91"></nz-option>
@@ -55,54 +55,54 @@
                       nzType="info-circle"
                     ></i
                   ></ng-template>
-                  <input formControlName="phoneNumber" placeholder="e.g. 9012345678" nz-input />
+                  <input formControlName="phoneNumber" nz-input placeholder="e.g. 9012345678" />
                 </nz-input-group>
               </nz-form-control>
             </nz-form-item>
           </div>
         </div>
-        <div nz-row [nzGutter]="12">
-          <div nz-col [nzSpan]="12">
+        <div [nzGutter]="12" nz-row>
+          <div [nzSpan]="12" nz-col>
             <nz-form-item>
               <nz-form-label translate>Password</nz-form-label>
               <nz-form-control nzHasFeedback>
-                <nz-input-group nzSize="large" [nzSuffix]="suffixTemplate">
+                <nz-input-group [nzSuffix]="suffixTemplate" nzSize="large">
                   <input
-                    formControlName="password"
-                    [type]="passwordVisible ? 'text' : 'password'"
-                    nz-input
                     [placeholder]="'Password' | translate"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    formControlName="password"
+                    nz-input
                   />
                 </nz-input-group>
                 <ng-template #suffixTemplate>
                   <i
+                    (click)="passwordVisible = !passwordVisible"
+                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
                     class="cursor-pointer"
                     nz-icon
-                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                    (click)="passwordVisible = !passwordVisible"
                   ></i>
                 </ng-template>
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="12">
+          <div [nzSpan]="12" nz-col>
             <nz-form-item>
               <nz-form-label translate>Confirm Password</nz-form-label>
               <nz-form-control nzHasFeedback>
-                <nz-input-group nzSize="large" [nzSuffix]="suffixTemplate">
+                <nz-input-group [nzSuffix]="suffixTemplate" nzSize="large">
                   <input
-                    formControlName="confirmPassword"
-                    [type]="passwordVisible ? 'text' : 'password'"
-                    nz-input
                     [placeholder]="'Confirm password' | translate"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    formControlName="confirmPassword"
+                    nz-input
                   />
                 </nz-input-group>
                 <ng-template #suffixTemplate>
                   <i
+                    (click)="passwordVisible = !passwordVisible"
+                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
                     class="cursor-pointer"
                     nz-icon
-                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                    (click)="passwordVisible = !passwordVisible"
                   ></i>
                 </ng-template>
               </nz-form-control>
@@ -110,27 +110,27 @@
           </div>
         </div>
         <nz-alert
+          (nzOnClose)="clearError()"
           *ngIf="error$ | ngrxPush as error"
-          nzType="error"
           [nzMessage]="error | translate"
-          nzShowIcon
           nzCloseable
           nzNoAnimation
-          (nzOnClose)="clearError()"
+          nzShowIcon
+          nzType="error"
         ></nz-alert>
         <div nz-row>
-          <div nz-col class="form-footer-container" [nzSpan]="24">
+          <div [nzSpan]="24" class="form-footer-container" nz-col>
             <div nz-row>
-              <div nz-col [nzSpan]="9">Already have an account? <a routerLink="/auth">Login</a></div>
-              <div nz-col [nzSpan]="15">
-                <button type="button" (click)="back()" nz-button nzType="link">Change Plan</button>
+              <div [nzSpan]="9" nz-col>Already have an account? <a routerLink="/auth">Login</a></div>
+              <div [nzSpan]="15" nz-col>
+                <button (click)="back()" nz-button nzType="link" type="button">Change Plan</button>
                 <button
                   [disabled]="!signupForm.valid"
-                  type="submit"
+                  [nzLoading]="isLoading$ | ngrxPush"
                   nz-button
                   nzSize="large"
                   nzType="primary"
-                  [nzLoading]="isLoading$ | ngrxPush"
+                  type="submit"
                 >
                   Submit
                 </button>
@@ -140,9 +140,9 @@
         </div>
       </form>
     </div>
-    <div nz-col [nzXl]="12" [nzLg]="8" [nzXs]="24">
+    <div [nzLg]="8" [nzXl]="12" [nzXs]="24" nz-col>
       <div class="illustration-container">
-        <img src="assets/illustrations/038-employment.svg" alt="" />
+        <img alt="" src="assets/illustrations/038-employment.svg" />
       </div>
     </div>
   </div>

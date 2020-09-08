@@ -14,7 +14,7 @@ export const initialState: State = {
   isLoading: false,
   info: null,
   warning: null,
-  error: null,
+  error: null
 };
 
 export const reducer = createReducer(
@@ -22,39 +22,39 @@ export const reducer = createReducer(
   on(SignupActions.signUp, (state) => {
     return {
       ...state,
-      isLoading: true,
+      isLoading: true
     };
   }),
   on(SignupActions.signUpSuccess, (state) => {
     return {
       ...state,
       error: null,
-      isLoading: false,
+      isLoading: false
     };
   }),
   on(SignupActions.signUpFailed, (state, action) => {
     return {
       ...state,
       error: action.error.code,
-      isLoading: false,
+      isLoading: false
     };
   }),
   on(SignupActions.sendVerificationEmailFailed, (state, action) => {
     return {
       ...state,
-      error: action.error,
+      error: action.error
     };
   }),
   on(SignupActions.sendVerificationEmailSuccess, (state, action) => {
     return {
       ...state,
-      error: null,
+      error: null
     };
   }),
   on(SignupActions.clearSignupError, (state) => {
     return {
       ...state,
-      error: null,
+      error: null
     };
   })
 );

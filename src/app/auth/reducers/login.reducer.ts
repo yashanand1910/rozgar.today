@@ -14,7 +14,7 @@ export const initialState: State = {
   isLoading: false,
   info: null,
   warning: null,
-  error: null,
+  error: null
 };
 
 export const reducer = createReducer(
@@ -23,27 +23,27 @@ export const reducer = createReducer(
   on(LoginActions.logIn, (state) => {
     return {
       ...state,
-      isLoading: true,
+      isLoading: true
     };
   }),
   on(LoginActions.logInSuccess, (state) => {
     return {
       ...state,
       error: null,
-      isLoading: false,
+      isLoading: false
     };
   }),
   on(LoginActions.logInFailed, (state, action) => {
     return {
       ...state,
       error: action.error.code,
-      isLoading: false,
+      isLoading: false
     };
   }),
   on(LoginActions.clearLoginError, (state) => {
     return {
       ...state,
-      error: null,
+      error: null
     };
   })
 );

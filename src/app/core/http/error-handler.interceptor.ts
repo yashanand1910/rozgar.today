@@ -13,7 +13,7 @@ const log = new Logger('ErrorHandlerInterceptor');
  * Adds a default error handler to all requests.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ErrorHandlerInterceptor implements HttpInterceptor {
   // Customize the default error handler here if needed

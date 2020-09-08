@@ -11,13 +11,12 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less', '../auth.component.less'],
+  styleUrls: ['./login.component.less', '../auth.component.less']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   passwordVisible: boolean;
-  isLoading$: Observable<boolean>;
-  error$: Observable<string>;
+  state$: Observable<fromAuth.AuthState['login']>;
 
   constructor(
     private router: Router,
@@ -31,8 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(AuthActions.ensureLogOut());
 
-    this.isLoading$ = this.store.pipe(select(AuthSelectors.selectLoginIsLoading));
-    this.error$ = this.store.pipe(select(AuthSelectors.selectLoginError));
+    this.state$ = this.store.pipe(select(AuthSelectors.selectLoginState));
   }
 
   ngOnDestroy() {}
@@ -45,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.store.dispatch(AuthActions.logIn({ loginContext: this.loginForm.value }));
+    this.store.dispatch(AuthActions.logIn({ context: this.loginForm.value }));
   }
 
   clearError() {
@@ -56,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm = this.formBuilder.group({
       email: ['', [CustomValidators.required, CustomValidators.email]],
       password: ['', [CustomValidators.required]],
-      remember: true,
+      remember: true
     });
   }
 }

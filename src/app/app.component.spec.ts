@@ -16,10 +16,10 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     statusBarSpy = jest.fn();
     splashScreenSpy = {
-      hide: jest.fn(),
+      hide: jest.fn()
     };
     keyboardSpy = {
-      hideFormAccessoryBar: jest.fn(),
+      hideFormAccessoryBar: jest.fn()
     };
 
     TestBed.configureTestingModule({
@@ -28,8 +28,8 @@ describe('AppComponent', () => {
       providers: [
         { provide: Keyboard, useValue: keyboardSpy },
         { provide: StatusBar, useValue: statusBarSpy },
-        { provide: SplashScreen, useValue: splashScreenSpy },
-      ],
+        { provide: SplashScreen, useValue: splashScreenSpy }
+      ]
     }).compileComponents();
   }));
 

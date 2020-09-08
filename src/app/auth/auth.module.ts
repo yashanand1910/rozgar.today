@@ -5,7 +5,14 @@ import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from '@app/auth/components';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects, LoginEffects, SignupEffects } from './effects';
+import {
+  AuthEffects,
+  SignupEffects,
+  ForgotPasswordEffects,
+  LoginEffects,
+  ResetPasswordEffects,
+  VerifyEmailEffects
+} from './effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromAuth from './reducers';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +25,11 @@ import {
   NzIconModule,
   NzInputModule,
   NzLayoutModule,
+  NzResultModule,
+  NzSpinModule,
+  NzTypographyModule
 } from 'ng-zorro-antd';
-import { AuthComponent, ForgotPasswordComponent } from '@auth/components';
+import { AuthComponent, ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent } from '@auth/components';
 import { SharedModule } from '@shared';
 import { ReactiveComponentModule } from '@ngrx/component';
 
@@ -31,7 +41,14 @@ import { ReactiveComponentModule } from '@ngrx/component';
     I18nModule,
     AuthRoutingModule,
     StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducers),
-    EffectsModule.forFeature([AuthEffects, SignupEffects, LoginEffects]),
+    EffectsModule.forFeature([
+      AuthEffects,
+      SignupEffects,
+      LoginEffects,
+      ForgotPasswordEffects,
+      ResetPasswordEffects,
+      VerifyEmailEffects
+    ]),
     NzGridModule,
     NzFormModule,
     NzLayoutModule,
@@ -42,7 +59,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
     NzIconModule,
     ReactiveComponentModule,
     NzAlertModule,
+    NzSpinModule,
+    NzTypographyModule,
+    NzResultModule
   ],
-  declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent],
+  declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent]
 })
 export class AuthModule {}

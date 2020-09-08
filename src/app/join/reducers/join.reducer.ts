@@ -27,26 +27,26 @@ const initialAdditionalState: AdditionalState = {
     {
       title: 'Plan',
       path: 'plan',
-      icon: 'file-protect',
+      icon: 'file-protect'
     },
     {
       title: 'Account',
       path: 'account',
-      icon: 'form',
+      icon: 'form'
     },
     {
       title: 'Payment',
       path: 'payment',
-      icon: 'credit-card',
+      icon: 'credit-card'
     },
     {
       title: 'Ready!',
       path: '',
-      icon: 'check-square',
-    },
+      icon: 'check-square'
+    }
   ],
   currentStepNumber: 0,
-  isLoading: false,
+  isLoading: false
 };
 
 const additionalReducer = createReducer(
@@ -54,12 +54,12 @@ const additionalReducer = createReducer(
   on(setCurrentStepFromPath, (state, action) => {
     return {
       ...state,
-      currentStepNumber: state.steps.findIndex((step) => step.path === action.path),
+      currentStepNumber: state.steps.findIndex((step) => step.path === action.path)
     };
   })
 );
 
 export const reducers: ActionReducerMap<JoinState> = {
   [fromPlan.plansFeatureKey]: fromPlan.reducer,
-  [additionalKey]: additionalReducer,
+  [additionalKey]: additionalReducer
 };

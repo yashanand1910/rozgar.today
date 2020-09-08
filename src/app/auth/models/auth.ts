@@ -12,3 +12,12 @@ export interface LoginContext {
   password: string;
   remember: boolean;
 }
+
+export interface ForgotPasswordContext {
+  email: string;
+}
+
+export interface ResetPasswordContext {
+  password: string;
+  confirmPassword: string;
+}

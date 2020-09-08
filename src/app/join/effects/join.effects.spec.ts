@@ -11,7 +11,7 @@ describe('JoinEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [JoinEffects, provideMockActions(() => actions$)],
+      providers: [JoinEffects, provideMockActions(() => actions$)]
     });
 
     effects = TestBed.inject(JoinEffects);

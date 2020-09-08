@@ -1,7 +1,6 @@
 @import "../../../../theme/theme-variables";
 
 nz-content {
-  padding: @layout-header-padding;
   background: @shell-layout-background;
 }
 
@@ -9,4 +8,11 @@ nz-content {
   padding-top: @padding-lg*4;
   padding-bottom: @padding-lg*6;
   width: @shell-layout-width;
+}
+
+@media (max-width: @screen-sm-max) {
+  .shell-content {
+    padding-top: @padding-lg*2;
+    padding-bottom: @padding-lg*2;
+  }
 }

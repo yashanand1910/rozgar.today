@@ -16,14 +16,14 @@ export class SignupEffects {
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.signUp),
-      map((props) => props.signupContext),
+      map((props) => props.context),
       exhaustMap((context) =>
         from(this.afa.createUserWithEmailAndPassword(context.email, context.password)).pipe(
           // Update display name
           switchMap((userCredential) => {
             const partialUser: Partial<User> = {
               displayName: this.getDisplayName(context.firstName, context.lastName),
-              uid: userCredential.user.uid,
+              uid: userCredential.user.uid
             };
             return userCredential.user.updateProfile(partialUser).then(() => partialUser);
           }),
@@ -31,13 +31,13 @@ export class SignupEffects {
           switchMap((user) => {
             user = {
               ...user,
-              phoneNumber: this.getPhoneNumber(context.phoneNumberPrefix, context.phoneNumber),
+              phoneNumber: this.getPhoneNumber(context.phoneNumberPrefix, context.phoneNumber)
             };
             return this.afs
               .collection<StoreUser>(FirestoreCollection.Users)
               .doc<StoreUser>(user.uid)
               .set({
-                profile: user,
+                profile: user
               })
               .then(() => user);
           }),
@@ -46,7 +46,7 @@ export class SignupEffects {
             return [
               AuthActions.signUpSuccess(),
               AuthActions.sendVerificationEmail(),
-              AuthActions.getPartialUserSuccess({ user }),
+              AuthActions.getPartialUserSuccess({ user })
             ];
           }),
           catchError((error) => of(AuthActions.signUpFailed({ error })))

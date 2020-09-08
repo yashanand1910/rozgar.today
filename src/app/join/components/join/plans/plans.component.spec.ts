@@ -14,7 +14,7 @@ describe('PlansComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, StoreModule.forRoot(reducers)],
       declarations: [PlansComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

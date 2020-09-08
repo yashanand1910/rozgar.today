@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as fromJoin from '@app/join/reducers';
@@ -11,7 +11,7 @@ import { untilDestroyed } from '@core/utils';
 @Component({
   selector: 'app-plans',
   templateUrl: './plans.component.html',
-  styleUrls: ['./plans.component.less', '../join.component.less'],
+  styleUrls: ['./plans.component.less', '../join.component.less']
 })
 export class PlansComponent implements OnInit, OnDestroy {
   currentPlanId$: Observable<Plan['id']>;

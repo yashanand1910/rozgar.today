@@ -12,7 +12,7 @@ import * as AuthActions from '@auth/actions';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.less', '../../join.component.less'],
+  styleUrls: ['./create.component.less', '../../join.component.less']
 })
 export class CreateComponent implements OnInit, OnDestroy {
   passwordVisible: boolean;
@@ -50,7 +50,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.store.dispatch(AuthActions.signUp({ signupContext: this.signupForm.value }));
+    this.store.dispatch(AuthActions.signUp({ context: this.signupForm.value }));
   }
 
   private createForm() {
@@ -61,7 +61,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       phoneNumberPrefix: ['+91'],
       phoneNumber: [null, [CustomValidators.required, CustomValidators.phoneNumber]],
       password: [null, [CustomValidators.required, CustomValidators.minLength(6)]],
-      confirmPassword: [null, [CustomValidators.required, this.confirmPasswordValidator]],
+      confirmPassword: [null, [CustomValidators.required, this.confirmPasswordValidator]]
     });
   }
 

@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const reducers: ActionReducerMap<State> = {
-  router: fromRouter.routerReducer,
+  router: fromRouter.routerReducer
 };
 
 const log = new Logger('Action');
@@ -21,7 +21,7 @@ export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State
     log.debug(action.type, {
       payload: (action as any).payload,
       oldState: state,
-      newState,
+      newState
     });
     return newState;
   };
@@ -33,11 +33,9 @@ export const selectRouter = createFeatureSelector<State, fromRouter.RouterReduce
 
 export const {
   selectCurrentRoute, // select the current route
-  selectFragment, // select the current route fragment
-  selectQueryParams, // select the current route query params
+  // select the current route fragment
+  // select the current route query params
   selectQueryParam, // factory function to select a query param
-  selectRouteParams, // select the current route params
-  selectRouteParam, // factory function to select a route param
-  selectRouteData, // select the current route data
-  selectUrl, // select the current url
+  // select the current route params
+  selectRouteParam // select the current url
 } = fromRouter.getSelectors(selectRouter);

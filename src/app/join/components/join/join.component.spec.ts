@@ -10,7 +10,7 @@ describe('JoinComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JoinComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

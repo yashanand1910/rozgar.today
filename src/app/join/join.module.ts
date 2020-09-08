@@ -18,7 +18,7 @@ import {
   NzStepsModule,
   NzTagModule,
   NzToolTipModule,
-  NzTypographyModule,
+  NzTypographyModule
 } from 'ng-zorro-antd';
 import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
@@ -40,7 +40,7 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     PlanComponent,
     AccountComponent,
     CreateComponent,
-    VerifyComponent,
+    VerifyComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +64,7 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     ReactiveComponentModule,
     NzToolTipModule,
     NzAlertModule,
-    NzSpinModule,
-  ],
+    NzSpinModule
+  ]
 })
 export class JoinModule {}

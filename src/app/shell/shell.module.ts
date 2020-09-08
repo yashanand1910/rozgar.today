@@ -5,14 +5,14 @@ import { RouterModule } from '@angular/router';
 
 import { I18nModule } from '@app/i18n';
 import { ShellComponent } from '@shell/components';
-import { HeaderComponent } from './components/shell/header/header.component';
+import { HeaderComponent } from '@shell/components';
 import {
   NzAlertModule,
   NzGridModule,
   NzIconModule,
   NzLayoutModule,
   NzMenuModule,
-  NzTypographyModule,
+  NzTypographyModule
 } from 'ng-zorro-antd';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { SharedModule } from '@shared';
@@ -30,8 +30,8 @@ import { SharedModule } from '@shared';
     NzAlertModule,
     NzTypographyModule,
     ReactiveComponentModule,
-    SharedModule,
+    SharedModule
   ],
-  declarations: [HeaderComponent, ShellComponent],
+  declarations: [HeaderComponent, ShellComponent]
 })
 export class ShellModule {}

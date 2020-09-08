@@ -17,7 +17,7 @@ export class ErrorEffects {
           this.messageService.error(
             extract('Something went wrong. Please check your internet connection or try again after some time.'),
             {
-              nzDuration: this.errorMessageDuration,
+              nzDuration: this.errorMessageDuration
             }
           )
         )

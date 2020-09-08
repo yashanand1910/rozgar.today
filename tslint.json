@@ -2,7 +2,7 @@
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rulesDirectory": ["codelyzer", "tslint-plugin-prettier"],
   "rules": {
-    "prettier": true,
+    "prettier": [true, ".prettierrc"],
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {
@@ -47,6 +47,8 @@
     "no-var-requires": false,
     "object-literal-key-quotes": false,
     "ordered-imports": false,
+
+    // Angular
     "no-conflicting-lifecycle": true,
     "no-output-native": true,
     "directive-selector": [true, "attribute", "app", "camelCase"],

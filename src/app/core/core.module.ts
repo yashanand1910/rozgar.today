@@ -20,15 +20,15 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { autoTips } from '@shared/validators';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ErrorEffects } from '@core/effects';
+import { ErrorEffects, RouterEffects } from '@core/effects';
 
 const ngZorroConfig: NzConfig = {
   form: {
-    nzAutoTips: autoTips,
+    nzAutoTips: autoTips
   },
   message: {
-    nzDuration: 4000,
-  },
+    nzDuration: 4000
+  }
 };
 
 @NgModule({
@@ -44,25 +44,25 @@ const ngZorroConfig: NzConfig = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([ErrorEffects]),
+    EffectsModule.forRoot([ErrorEffects, RouterEffects]),
     StoreRouterConnectingModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
-      multi: true,
+      multi: true
     },
     {
       provide: RouteReuseStrategy,
-      useClass: RouteReusableStrategy,
+      useClass: RouteReusableStrategy
     },
     {
       provide: NZ_CONFIG,
-      useValue: ngZorroConfig,
-    },
-  ],
+      useValue: ngZorroConfig
+    }
+  ]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

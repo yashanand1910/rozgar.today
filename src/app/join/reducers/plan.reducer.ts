@@ -14,14 +14,14 @@ export interface State extends EntityState<Plan> {
 
 export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
   selectId: (plan) => plan.id,
-  sortComparer: false,
+  sortComparer: false
 });
 
 export const initialState: State = adapter.getInitialState({
   currentPlanId: null,
   isLoading: true,
   error: null,
-  hasLoaded: false,
+  hasLoaded: false
 });
 
 export const reducer = createReducer(
@@ -29,20 +29,20 @@ export const reducer = createReducer(
   on(PlanActions.loadPlans, (state) => ({
     ...state,
     isLoading: true,
-    hasLoaded: false,
+    hasLoaded: false
   })),
   on(PlanActions.loadPlansSuccess, (state, action) => ({
     ...adapter.setAll(action.plans, state),
     isLoading: false,
-    hasLoaded: true,
+    hasLoaded: true
   })),
   on(PlanActions.loadPlansFailure, (state, action) => ({
     ...state,
-    error: action.error,
+    error: action.error
   })),
   on(PlanActions.setCurrentPlan, (state, action) => ({
     ...state,
-    currentPlanId: action.id,
+    currentPlanId: action.id
   }))
 );
 

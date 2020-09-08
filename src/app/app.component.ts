@@ -13,17 +13,20 @@ import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
 import { untilDestroyed } from '@core/utils';
 import { en_US, NzI18nService } from 'ng-zorro-antd';
+import * as fromAuth from '@auth/reducers';
+import * as AuthActions from '@auth/actions';
+import { Store } from '@ngrx/store';
 
 const log = new Logger('App');
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less'],
+  styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
   private nzI18nLanguageMap = {
-    'en-US': en_US,
+    'en-US': en_US
   };
 
   constructor(
@@ -36,7 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private i18nService: I18nService,
-    private nzI18n: NzI18nService
+    private nzI18n: NzI18nService,
+    private store: Store<fromAuth.State>
   ) {}
 
   async ngOnInit() {
@@ -83,6 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       false
     );
+
+    this.store.dispatch(AuthActions.getUser());
   }
 
   ngOnDestroy() {

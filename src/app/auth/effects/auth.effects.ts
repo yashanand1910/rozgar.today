@@ -6,6 +6,7 @@ import { catchError, delay, exhaustMap, map, switchMap, take, tap } from 'rxjs/o
 import { EMPTY, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { extract } from '@i18n/services';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -17,7 +18,10 @@ export class AuthEffects {
       switchMap(() => {
         return this.afa
           .signOut()
-          .then(() => AuthActions.logOutSuccess())
+          .then(() => {
+            this.router.navigate(['/auth']).then();
+            return AuthActions.logOutSuccess();
+          })
           .catch((error) => AuthActions.logOutFailed(error));
       })
     )
@@ -55,9 +59,9 @@ export class AuthEffects {
                     emailVerified: user.emailVerified,
                     displayName: user.displayName,
                     email: user.email,
-                    phoneNumber: user.phoneNumber,
+                    phoneNumber: user.phoneNumber
                   }
-                : null,
+                : null
             })
           ),
           catchError((error) => {
@@ -68,5 +72,10 @@ export class AuthEffects {
     )
   );
 
-  constructor(private actions$: Actions, private afa: AngularFireAuth, private messageService: NzMessageService) {}
+  constructor(
+    private actions$: Actions,
+    private afa: AngularFireAuth,
+    private messageService: NzMessageService,
+    private router: Router
+  ) {}
 }

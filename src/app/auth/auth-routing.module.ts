@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { extract } from '@app/i18n/services';
-import { AuthComponent, ForgotPasswordComponent, LoginComponent } from '@app/auth/components';
+import {
+  AuthComponent,
+  ForgotPasswordComponent,
+  LoginComponent,
+  ResetPasswordComponent,
+  VerifyEmailComponent
+} from '@app/auth/components';
 
 const routes: Routes = [
   {
@@ -12,25 +18,35 @@ const routes: Routes = [
       {
         path: '',
         component: LoginComponent,
-        data: { title: extract('Login') },
+        data: { title: extract('Login') }
+      },
+      {
+        path: 'verify-email',
+        component: VerifyEmailComponent,
+        data: { title: extract('Verify Email') }
       },
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
-        data: { title: extract('Forgot Password') },
+        data: { title: extract('Forgot Password') }
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
+        data: { title: extract('Reset Password') }
       },
       {
         path: '**',
         redirectTo: '',
-        pathMatch: 'full',
-      },
-    ],
-  },
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [],
+  providers: []
 })
 export class AuthRoutingModule {}

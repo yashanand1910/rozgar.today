@@ -5,7 +5,7 @@
     [isLoading]="isLoading$ | ngrxPush"
     (menuItemClick)="invokeAction($event.action)"
   ></app-header>
-  <nz-content nz-row nzJustify="center">
+  <nz-content class="shell-layout" nz-row nzJustify="center">
     <div class="shell-content" nz-col>
       <router-outlet></router-outlet>
     </div>

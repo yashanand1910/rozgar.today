@@ -14,6 +14,6 @@ import { JoinModule } from '@app/join';
   imports: [CoreModule, ShellModule, JoinModule, AuthModule, AppRoutingModule],
   declarations: [AppComponent],
   providers: [Keyboard, StatusBar, SplashScreen],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -7,8 +7,8 @@ export type CustomValidationErrors = Record<string, MyErrorsOptions>;
 export const autoTips = {
   en: {
     required: 'Required',
-    email: 'Invalid email',
-  },
+    email: 'Invalid email'
+  }
 };
 
 export class CustomValidators extends Validators {
@@ -38,15 +38,6 @@ export class CustomValidators extends Validators {
     }
 
     return isPhoneNumber(value) ? null : { phoneNumber: { en: 'Invalid phone number' } };
-  }
-
-  static confirm(value: any): ValidatorFn {
-    return (control: AbstractControl): CustomValidationErrors | null => {
-      if (value === control.value) {
-        return null;
-      }
-      return { confirm: { en: `LMFAO` } };
-    };
   }
 }
 

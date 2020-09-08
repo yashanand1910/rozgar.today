@@ -12,7 +12,7 @@ import { Logger } from '@core/services';
 const log = new Logger('EnsurePlanSelectedGuard');
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EnsurePlanSelectedGuard implements CanActivate {
   constructor(private store: Store<fromJoin.State>, private router: Router, private messageService: NzMessageService) {}
