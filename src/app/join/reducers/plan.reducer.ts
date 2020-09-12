@@ -9,7 +9,6 @@ export interface State extends EntityState<Plan> {
   currentPlanId: Plan['id'] | null;
   isLoading: boolean;
   error: any;
-  hasLoaded: boolean;
 }
 
 export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
@@ -20,21 +19,18 @@ export const adapter: EntityAdapter<Plan> = createEntityAdapter<Plan>({
 export const initialState: State = adapter.getInitialState({
   currentPlanId: null,
   isLoading: true,
-  error: null,
-  hasLoaded: false
+  error: null
 });
 
 export const reducer = createReducer(
   initialState,
   on(PlanActions.loadPlans, (state) => ({
     ...state,
-    isLoading: true,
-    hasLoaded: false
+    isLoading: true
   })),
   on(PlanActions.loadPlansSuccess, (state, action) => ({
     ...adapter.setAll(action.plans, state),
-    isLoading: false,
-    hasLoaded: true
+    isLoading: false
   })),
   on(PlanActions.loadPlansFailure, (state, action) => ({
     ...state,
@@ -48,4 +44,3 @@ export const reducer = createReducer(
 
 export const getCurrentPlanId = (state: State) => state.currentPlanId;
 export const getIsLoading = (state: State) => state.isLoading;
-export const getHasLoaded = (state: State) => state.hasLoaded;

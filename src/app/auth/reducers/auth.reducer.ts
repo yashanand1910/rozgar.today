@@ -1,5 +1,5 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import * as fromRoot from '@core/reducers';
+import * as fromCore from '@core/reducers';
 import * as fromSignup from './signup.reducer';
 import * as fromLogin from './login.reducer';
 import * as fromForgotPassword from './forgot-password.reducer';
@@ -14,7 +14,7 @@ export const additionalKey = 'additional';
 export interface AdditionalState {
   user: User;
   isLoading: boolean;
-  error: Error;
+  error: string;
 }
 
 export interface AuthState {
@@ -26,7 +26,7 @@ export interface AuthState {
   [additionalKey]: AdditionalState;
 }
 
-export interface State extends fromRoot.State {
+export interface State extends fromCore.State {
   [authFeatureKey]: AuthState;
 }
 
@@ -57,6 +57,7 @@ export const additionalReducer = createReducer(
     return {
       ...state,
       isLoading: false,
+      error: null,
       user: {
         ...state.user,
         ...action.user
@@ -67,7 +68,7 @@ export const additionalReducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      error: action.error
+      error: action.error.code
     };
   }),
   on(AuthActions.logOut, (state) => {

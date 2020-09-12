@@ -1,20 +1,22 @@
-import { ActionReducer, ActionReducerMap, createFeatureSelector, MetaReducer } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '@env/environment';
 import { Logger } from '@core/services';
 import * as fromRouter from '@ngrx/router-store';
+import * as fromOption from './option.reducer';
 
-// tslint:disable-next-line:no-empty-interface
 export interface State {
   router: fromRouter.RouterReducerState<any>;
+  [fromOption.optionFeatureKey]: fromOption.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  router: fromRouter.routerReducer
+  router: fromRouter.routerReducer,
+  [fromOption.optionFeatureKey]: fromOption.reducer
 };
 
 const log = new Logger('Action');
 
-// Debug logger
+// Debug logger for each action
 export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State> {
   return (state, action) => {
     const newState = reducer(state, action);
@@ -28,14 +30,3 @@ export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [actionLogger] : [];
-
-export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
-
-export const {
-  selectCurrentRoute, // select the current route
-  // select the current route fragment
-  // select the current route query params
-  selectQueryParam, // factory function to select a query param
-  // select the current route params
-  selectRouteParam // select the current url
-} = fromRouter.getSelectors(selectRouter);

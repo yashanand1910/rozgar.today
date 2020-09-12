@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CustomValidators } from '@shared/validators';
-import * as fromAuth from '@auth/reducers';
 import * as AuthActions from '@auth/actions';
 import * as AuthSelectors from '@auth/selectors';
 import { Store } from '@ngrx/store';
@@ -13,15 +12,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./forgot-password.component.less', '../auth.component.less']
 })
 export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
-  state$: Observable<fromAuth.AuthState['forgotPassword']>;
+  forgotPasswordForm!: FormGroup;
+  error$: Observable<string>;
+  info$: Observable<string>;
+  isLoading$: Observable<boolean>;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<fromAuth.State>) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.createForm();
 
-    this.state$ = this.store.select(AuthSelectors.selectForgotPasswordState);
+    this.error$ = this.store.select(AuthSelectors.selectForgotPasswordError);
+    this.info$ = this.store.select(AuthSelectors.selectForgotPasswordInfo);
+    this.isLoading$ = this.store.select(AuthSelectors.selectForgotPasswordIsLoading);
   }
 
   submit() {

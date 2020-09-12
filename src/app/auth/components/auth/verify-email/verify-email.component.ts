@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as fromAuth from '@auth/reducers';
 import * as AuthActions from '@auth/actions';
 import * as AuthSelectors from '@auth/selectors';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -11,12 +11,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./verify-email.component.less', '../auth.component.less']
 })
 export class VerifyEmailComponent implements OnInit {
-  state$: Observable<fromAuth.AuthState['verifyEmail']>;
+  isVerifying$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
+  success$: Observable<string>;
+  error$: Observable<string>;
 
   constructor(private store: Store<fromAuth.State>) {}
 
   ngOnInit(): void {
-    this.state$ = this.store.pipe(select(AuthSelectors.selectVerifyEmailState));
+    this.isLoading$ = this.store.select(AuthSelectors.selectVerifyEmailIsLoading);
+    this.isVerifying$ = this.store.select(AuthSelectors.selectVerifyEmailIsVerifying);
+    this.error$ = this.store.select(AuthSelectors.selectVerifyEmailError);
+    this.success$ = this.store.select(AuthSelectors.selectVerifyEmailSuccess);
 
     this.store.dispatch(AuthActions.verifyEmailCode());
   }

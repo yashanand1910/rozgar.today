@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as ResetPasswordActions from '../actions/reset-password.actions';
 import { User } from '@auth/models';
 

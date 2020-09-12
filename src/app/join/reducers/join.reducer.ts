@@ -1,15 +1,13 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import * as fromRoot from '@core/reducers';
+import * as fromCore from '@core/reducers';
 import * as fromPlan from './plan.reducer';
 import { Step } from '@app/join/models';
-import { setCurrentStepFromPath } from '@app/join/actions';
 
 export const joinFeatureKey = 'join';
 export const additionalKey = 'additional';
 
 export interface AdditionalState {
   steps: Step[];
-  currentStepNumber: number;
   isLoading: boolean;
 }
 
@@ -18,7 +16,7 @@ export interface JoinState {
   [additionalKey]: AdditionalState;
 }
 
-export interface State extends fromRoot.State {
+export interface State extends fromCore.State {
   [joinFeatureKey]: JoinState;
 }
 
@@ -45,19 +43,10 @@ const initialAdditionalState: AdditionalState = {
       icon: 'check-square'
     }
   ],
-  currentStepNumber: 0,
   isLoading: false
 };
 
-const additionalReducer = createReducer(
-  initialAdditionalState,
-  on(setCurrentStepFromPath, (state, action) => {
-    return {
-      ...state,
-      currentStepNumber: state.steps.findIndex((step) => step.path === action.path)
-    };
-  })
-);
+const additionalReducer = createReducer(initialAdditionalState);
 
 export const reducers: ActionReducerMap<JoinState> = {
   [fromPlan.plansFeatureKey]: fromPlan.reducer,

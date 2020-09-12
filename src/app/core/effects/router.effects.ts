@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as fromRouter from '@ngrx/router-store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, filter, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()

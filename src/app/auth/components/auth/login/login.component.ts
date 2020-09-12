@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import * as fromAuth from '../../../reducers';
+import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../actions';
 import * as AuthSelectors from '../../../selectors';
 import { CustomValidators } from '@shared/validators';
@@ -15,14 +14,15 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  passwordVisible: boolean;
-  state$: Observable<fromAuth.AuthState['login']>;
+  passwordVisible = false;
+  error$: Observable<string>;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private store: Store<fromAuth.State>
+    private store: Store
   ) {
     this.createForm();
   }
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(AuthActions.ensureLogOut());
 
-    this.state$ = this.store.pipe(select(AuthSelectors.selectLoginState));
+    this.error$ = this.store.select(AuthSelectors.selectLoginError);
+    this.isLoading$ = this.store.select(AuthSelectors.selectLoginIsLoading);
   }
 
   ngOnDestroy() {}

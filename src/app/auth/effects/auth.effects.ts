@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as AuthActions from '../actions';
-import { catchError, delay, exhaustMap, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, delay, exhaustMap, map, tap, withLatestFrom } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { extract } from '@i18n/services';
@@ -15,14 +15,14 @@ export class AuthEffects {
       ofType(AuthActions.logOut),
       tap(() => this.messageService.loading(extract('Logging out...'), { nzDuration: 2000 })),
       delay(2000),
-      switchMap(() => {
+      exhaustMap(() => {
         return this.afa
           .signOut()
           .then(() => {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
-          .catch((error) => AuthActions.logOutFailed(error));
+          .catch((error) => AuthActions.logOutFailed({ error }));
       })
     )
   );
@@ -30,8 +30,8 @@ export class AuthEffects {
   ensureLogOut = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.ensureLogOut),
-      exhaustMap((action) => this.afa.user.pipe(take(1))),
-      switchMap((user) => {
+      withLatestFrom(this.afa.user),
+      exhaustMap(([, user]) => {
         if (user) {
           return this.afa
             .signOut()
@@ -39,17 +39,18 @@ export class AuthEffects {
               this.messageService.success(extract(`${user.displayName} has been logged out.`));
               return AuthActions.logOutSuccess();
             })
-            .catch((error) => AuthActions.logOutFailed(error));
+            .catch((error) => AuthActions.logOutFailed({ error }));
         }
         return EMPTY;
-      })
+      }),
+      catchError((error) => of(AuthActions.getUserFailed({ error })))
     )
   );
 
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getUser),
-      switchMap(() =>
+      exhaustMap(() =>
         this.afa.user.pipe(
           map((user) =>
             AuthActions.getUserSuccess({
@@ -65,7 +66,7 @@ export class AuthEffects {
             })
           ),
           catchError((error) => {
-            return of(AuthActions.getUserFailed(error));
+            return of(AuthActions.getUserFailed({ error }));
           })
         )
       )

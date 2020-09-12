@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as AuthActions from '@auth/actions';
-import * as fromAuth from '../reducers';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -27,7 +26,7 @@ export class SignupEffects {
             };
             return userCredential.user.updateProfile(partialUser).then(() => partialUser);
           }),
-          // Update phone number
+          // Update other details
           switchMap((user) => {
             user = {
               ...user,
@@ -58,18 +57,14 @@ export class SignupEffects {
   sendVerificationEmail$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.sendVerificationEmail),
-      exhaustMap(() =>
-        this.afa.user.pipe(
-          take(1),
-          mergeMap((user) =>
-            from(user.sendEmailVerification()).pipe(
-              map(() => {
-                this.messageService.info('An email has been sent for verification. Please check your inbox/spam.');
-                return AuthActions.sendVerificationEmailSuccess();
-              }),
-              catchError((error) => of(AuthActions.sendVerificationEmailFailed({ error })))
-            )
-          )
+      withLatestFrom(this.afa.user),
+      exhaustMap(([, user]) =>
+        from(user.sendEmailVerification()).pipe(
+          map(() => {
+            this.messageService.info(extract('An email has been sent for verification. Please check your inbox/spam.'));
+            return AuthActions.sendVerificationEmailSuccess();
+          }),
+          catchError((error) => of(AuthActions.sendVerificationEmailFailed({ error })))
         )
       )
     );
@@ -79,11 +74,13 @@ export class SignupEffects {
     private actions$: Actions,
     private afa: AngularFireAuth,
     private afs: AngularFirestore,
-    private store: Store<fromAuth.State>,
+    private store: Store,
     private messageService: NzMessageService
   ) {}
 
   getDisplayName(firstName: string, lastName: string) {
+    firstName = firstName.trim();
+    lastName = lastName.trim();
     return `${firstName.substr(0, 1).toUpperCase()}${firstName.substring(1)} ${lastName
       .substr(0, 1)
       .toUpperCase()}${lastName.substring(1)}`;

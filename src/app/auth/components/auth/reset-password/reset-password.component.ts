@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import * as fromAuth from '@auth/reducers';
 import * as AuthSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CustomValidators } from '@shared/validators';
 import { User } from '@auth/models';
@@ -14,17 +13,23 @@ import { User } from '@auth/models';
   styleUrls: ['./reset-password.component.less', '../auth.component.less']
 })
 export class ResetPasswordComponent implements OnInit {
-  passwordVisible: boolean;
-  resetPasswordForm: FormGroup;
-  state$: Observable<fromAuth.AuthState['resetPassword']>;
+  passwordVisible = false;
+  resetPasswordForm!: FormGroup;
+  user$: Observable<Partial<User>>;
+  error$: Observable<string>;
+  isLoading$: Observable<boolean>;
+  isVerifying$: Observable<boolean>;
 
-  constructor(private formBuilder: FormBuilder, private store: Store<fromAuth.State>) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(AuthActions.verifyResetPasswordCode());
     this.createForm();
 
-    this.state$ = this.store.pipe(select(AuthSelectors.selectResetPasswordState));
+    this.user$ = this.store.select(AuthSelectors.selectResetPasswordUser);
+    this.error$ = this.store.select(AuthSelectors.selectResetPasswordError);
+    this.isLoading$ = this.store.select(AuthSelectors.selectResetPasswordIsLoading);
+    this.isVerifying$ = this.store.select(AuthSelectors.selectResetPasswordIsVerifying);
   }
 
   resetPassword() {

@@ -1,23 +1,23 @@
-<ng-container *ngrxLet="state$; let state">
-  <div *ngIf="state.isVerifying || state.isLoading" class="loading-container">
+<ng-container>
+  <div *ngIf="(isVerifying$ | ngrxPush) || (isLoading$ | ngrxPush)" class="loading-container">
     <nz-spin nzSize="large"></nz-spin>
   </div>
-  <div *ngIf="state.success">
+  <div *ngIf="success$ | ngrxPush as success">
     <nz-result [nzTitle]="successitle" nzStatus="success" [nzSubTitle]="successSubtitle"></nz-result>
     <ng-template #successitle>
       <div class="title">Verified!</div>
     </ng-template>
     <ng-template #successSubtitle>
-      <div class="subtitle">{{ state.success | translate }}</div>
+      <div class="subtitle">{{ success | translate }}</div>
     </ng-template>
   </div>
-  <div *ngIf="state.error">
+  <div *ngIf="error$ | ngrxPush as error">
     <nz-result [nzTitle]="errorTitle" nzStatus="error" [nzSubTitle]="errorSubtitle"></nz-result>
     <ng-template #errorTitle>
       <div class="title">Invalid</div>
     </ng-template>
     <ng-template #errorSubtitle>
-      <div class="subtitle">{{ state.error | translate }}</div>
+      <div class="subtitle">{{ error | translate }}</div>
     </ng-template>
   </div>
 </ng-container>

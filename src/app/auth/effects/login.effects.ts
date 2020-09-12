@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import * as firebase from 'firebase/app';
+import { extract } from '@i18n/services';
 
 @Injectable()
 export class LoginEffects {
@@ -22,7 +23,7 @@ export class LoginEffects {
           this.afa.signInWithEmailAndPassword(context.email, context.password)
         ])
           .then(([, userCredential]) => {
-            this.messageService.success(`${userCredential.user.displayName} logged in.`);
+            this.messageService.success(extract(`${userCredential.user.displayName} logged in.`));
             this.router.navigate(['']).then();
             return LoginActions.logInSuccess();
           })

@@ -1,6 +1,6 @@
 <div class="header-container">
-  <h2 class="title">Select a Plan</h2>
-  <div class="content">
+  <div nz-typography class="title">Select a Plan</div>
+  <div nz-typography nzType="secondary" class="subtitle">
     Select a plan that suits you! Guaranteed interview calls within the chosen validity. See our full
     <a href="https://ameyashsolutions.com/our-clients/" target="_blank">list of companies</a>.
   </div>
@@ -11,7 +11,7 @@
       <div *ngFor="let plan of plans" [nzMd]="8" [nzXs]="24" nz-col>
         <app-plan
           (selectPlan)="selectPlan($event)"
-          [isCurrent]="plan.id === (currentPlanId$ | async)"
+          [isCurrent]="plan.id === (currentPlanId$ | ngrxPush)"
           [plan]="plan"
         ></app-plan>
       </div>

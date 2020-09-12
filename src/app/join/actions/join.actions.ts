@@ -1,10 +1,7 @@
-import { createAction, props } from '@ngrx/store';
-import { Step } from '@app/join/models';
+import { createAction } from '@ngrx/store';
 
 export * from './plan.actions';
 
-export const nextStep = createAction('[Join] Next Step');
+export const nextJoinStep = createAction('[Join] Next Step');
 
-export const previousStep = createAction('[Join] Previous Step');
-
-export const setCurrentStepFromPath = createAction('[Join] Set Current Step', props<{ path: Step['path'] }>());
+export const previousJoinStep = createAction('[Join] Previous Step');

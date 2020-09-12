@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuItem } from '@shell/components';
 
 @Component({
@@ -14,5 +13,5 @@ export class HeaderComponent {
   @Input() isLoading: boolean;
   @Output() menuItemClick = new EventEmitter<MenuItem>();
 
-  constructor(private router: Router) {}
+  constructor() {}
 }

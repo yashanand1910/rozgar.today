@@ -7,13 +7,16 @@ import {
   NzAlertModule,
   NzButtonModule,
   NzCardModule,
+  NzCascaderModule,
   NzFormModule,
   NzGridModule,
   NzIconModule,
   NzInputModule,
   NzListModule,
+  NzNoAnimationModule,
   NzSelectModule,
   NzSkeletonModule,
+  NzSliderModule,
   NzSpinModule,
   NzStepsModule,
   NzTagModule,
@@ -64,7 +67,10 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     ReactiveComponentModule,
     NzToolTipModule,
     NzAlertModule,
-    NzSpinModule
+    NzSpinModule,
+    NzCascaderModule,
+    NzSliderModule,
+    NzNoAnimationModule
   ]
 })
 export class JoinModule {}

@@ -1,12 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import * as fromRoot from '@app/core/reducers';
-import * as fromJoin from '@app/join/reducers';
 import * as JoinSelectors from '@app/join/selectors';
-import { select, Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import * as JoinActions from '@app/join/actions';
-import { untilDestroyed } from '@core/utils';
+import { Store } from '@ngrx/store';
+import { Step } from '@app/join/models';
 
 @Component({
   selector: 'app-join',
@@ -14,22 +10,14 @@ import { untilDestroyed } from '@core/utils';
   styleUrls: ['./join.component.less']
 })
 export class JoinComponent implements OnInit, OnDestroy {
-  state$: Observable<fromJoin.JoinState['additional']>;
+  currentStepNumber$: Observable<number>;
+  steps$: Observable<Step[]>;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.state$ = this.store.pipe(select(JoinSelectors.selectJoinAdditionalState));
-
-    this.store
-      .pipe(
-        select(fromRoot.selectCurrentRoute),
-        map((val) => val.routeConfig.path),
-        untilDestroyed(this)
-      )
-      .subscribe((path: string) => {
-        this.store.dispatch(JoinActions.setCurrentStepFromPath({ path }));
-      });
+    this.currentStepNumber$ = this.store.select(JoinSelectors.selectJoinCurrentStepNumber);
+    this.steps$ = this.store.select(JoinSelectors.selectJoinSteps);
   }
 
   ngOnDestroy() {}

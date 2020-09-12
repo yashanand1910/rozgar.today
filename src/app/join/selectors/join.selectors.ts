@@ -1,28 +1,30 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromJoin from '../reducers';
 import * as fromAuth from '../reducers';
+import * as CoreSelectors from '@core/selectors';
 
 export const selectJoinState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.joinFeatureKey);
 
 export const selectJoinAdditionalState = createSelector(selectJoinState, (state) => state[fromAuth.additionalKey]);
 
-export const selectSteps = createSelector(selectJoinAdditionalState, (state) => state.steps);
+export const selectJoinSteps = createSelector(selectJoinAdditionalState, (state) => state.steps);
 
-export const selectStepsCurrentNumber = createSelector(selectJoinAdditionalState, (state) => state.currentStepNumber);
-
-export const selectCurrentStep = createSelector(
+export const selectJoinCurrentStepNumber = createSelector(
   selectJoinAdditionalState,
-  (state) => state.steps[state.currentStepNumber]
+  CoreSelectors.selectCurrentRoute,
+  (state, route) => state.steps.map((step) => step.path).indexOf(route?.routeConfig?.path)
 );
 
-export const selectNextStepPath = createSelector(
+export const selectJoinNextStepPath = createSelector(
   selectJoinAdditionalState,
-  (state) => state.steps[state.currentStepNumber + 1].path
+  selectJoinCurrentStepNumber,
+  (state, number) => state.steps[number + 1]?.path
 );
 
-export const selectPreviousStepPath = createSelector(
+export const selectJoinPreviousStepPath = createSelector(
   selectJoinAdditionalState,
-  (state) => state.steps[state.currentStepNumber - 1].path
+  selectJoinCurrentStepNumber,
+  (state, number) => state.steps[number - 1]?.path
 );
 
-export const selectStepsIsLoading = createSelector(selectJoinAdditionalState, (state) => state.isLoading);
+export const selectJoinStepsIsLoading = createSelector(selectJoinAdditionalState, (state) => state.isLoading);

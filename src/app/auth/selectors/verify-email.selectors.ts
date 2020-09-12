@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import * as fromVerifyEmail from '../reducers/verify-email.reducer';
 import { selectAuthState } from '@auth/selectors/auth.selectors';
 

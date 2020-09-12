@@ -17,7 +17,7 @@ export class CustomValidators extends Validators {
       if (Validators.minLength(minLength)(control) === null) {
         return null;
       }
-      return { minlength: { en: `Min length is ${minLength}` } };
+      return { minlength: { en: `Minimum length is ${minLength}` } };
     };
   }
 
@@ -26,7 +26,7 @@ export class CustomValidators extends Validators {
       if (Validators.maxLength(maxLength)(control) === null) {
         return null;
       }
-      return { maxlength: { en: `Max length is ${maxLength}` } };
+      return { maxlength: { en: `Maximum length is ${maxLength}` } };
     };
   }
 

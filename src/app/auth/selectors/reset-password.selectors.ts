@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import * as fromResetPassword from '../reducers/reset-password.reducer';
 import { selectAuthState } from '@auth/selectors/auth.selectors';
 

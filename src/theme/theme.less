@@ -3,19 +3,48 @@
  * Framework overrides and customization goes here.
  */
 
-// fixes
+// Fixes
 
 [nz-menu-item]:focus {
   outline: none;
 }
 
-// misc
+// Misc
 
 .cursor-pointer {
   cursor: pointer;
 }
 
-// typography
+// Layout
+
+.shell-layout {
+  padding: @layout-header-padding;
+}
+
+.auth-layout {
+  padding: @padding-lg;
+}
+
+@media (max-width: @screen-sm-max) {
+  .shell-layout {
+    padding: 0 @padding-lg;
+  }
+
+  .auth-layout {
+    padding: 0;
+    background: @white;
+  }
+}
+
+// Typography
+
+.title {
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: @font-size-lg;
+}
 
 .text-center {
   text-align: center;

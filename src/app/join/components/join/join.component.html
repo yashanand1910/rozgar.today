@@ -1,6 +1,6 @@
-<div *ngrxLet="state$; let state" class="steps-container">
-  <nz-steps [nzCurrent]="state.currentStepNumber">
-    <nz-step *ngFor="let step of state.steps; let i = index" [nzTitle]="step.title"></nz-step>
+<div class="steps-container">
+  <nz-steps [nzCurrent]="currentStepNumber$ | ngrxPush">
+    <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzTitle]="step.title"></nz-step>
   </nz-steps>
 </div>
 <div>

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import * as fromAuth from '@auth/reducers';
+import { Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
 import { Observable, of } from 'rxjs';
@@ -8,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { User } from '@auth/models';
 
 export interface MenuItem {
-  title: string | Observable<string>;
+  title: Observable<string>;
   icon?: string;
   link?: string;
   disabled?: boolean;
@@ -28,11 +27,11 @@ export class ShellComponent implements OnInit, OnDestroy {
   headerMenuItemsLeft: MenuItem[];
   headerMenuItemsRight: MenuItem[];
 
-  constructor(private store: Store<fromAuth.State>) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.pipe(select(AuthSelectors.selectIsLoading));
-    this.user$ = this.store.pipe(select(AuthSelectors.selectUser));
+    this.isLoading$ = this.store.select(AuthSelectors.selectAuthIsLoading);
+    this.user$ = this.store.select(AuthSelectors.selectAuthUser);
     this.updateHeader();
   }
 

@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as VerifyEmailActions from '../actions/verify-email.actions';
 import { User } from '@auth/models';
 import { extract } from '@i18n/services';
