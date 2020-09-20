@@ -6,8 +6,6 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
-export * from './plan.effects';
-
 @Injectable()
 export class JoinEffects {
   nextJoinStep$ = createEffect(

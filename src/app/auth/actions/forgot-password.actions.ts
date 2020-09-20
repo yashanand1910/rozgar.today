@@ -9,7 +9,10 @@ export const forgotPassword = createAction(
 
 export const forgotPasswordSuccess = createAction('[ForgotPassword] Forgot Password Success');
 
-export const forgotPasswordFailed = createAction('[ForgotPassword] Forgot Password Failed', props<{ error: Error }>());
+export const forgotPasswordFailiure = createAction(
+  '[ForgotPassword] Forgot Password Failiure',
+  props<{ error: Error }>()
+);
 
 export const clearForgotPasswordInfo = createAction('[ForgotPassword] Clear Info');
 

@@ -7,7 +7,7 @@ import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FirestoreCollection, StoreUser, User } from '@auth/models';
+import { FirestoreCollection, Profile, StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class SignupEffects {
               .collection<StoreUser>(FirestoreCollection.Users)
               .doc<StoreUser>(user.uid)
               .set({
-                profile: user
+                profile: user as Profile
               })
               .then(() => user);
           }),
@@ -48,7 +48,7 @@ export class SignupEffects {
               AuthActions.getPartialUserSuccess({ user })
             ];
           }),
-          catchError((error) => of(AuthActions.signUpFailed({ error })))
+          catchError((error) => of(AuthActions.signUpFailiure({ error })))
         )
       )
     );
@@ -64,7 +64,7 @@ export class SignupEffects {
             this.messageService.info(extract('An email has been sent for verification. Please check your inbox/spam.'));
             return AuthActions.sendVerificationEmailSuccess();
           }),
-          catchError((error) => of(AuthActions.sendVerificationEmailFailed({ error })))
+          catchError((error) => of(AuthActions.sendVerificationEmailFailiure({ error })))
         )
       )
     );

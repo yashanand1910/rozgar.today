@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { extract } from '@i18n/services';
-import * as JoinSelectors from '@app/join/selectors';
+import * as CoreSelectors from '@core/selectors';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Logger } from '@core/services';
+import { Collection } from '@core/models';
 
 const log = new Logger('EnsurePlanSelectedGuard');
 
@@ -21,7 +22,7 @@ export class EnsurePlanSelectedGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.store.pipe(
-      select(JoinSelectors.selectCurrentPlanId),
+      select(CoreSelectors.selectCollectionSelectedId(Collection.Plans)),
       map((planId) => {
         if (!planId) {
           this.messageService.info(extract('Please select a plan first.'));

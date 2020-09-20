@@ -27,7 +27,7 @@ export class LoginEffects {
             this.router.navigate(['']).then();
             return LoginActions.logInSuccess();
           })
-          .catch((error) => LoginActions.logInFailed({ error }));
+          .catch((error) => LoginActions.logInFailiure({ error }));
       })
     );
   });

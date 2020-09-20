@@ -6,7 +6,7 @@ export const signUp = createAction('[Signup] Sign Up', props<{ context: SignupCo
 
 export const signUpSuccess = createAction('[Signup] Sign Up Success');
 
-export const signUpFailed = createAction('[Signup] Sign Up Failed', props<{ error: Error }>());
+export const signUpFailiure = createAction('[Signup] Sign Up Failiure', props<{ error: Error }>());
 
 export const clearSignupError = createAction('[Signup] Clear Error');
 
@@ -14,7 +14,7 @@ export const sendVerificationEmail = createAction('[Signup] Send Verification Em
 
 export const sendVerificationEmailSuccess = createAction('[Signup] Send Verification Email Success');
 
-export const sendVerificationEmailFailed = createAction(
-  '[Signup] Send Verification Email Failed',
+export const sendVerificationEmailFailiure = createAction(
+  '[Signup] Send Verification Email Failiure',
   props<{ error: Error }>()
 );

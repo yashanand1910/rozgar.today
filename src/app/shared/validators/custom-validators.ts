@@ -12,6 +12,24 @@ export const autoTips = {
 };
 
 export class CustomValidators extends Validators {
+  static min(min: number): ValidatorFn {
+    return (control: AbstractControl): CustomValidationErrors | null => {
+      if (Validators.min(min)(control) === null) {
+        return null;
+      }
+      return { minlength: { en: `Minimum is ${min}` } };
+    };
+  }
+
+  static max(max: number, message?: string): ValidatorFn {
+    return (control: AbstractControl): CustomValidationErrors | null => {
+      if (Validators.max(max)(control) === null) {
+        return null;
+      }
+      return { maxlength: { en: message ? message : `Maximum is ${max}` } };
+    };
+  }
+
   static minLength(minLength: number): ValidatorFn {
     return (control: AbstractControl): CustomValidationErrors | null => {
       if (Validators.minLength(minLength)(control) === null) {

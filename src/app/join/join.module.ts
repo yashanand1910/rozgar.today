@@ -8,6 +8,7 @@ import {
   NzButtonModule,
   NzCardModule,
   NzCascaderModule,
+  NzCheckboxModule,
   NzFormModule,
   NzGridModule,
   NzIconModule,
@@ -27,13 +28,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import * as fromJoin from './reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { JoinEffects, PlanEffects } from './effects';
-import { PlanComponent } from './components/join/plans/plan/plan.component';
+import { JoinEffects } from './effects';
+import { PlanComponent, AccountComponent, CreateAccountComponent, VerifyComponent } from '@app/join/components';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { AccountComponent } from './components/join/account/account.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateComponent } from './components/join/account/create/create.component';
-import { VerifyComponent } from './components/join/account/verify/verify.component';
+import { SharedModule } from '@shared';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,7 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     PaymentComponent,
     PlanComponent,
     AccountComponent,
-    CreateComponent,
+    CreateAccountComponent,
     VerifyComponent
   ],
   imports: [
@@ -58,7 +57,7 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     NzTagModule,
     NzButtonModule,
     StoreModule.forFeature(fromJoin.joinFeatureKey, fromJoin.reducers),
-    EffectsModule.forFeature([JoinEffects, PlanEffects]),
+    EffectsModule.forFeature([JoinEffects]),
     NzSkeletonModule,
     NzFormModule,
     ReactiveFormsModule,
@@ -70,7 +69,9 @@ import { VerifyComponent } from './components/join/account/verify/verify.compone
     NzSpinModule,
     NzCascaderModule,
     NzSliderModule,
-    NzNoAnimationModule
+    NzNoAnimationModule,
+    NzCheckboxModule,
+    SharedModule
   ]
 })
 export class JoinModule {}

@@ -1,8 +1,9 @@
 <div class="header-container">
   <div nz-typography class="title">Select a Plan</div>
   <div nz-typography nzType="secondary" class="subtitle">
-    Select a plan that suits you! Guaranteed interview calls within the chosen validity. See our full
-    <a href="https://ameyashsolutions.com/our-clients/" target="_blank">list of companies</a>.
+    Select a plan that suits you. <b>Guaranteed scheduled interviews</b> within the chosen validity. See our full
+    <a href="https://ameyashsolutions.com/our-clients/" target="_blank">list of companies</a>. We only bring the
+    opportunities to you, cracking the interview is up to you!
   </div>
 </div>
 <nz-list nzGrid>
@@ -11,7 +12,7 @@
       <div *ngFor="let plan of plans" [nzMd]="8" [nzXs]="24" nz-col>
         <app-plan
           (selectPlan)="selectPlan($event)"
-          [isCurrent]="plan.id === (currentPlanId$ | ngrxPush)"
+          [isCurrent]="plan.id === (selectedPlanId$ | ngrxPush)"
           [plan]="plan"
         ></app-plan>
       </div>
@@ -26,10 +27,12 @@
   </ng-container>
 </nz-list>
 <div class="footer-container">
-  <div nz-typography nzType="secondary"><i>* Number of calls may vary for higher salaries and experience.</i></div>
+  <div nz-typography nzType="secondary">
+    <!--    <i>* Number of calls may vary for higher salaries and experience.</i>-->
+  </div>
   <button
     (click)="next()"
-    [disabled]="(currentPlanId$ | ngrxPush) === null"
+    [disabled]="(selectedPlanId$ | ngrxPush) === null"
     [nzLoading]=""
     nz-button
     nzSize="large"

@@ -16,7 +16,7 @@ export class ForgotPasswordEffects {
       exhaustMap((context) =>
         from(this.afa.sendPasswordResetEmail(context.email)).pipe(
           map(() => ForgotPasswordActions.forgotPasswordSuccess()),
-          catchError((error) => of(ForgotPasswordActions.forgotPasswordFailed({ error })))
+          catchError((error) => of(ForgotPasswordActions.forgotPasswordFailiure({ error })))
         )
       )
     );

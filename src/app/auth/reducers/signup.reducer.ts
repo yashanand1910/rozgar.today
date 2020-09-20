@@ -32,14 +32,14 @@ export const reducer = createReducer(
       isLoading: false
     };
   }),
-  on(SignupActions.signUpFailed, (state, action) => {
+  on(SignupActions.signUpFailiure, (state, action) => {
     return {
       ...state,
       error: action.error.code,
       isLoading: false
     };
   }),
-  on(SignupActions.sendVerificationEmailFailed, (state, action) => {
+  on(SignupActions.sendVerificationEmailFailiure, (state, action) => {
     return {
       ...state,
       error: action.error

@@ -13,14 +13,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from '@angular/fire';
-import { metaReducers, reducers } from './reducers';
+import { metaReducers, reducers } from './reducers/core.reducer';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { autoTips } from '@shared/validators';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { ErrorEffects, OptionEffects, RouterEffects } from '@core/effects';
+import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
 
 const ngZorroConfig: NzConfig = {
   form: {
@@ -43,8 +43,17 @@ const ngZorroConfig: NzConfig = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([ErrorEffects, RouterEffects, OptionEffects]),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        // strictStateImmutability and strictActionImmutability are enabled by default
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true
+      }
+    }),
+    EffectsModule.forRoot([CoreEffects, ConstraintEffects, AlertEffects, CollectionEffects]),
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
   ],

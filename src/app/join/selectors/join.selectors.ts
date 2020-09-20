@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromJoin from '../reducers';
 import * as fromAuth from '../reducers';
-import * as CoreSelectors from '@core/selectors';
+import * as CoreSelectors from '@core/selectors/core.selector';
 
 export const selectJoinState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.joinFeatureKey);
 

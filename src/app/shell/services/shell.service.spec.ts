@@ -15,7 +15,7 @@ describe('Shell', () => {
   });
 
   describe('childRoutes', () => {
-    it('should create routes as children of shell', () => {
+    it('should create-account routes as children of shell', () => {
       // Prepare
       const testRoutes = [{ path: 'test' }];
 

@@ -9,8 +9,8 @@ export const verifyResetPasswordCodeSuccess = createAction(
   props<{ user: Partial<User>; code: string }>()
 );
 
-export const verifyResetPasswordCodeFailed = createAction(
-  '[ResetPassword] Verify Code Failed',
+export const verifyResetPasswordCodeFailiure = createAction(
+  '[ResetPassword] Verify Code Failiure',
   props<{ error: Error }>()
 );
 
@@ -18,6 +18,6 @@ export const resetPassword = createAction('[ResetPassword] Reset Password', prop
 
 export const resetPasswordSuccess = createAction('[ResetPassword] Reset Password Success');
 
-export const resetPasswordFailed = createAction('[ResetPassword] Reset Password Failed', props<{ error: Error }>());
+export const resetPasswordFailiure = createAction('[ResetPassword] Reset Password Failiure', props<{ error: Error }>());
 
 export const clearResetPasswordError = createAction('[ResetPassword] Clear Error');

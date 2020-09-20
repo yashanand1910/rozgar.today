@@ -22,7 +22,7 @@ describe('LanguageSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create-account', () => {
     expect(component).toBeTruthy();
   });
 });

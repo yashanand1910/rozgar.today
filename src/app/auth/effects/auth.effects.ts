@@ -22,7 +22,7 @@ export class AuthEffects {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
-          .catch((error) => AuthActions.logOutFailed({ error }));
+          .catch((error) => AuthActions.logOutFailiure({ error }));
       })
     )
   );
@@ -39,11 +39,11 @@ export class AuthEffects {
               this.messageService.success(extract(`${user.displayName} has been logged out.`));
               return AuthActions.logOutSuccess();
             })
-            .catch((error) => AuthActions.logOutFailed({ error }));
+            .catch((error) => AuthActions.logOutFailiure({ error }));
         }
         return EMPTY;
       }),
-      catchError((error) => of(AuthActions.getUserFailed({ error })))
+      catchError((error) => of(AuthActions.getUserFailiure({ error })))
     )
   );
 
@@ -66,7 +66,7 @@ export class AuthEffects {
             })
           ),
           catchError((error) => {
-            return of(AuthActions.getUserFailed({ error }));
+            return of(AuthActions.getUserFailiure({ error }));
           })
         )
       )

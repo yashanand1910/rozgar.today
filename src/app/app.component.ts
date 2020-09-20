@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -13,9 +13,10 @@ import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
 import { untilDestroyed } from '@core/utils';
 import { en_US, NzI18nService } from 'ng-zorro-antd';
-import * as fromAuth from '@auth/reducers';
 import * as AuthActions from '@auth/actions';
+import * as CoreActions from '@core/actions';
 import { Store } from '@ngrx/store';
+import * as CoreSelectors from '@core/selectors';
 
 const log = new Logger('App');
 
@@ -25,6 +26,7 @@ const log = new Logger('App');
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  coreError$: Observable<string>;
   private nzI18nLanguageMap = {
     'en-US': en_US
   };
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private splashScreen: SplashScreen,
     private i18nService: I18nService,
     private nzI18n: NzI18nService,
-    private store: Store<fromAuth.State>
+    private store: Store
   ) {}
 
   async ngOnInit() {
@@ -49,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
       Logger.enableProductionMode();
     }
 
-    log.debug('init');
+    log.debug('Init');
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
@@ -89,6 +91,9 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     this.store.dispatch(AuthActions.getUser());
+    this.store.dispatch(CoreActions.loadAlerts());
+    this.store.dispatch(CoreActions.loadConstraints());
+    this.coreError$ = this.store.select(CoreSelectors.selectError);
   }
 
   ngOnDestroy() {

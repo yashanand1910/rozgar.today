@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResetPasswordComponent } from './reset-password.component';
+import { ResetPasswordComponent } from '@auth/components';
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -18,7 +18,7 @@ describe('ResetPasswordComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create-account', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
-import { JoinComponent, PaymentComponent, PlansComponent } from './components';
+import { JoinComponent, PaymentComponent, PlansComponent, AccountComponent } from './components';
 import { extract } from '@i18n/services';
-import { AccountComponent } from './components/join/account/account.component';
 import { EnsurePlanSelectedGuard } from './guards';
 
 const routes: Routes = [
@@ -30,8 +29,8 @@ const routes: Routes = [
         {
           path: 'account',
           component: AccountComponent,
-          data: { title: extract('Account') },
-          canActivate: [EnsurePlanSelectedGuard]
+          data: { title: extract('Account') }
+          // canActivate: [EnsurePlanSelectedGuard]
         },
         {
           path: 'payment',

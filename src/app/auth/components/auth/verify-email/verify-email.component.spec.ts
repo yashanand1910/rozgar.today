@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VerifyEmailComponent } from './verify-email.component';
+import { VerifyEmailComponent } from '@auth/components';
 
 describe('VerifyEmailComponent', () => {
   let component: VerifyEmailComponent;
@@ -18,7 +18,7 @@ describe('VerifyEmailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create-account', () => {
     expect(component).toBeTruthy();
   });
 });

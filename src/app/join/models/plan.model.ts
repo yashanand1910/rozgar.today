@@ -1,4 +1,4 @@
-export enum PlanType {
+export enum PlanName {
   Basic = 'Basic',
   Standard = 'Standard',
   Premium = 'Premium'
@@ -10,8 +10,8 @@ interface Point {
 }
 
 export interface Plan {
-  id: string;
-  type: PlanType;
+  // id: string;
+  name: PlanName;
   highlight: string;
   price: number;
   points: Point[];

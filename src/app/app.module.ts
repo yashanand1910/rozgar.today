@@ -9,9 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { ShellModule } from '@app/shell/shell.module';
 import { AuthModule } from '@auth';
 import { JoinModule } from '@app/join';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [CoreModule, ShellModule, JoinModule, AuthModule, AppRoutingModule],
+  imports: [CoreModule, ShellModule, JoinModule, AuthModule, AppRoutingModule, ReactiveComponentModule, CommonModule],
   declarations: [AppComponent],
   providers: [Keyboard, StatusBar, SplashScreen],
   bootstrap: [AppComponent]

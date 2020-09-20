@@ -1,6 +1,5 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import * as fromCore from '@core/reducers';
-import * as fromPlan from './plan.reducer';
+import * as fromCore from '@core/reducers/core.reducer';
 import { Step } from '@app/join/models';
 
 export const joinFeatureKey = 'join';
@@ -12,7 +11,6 @@ export interface AdditionalState {
 }
 
 export interface JoinState {
-  [fromPlan.plansFeatureKey]: fromPlan.State;
   [additionalKey]: AdditionalState;
 }
 
@@ -49,6 +47,5 @@ const initialAdditionalState: AdditionalState = {
 const additionalReducer = createReducer(initialAdditionalState);
 
 export const reducers: ActionReducerMap<JoinState> = {
-  [fromPlan.plansFeatureKey]: fromPlan.reducer,
   [additionalKey]: additionalReducer
 };

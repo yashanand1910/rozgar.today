@@ -1,5 +1,5 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import * as fromCore from '@core/reducers';
+import * as fromCore from '@core/reducers/core.reducer';
 import * as fromSignup from './signup.reducer';
 import * as fromLogin from './login.reducer';
 import * as fromForgotPassword from './forgot-password.reducer';
@@ -64,7 +64,7 @@ export const additionalReducer = createReducer(
       }
     };
   }),
-  on(AuthActions.getUserFailed, (state, action) => {
+  on(AuthActions.getUserFailiure, (state, action) => {
     return {
       ...state,
       isLoading: false,

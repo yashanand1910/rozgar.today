@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as CoreSelectors from '@core/selectors';
+import * as CoreSelectors from '@core/selectors/core.selector';
 import * as ResetPasswordActions from '../actions';
 import * as ResetPasswordSelectors from '../selectors';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -20,7 +20,7 @@ export class ResetPasswordEffects {
       exhaustMap(([, code]) =>
         from(this.afa.verifyPasswordResetCode(code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
-          catchError((error) => of(ResetPasswordActions.verifyResetPasswordCodeFailed({ error })))
+          catchError((error) => of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error })))
         )
       )
     );
@@ -39,7 +39,7 @@ export class ResetPasswordEffects {
             this.router.navigate(['/auth']).then();
             return ResetPasswordActions.resetPasswordSuccess();
           }),
-          catchError((error) => of(ResetPasswordActions.resetPasswordFailed({ error })))
+          catchError((error) => of(ResetPasswordActions.resetPasswordFailiure({ error })))
         )
       )
     );

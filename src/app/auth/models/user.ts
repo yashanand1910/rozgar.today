@@ -13,6 +13,7 @@ export interface StoreUser {
 }
 
 export interface Profile {
-  displayName?: User['displayName'];
-  phoneNumber?: User['phoneNumber'];
+  displayName: User['displayName'];
+  phoneNumber: User['phoneNumber'];
+  // country: Reference;
 }

@@ -3,7 +3,7 @@ import { Route, Routes } from '@angular/router';
 import { ShellComponent } from '@shell/components';
 
 /**
- * Provides helper methods to create routes.
+ * Provides helper methods to create-account routes.
  */
 export class Shell {
   /**

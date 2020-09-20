@@ -35,7 +35,7 @@ export const reducer = createReducer(
       user: action.user
     };
   }),
-  on(VerifyEmailActions.verifyEmailCodeFailed, (state, action) => {
+  on(VerifyEmailActions.verifyEmailCodeFailiure, (state, action) => {
     return {
       ...state,
       isVerifying: false,
@@ -56,7 +56,7 @@ export const reducer = createReducer(
       error: null
     };
   }),
-  on(VerifyEmailActions.verifyEmailFailed, (state, action) => {
+  on(VerifyEmailActions.verifyEmailFailiure, (state, action) => {
     return {
       ...state,
       isLoading: false,

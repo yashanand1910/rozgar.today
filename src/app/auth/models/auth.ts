@@ -5,6 +5,10 @@ export interface SignupContext {
   phoneNumber: string;
   phoneNumberPrefix: string;
   password: string;
+  confirmPassword: string;
+  country: string;
+  preferredCities: string[];
+  lastSalary: number;
 }
 
 export interface LoginContext {

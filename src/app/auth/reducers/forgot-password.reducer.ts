@@ -37,7 +37,7 @@ export const reducer = createReducer(
     };
   }),
 
-  on(ForgotPasswordActions.forgotPasswordFailed, (state, action) => {
+  on(ForgotPasswordActions.forgotPasswordFailiure, (state, action) => {
     return {
       ...state,
       isLoading: false,

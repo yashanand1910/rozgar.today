@@ -1,8 +1,8 @@
 <nz-card (click)="selectPlan.emit(plan.id)" [class.current]="isCurrent" nzHoverable>
   <nz-card-meta [nzDescription]="description" [nzTitle]="title"></nz-card-meta>
   <ng-template #title>
-    <div class="plan-title title-{{ plan.type.toLowerCase() }}" nz-typography>
-      {{ plan.type | translate }}<i *ngIf="isCurrent" nz-icon nzTheme="fill" nzType="check-circle"></i>
+    <div class="plan-title title-{{ plan.name.toLowerCase() }}" nz-typography>
+      {{ plan.name | translate }}<i *ngIf="isCurrent" nz-icon nzTheme="fill" nzType="check-circle"></i>
     </div>
   </ng-template>
   <ng-template #description>

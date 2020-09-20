@@ -6,6 +6,6 @@ export const logIn = createAction('[Login] Log In', props<{ context: LoginContex
 
 export const logInSuccess = createAction('[Login] Log In Success');
 
-export const logInFailed = createAction('[Login] Log In Failed', props<{ error: Error }>());
+export const logInFailiure = createAction('[Login] Log In Failiure', props<{ error: Error }>());
 
 export const clearLoginError = createAction('[Login] Clear Login Error');

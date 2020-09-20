@@ -9,10 +9,13 @@ export const verifyEmailCodeSuccess = createAction(
   props<{ user: Partial<User>; code: string }>()
 );
 
-export const verifyEmailCodeFailed = createAction('[VerifyEmail] Verify Email Code Failed', props<{ error: Error }>());
+export const verifyEmailCodeFailiure = createAction(
+  '[VerifyEmail] Verify Email Code Failiure',
+  props<{ error: Error }>()
+);
 
 export const verifyEmail = createAction('[VerifyEmail] Verify Email', props<{ code: string }>());
 
 export const verifyEmailSuccess = createAction('[VerifyEmail] Verify Email Success');
 
-export const verifyEmailFailed = createAction('[VerifyEmail] Verify Email Failed', props<{ error: Error }>());
+export const verifyEmailFailiure = createAction('[VerifyEmail] Verify Email Failiure', props<{ error: Error }>());
