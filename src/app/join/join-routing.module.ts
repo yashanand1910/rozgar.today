@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
 import { JoinComponent, PaymentComponent, PlansComponent, AccountComponent } from './components';
 import { extract } from '@i18n/services';
-import { EnsurePlanSelectedGuard } from './guards';
+import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from './guards';
+import { AuthGuard } from '@auth/guards';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -14,6 +15,7 @@ const routes: Routes = [
     },
     {
       path: 'join',
+      canActivate: [EnsureFirestoreStateLoadedGuard],
       component: JoinComponent,
       children: [
         {
@@ -29,14 +31,14 @@ const routes: Routes = [
         {
           path: 'account',
           component: AccountComponent,
-          data: { title: extract('Account') }
-          // canActivate: [EnsurePlanSelectedGuard]
+          data: { title: extract('Account') },
+          canActivate: [EnsurePlanSelectedGuard]
         },
         {
           path: 'payment',
           component: PaymentComponent,
           data: { title: extract('Payment') },
-          canActivate: [EnsurePlanSelectedGuard]
+          canActivate: [AuthGuard, EnsurePlanSelectedGuard]
         }
       ]
     }

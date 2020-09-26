@@ -35,7 +35,7 @@ export const reducer = createReducer(
   on(SignupActions.signUpFailiure, (state, action) => {
     return {
       ...state,
-      error: action.error.code,
+      error: action.error,
       isLoading: false
     };
   }),

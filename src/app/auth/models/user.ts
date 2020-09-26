@@ -1,19 +1,25 @@
 import { User as FirebaseUser } from 'firebase';
+import { Reference } from '@core/models';
 
+// User as per Firebase Auth
 export interface User {
-  uid: string;
+  uid: FirebaseUser['uid'];
   emailVerified: FirebaseUser['emailVerified'];
   email: FirebaseUser['email'];
   displayName: FirebaseUser['displayName'];
   phoneNumber: FirebaseUser['phoneNumber'];
 }
 
+// Stored in Firestore
 export interface StoreUser {
   profile: Profile;
+  state?: any;
 }
 
 export interface Profile {
-  displayName: User['displayName'];
-  phoneNumber: User['phoneNumber'];
-  // country: Reference;
+  phoneCode: string;
+  phoneNumber: string;
+  country: Reference;
+  preferredCities: Reference[];
+  lastSalary: number;
 }

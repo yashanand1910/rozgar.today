@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { ForgotPasswordContext } from '@auth/models';
-import Error = firebase.auth.Error;
 
 export const forgotPassword = createAction(
   '[ForgotPassword] Forgot Password',
@@ -11,7 +10,7 @@ export const forgotPasswordSuccess = createAction('[ForgotPassword] Forgot Passw
 
 export const forgotPasswordFailiure = createAction(
   '[ForgotPassword] Forgot Password Failiure',
-  props<{ error: Error }>()
+  props<{ error: string }>()
 );
 
 export const clearForgotPasswordInfo = createAction('[ForgotPassword] Clear Info');

@@ -42,7 +42,7 @@ export const reducer = createReducer(
       ...state,
       isLoading: false,
       info: null,
-      error: action.error.code
+      error: action.error
     };
   }),
 

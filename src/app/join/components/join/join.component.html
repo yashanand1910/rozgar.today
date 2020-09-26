@@ -1,8 +1,13 @@
-<div class="steps-container">
-  <nz-steps [nzCurrent]="currentStepNumber$ | ngrxPush">
-    <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzTitle]="step.title"></nz-step>
-  </nz-steps>
-</div>
-<div>
-  <router-outlet></router-outlet>
-</div>
+<ng-container *ngrxLet="isLoading$; let isLoading">
+  <ng-container *ngIf="!isLoading">
+    <div class="steps-container">
+      <nz-steps [nzCurrent]="currentStepNumber$ | ngrxPush">
+        <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzTitle]="step.title"></nz-step>
+      </nz-steps>
+    </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+  <nz-skeleton *ngIf="isLoading" [nzActive]="true"></nz-skeleton>
+</ng-container>

@@ -22,7 +22,7 @@ export class VerifyEmailEffects {
             VerifyEmailActions.verifyEmailCodeSuccess({ user: { email }, code }),
             VerifyEmailActions.verifyEmail({ code })
           ]),
-          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error })))
+          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
         )
       )
     )
@@ -35,7 +35,7 @@ export class VerifyEmailEffects {
       exhaustMap((code) =>
         from(this.afa.applyActionCode(code)).pipe(
           map(() => VerifyEmailActions.verifyEmailSuccess()),
-          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error })))
+          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
         )
       )
     )

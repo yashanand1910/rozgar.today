@@ -9,7 +9,6 @@ import * as AuthActions from '../actions';
 import { User } from '@auth/models';
 
 export const authFeatureKey = 'auth';
-export const additionalKey = 'additional';
 
 export interface AdditionalState {
   user: User;
@@ -23,7 +22,7 @@ export interface AuthState {
   [fromForgotPassword.forgotPasswordFeatureKey]: fromForgotPassword.State;
   [fromResetPassword.resetPasswordFeatureKey]: fromResetPassword.State;
   [fromVerifyEmail.verifyEmailFeatureKey]: fromVerifyEmail.State;
-  [additionalKey]: AdditionalState;
+  [fromCore.additionalKey]: AdditionalState;
 }
 
 export interface State extends fromCore.State {
@@ -32,7 +31,7 @@ export interface State extends fromCore.State {
 
 const initialAdditionalState: AdditionalState = {
   user: null,
-  isLoading: false,
+  isLoading: true,
   error: null
 };
 
@@ -41,7 +40,6 @@ export const additionalReducer = createReducer(
   on(AuthActions.getUser, (state) => {
     return {
       ...state,
-      isLoading: true,
       error: null
     };
   }),
@@ -68,7 +66,7 @@ export const additionalReducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      error: action.error.code
+      error: action.error
     };
   }),
   on(AuthActions.logOut, (state) => {
@@ -91,5 +89,5 @@ export const reducers: ActionReducerMap<AuthState> = {
   [fromForgotPassword.forgotPasswordFeatureKey]: fromForgotPassword.reducer,
   [fromResetPassword.resetPasswordFeatureKey]: fromResetPassword.reducer,
   [fromVerifyEmail.verifyEmailFeatureKey]: fromVerifyEmail.reducer,
-  [additionalKey]: additionalReducer
+  [fromCore.additionalKey]: additionalReducer
 };

@@ -7,8 +7,9 @@ import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FirestoreCollection, Profile, StoreUser, User } from '@auth/models';
+import { Profile, StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
+import { Collection } from '@core/models';
 
 @Injectable()
 export class SignupEffects {
@@ -28,15 +29,12 @@ export class SignupEffects {
           }),
           // Update other details
           switchMap((user) => {
-            user = {
-              ...user,
-              phoneNumber: this.getPhoneNumber(context.phoneNumberPrefix, context.phoneNumber)
-            };
+            const { password, confirmPassword, ...safeContext } = context;
             return this.afs
-              .collection<StoreUser>(FirestoreCollection.Users)
+              .collection<StoreUser>(Collection.Users)
               .doc<StoreUser>(user.uid)
               .set({
-                profile: user as Profile
+                profile: { ...user, ...safeContext } as Profile
               })
               .then(() => user);
           }),
@@ -48,7 +46,7 @@ export class SignupEffects {
               AuthActions.getPartialUserSuccess({ user })
             ];
           }),
-          catchError((error) => of(AuthActions.signUpFailiure({ error })))
+          catchError((error) => of(AuthActions.signUpFailiure({ error: error.code })))
         )
       )
     );
@@ -64,7 +62,7 @@ export class SignupEffects {
             this.messageService.info(extract('An email has been sent for verification. Please check your inbox/spam.'));
             return AuthActions.sendVerificationEmailSuccess();
           }),
-          catchError((error) => of(AuthActions.sendVerificationEmailFailiure({ error })))
+          catchError((error) => of(AuthActions.sendVerificationEmailFailiure({ error: error.code })))
         )
       )
     );
@@ -86,7 +84,7 @@ export class SignupEffects {
       .toUpperCase()}${lastName.substring(1)}`;
   }
 
-  getPhoneNumber(prefix: string, number: string) {
-    return `${prefix}${number}`;
+  getPhoneNumber(code: string, number: string) {
+    return `${code}${number}`;
   }
 }

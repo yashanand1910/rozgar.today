@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as AuthActions from '../actions';
-import { catchError, delay, exhaustMap, map, tap, withLatestFrom } from 'rxjs/operators';
+import * as AuthSelectors from '../selectors';
+import { catchError, delay, exhaustMap, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthEffects {
@@ -22,7 +24,7 @@ export class AuthEffects {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
-          .catch((error) => AuthActions.logOutFailiure({ error }));
+          .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
       })
     )
   );
@@ -30,21 +32,32 @@ export class AuthEffects {
   ensureLogOut = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.ensureLogOut),
-      withLatestFrom(this.afa.user),
-      exhaustMap(([, user]) => {
+      switchMap(() => this.afa.user.pipe(take(1))),
+      switchMap((user) => {
         if (user) {
           return this.afa
             .signOut()
             .then(() => {
-              this.messageService.success(extract(`${user.displayName} has been logged out.`));
               return AuthActions.logOutSuccess();
             })
-            .catch((error) => AuthActions.logOutFailiure({ error }));
+            .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
         }
         return EMPTY;
       }),
-      catchError((error) => of(AuthActions.getUserFailiure({ error })))
+      catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
     )
+  );
+
+  logoutSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logOutSuccess),
+        withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
+        tap(([, user]) => {
+          this.messageService.success(extract(`${user.displayName} has been logged out.`));
+        })
+      ),
+    { dispatch: false }
   );
 
   getUser$ = createEffect(() =>
@@ -52,6 +65,7 @@ export class AuthEffects {
       ofType(AuthActions.getUser),
       exhaustMap(() =>
         this.afa.user.pipe(
+          // delay(3000),
           map((user) =>
             AuthActions.getUserSuccess({
               user: user
@@ -66,7 +80,7 @@ export class AuthEffects {
             })
           ),
           catchError((error) => {
-            return of(AuthActions.getUserFailiure({ error }));
+            return of(AuthActions.getUserFailiure({ error: error.code }));
           })
         )
       )
@@ -75,6 +89,7 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store,
     private afa: AngularFireAuth,
     private messageService: NzMessageService,
     private router: Router

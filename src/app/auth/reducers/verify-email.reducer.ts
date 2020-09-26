@@ -39,7 +39,7 @@ export const reducer = createReducer(
     return {
       ...state,
       isVerifying: false,
-      error: action.error.code
+      error: action.error
     };
   }),
   on(VerifyEmailActions.verifyEmail, (state, action) => {
@@ -61,7 +61,7 @@ export const reducer = createReducer(
       ...state,
       isLoading: false,
       success: null,
-      error: action.error.code
+      error: action.error
     };
   })
 );

@@ -20,7 +20,7 @@ export class ResetPasswordEffects {
       exhaustMap(([, code]) =>
         from(this.afa.verifyPasswordResetCode(code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
-          catchError((error) => of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error })))
+          catchError((error) => of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error: error.code })))
         )
       )
     );
@@ -39,7 +39,7 @@ export class ResetPasswordEffects {
             this.router.navigate(['/auth']).then();
             return ResetPasswordActions.resetPasswordSuccess();
           }),
-          catchError((error) => of(ResetPasswordActions.resetPasswordFailiure({ error })))
+          catchError((error) => of(ResetPasswordActions.resetPasswordFailiure({ error: error.code })))
         )
       )
     );

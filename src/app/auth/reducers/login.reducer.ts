@@ -36,7 +36,7 @@ export const reducer = createReducer(
   on(LoginActions.logInFailiure, (state, action) => {
     return {
       ...state,
-      error: action.error.code,
+      error: action.error,
       isLoading: false
     };
   }),

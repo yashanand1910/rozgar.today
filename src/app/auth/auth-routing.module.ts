@@ -9,11 +9,16 @@ import {
   ResetPasswordComponent,
   VerifyEmailComponent
 } from '@app/auth/components';
+import { AuthRedirectResolver } from '@auth/resolvers';
 
 const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    resolve: {
+      // Firestor auth links that contain 'mode' in query params. No need to store this here, it's just for the resolver to run.
+      mode: AuthRedirectResolver
+    },
     children: [
       {
         path: '',

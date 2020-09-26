@@ -1,7 +1,8 @@
 export enum Collection {
   Countries = 'countries',
   Cities = 'cities',
-  Plans = 'plans'
+  Plans = 'plans',
+  Users = 'users'
 }
 
 export interface Reference {

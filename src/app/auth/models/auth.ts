@@ -1,14 +1,16 @@
+import { Profile } from '@auth/models';
+
 export interface SignupContext {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
-  phoneNumberPrefix: string;
+  phoneNumber: Profile['phoneNumber'];
+  phoneCode: Profile['phoneCode'];
   password: string;
   confirmPassword: string;
-  country: string;
-  preferredCities: string[];
-  lastSalary: number;
+  country: Profile['country'];
+  preferredCities: Profile['preferredCities'];
+  lastSalary: Profile['lastSalary'];
 }
 
 export interface LoginContext {

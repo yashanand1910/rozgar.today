@@ -29,9 +29,9 @@ export class CollectionEffects {
                 items
               })
             ),
-            catchError((error: Error) =>
+            catchError((error) =>
               of(
-                CoreActions.loadCollectionFailure({ error: error.message, collection: action.collection }),
+                CoreActions.loadCollectionFailure({ error: error.code, collection: action.collection }),
                 CoreActions.networkError()
               )
             )

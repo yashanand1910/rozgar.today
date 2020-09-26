@@ -1,14 +1,19 @@
-<nz-layout>
+<nz-layout *ngrxLet="isLoading$; let isLoading">
   <app-header
     [menuItemsLeft]="headerMenuItemsLeft"
     [menuItemsRight]="headerMenuItemsRight"
-    [isLoading]="isLoading$ | ngrxPush"
+    [isLoading]="isLoading"
     (menuItemClick)="invokeAction($event.action)"
   ></app-header>
-  <nz-content class="shell-layout" nz-row nzJustify="center">
-    <div class="shell-content" nz-col>
-      <router-outlet></router-outlet>
-    </div>
-  </nz-content>
-  <app-footer></app-footer>
+  <div *ngIf="isLoading" class="loading-container">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+  <ng-container *ngIf="!isLoading">
+    <nz-content class="shell-layout" nz-row nzJustify="center">
+      <div class="shell-content" nz-col>
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <app-footer></app-footer>
+  </ng-container>
 </nz-layout>

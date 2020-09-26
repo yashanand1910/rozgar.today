@@ -12,6 +12,7 @@ import {
   NzIconModule,
   NzLayoutModule,
   NzMenuModule,
+  NzSpinModule,
   NzTypographyModule
 } from 'ng-zorro-antd';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -30,7 +31,8 @@ import { SharedModule } from '@shared';
     NzAlertModule,
     NzTypographyModule,
     ReactiveComponentModule,
-    SharedModule
+    SharedModule,
+    NzSpinModule
   ],
   declarations: [HeaderComponent, ShellComponent]
 })

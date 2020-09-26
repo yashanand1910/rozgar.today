@@ -29,8 +29,8 @@ export class AlertEffects {
                 if (!Object.keys(alerts).length) throw new Error('Failed to load alerts.');
                 return CoreActions.loadAlertsSuccess({ alerts });
               }),
-              catchError((error: Error) =>
-                of(CoreActions.loadAlertsFailiure({ error: error.message }), CoreActions.networkError())
+              catchError((error) =>
+                of(CoreActions.loadAlertsFailiure({ error: error.code }), CoreActions.networkError())
               )
             );
         }

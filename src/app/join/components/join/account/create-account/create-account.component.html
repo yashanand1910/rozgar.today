@@ -6,7 +6,7 @@
 </div>
 <div nzGrid>
   <div nz-row>
-    <div *ngrxLet="constraintsIsLoading$; let constraintIsLoading" [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
+    <div [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
       <ng-container *ngrxLet="alert$; let alert">
         <div *ngFor="let info of alert?.info" nz-row [nzGutter]="[0, 48]">
           <div nz-col nzSpan="24">
@@ -26,7 +26,7 @@
               <nz-form-control>
                 <input
                   autofocus
-                  autocomplete="name"
+                  autocomplete="first-name"
                   formControlName="firstName"
                   id="firstName"
                   nz-input
@@ -73,7 +73,13 @@
                       nzType="info-circle"
                     ></i
                   ></ng-template>
-                  <input autocomplete="mobile" formControlName="phoneNumber" nz-input placeholder="Phone number" />
+                  <input
+                    max="10"
+                    autocomplete="phone"
+                    formControlName="phoneNumber"
+                    nz-input
+                    placeholder="Phone number"
+                  />
                 </nz-input-group>
               </nz-form-control>
             </nz-form-item>
@@ -139,11 +145,11 @@
                   nzAllowClear
                   nzPlaceHolder="Country"
                 >
-                  <ng-container *ngrxLet="_countries | collectionReference; let countries">
+                  <ng-container *ngrxLet="_countries | reference: 'Collection'; let countries">
                     <nz-option
                       *ngFor="let country of countries"
                       [nzLabel]="country.name"
-                      [nzValue]="country.id"
+                      [nzValue]="country.id | createReference: _countries.collection"
                     ></nz-option>
                   </ng-container>
                 </nz-select>
@@ -167,11 +173,15 @@
                 >
                   <ng-container
                     *ngrxLet="
-                      _cities | collectionReference: ['country', 'id']:'==':signupForm.controls['country'].value;
+                      _cities | reference: 'Collection':['country', 'id']:'==':signupForm.controls['country'].value?.id;
                       let cities
                     "
                   >
-                    <nz-option [nzLabel]="city.name" [nzValue]="city.id" *ngFor="let city of cities"></nz-option>
+                    <nz-option
+                      [nzLabel]="city.name"
+                      [nzValue]="city.id | createReference: _cities.collection"
+                      *ngFor="let city of cities"
+                    ></nz-option>
                   </ng-container>
                 </nz-select>
                 <ng-template #tagPlaceHolder let-selectedList> +{{ selectedList.length }}</ng-template>
@@ -180,7 +190,7 @@
           </div>
           <div [nzMd]="9" [nzXs]="24" nz-col>
             <nz-form-item>
-              <nz-form-control nzExtra="Please enter 0 if you're a fresher">
+              <nz-form-control nzExtra="Salary in Lakhs per Annum. Please enter 0 if you're a fresher">
                 <nz-input-group nzSize="large" nzPrefix="₹" nzSuffix="LPA">
                   <input
                     min="0"
@@ -210,11 +220,11 @@
         <div nz-row>
           <div [nzSpan]="24" class="form-footer-container" nz-col>
             <div nz-row>
-              <div [nzSpan]="9" nz-col>Already have an account? <a routerLink="/auth">Login</a></div>
+              <div [nzSpan]="9" nz-col>Already have an account? <a (click)="goToLogin()">Login</a></div>
               <div [nzSpan]="15" nz-col>
                 <button (click)="back()" nz-button nzType="link" type="button">Change Plan</button>
                 <button
-                  [disabled]="!signupForm.valid || constraintIsLoading"
+                  [disabled]="!signupForm.valid"
                   [nzLoading]="isLoading$ | ngrxPush"
                   nz-button
                   nzSize="large"

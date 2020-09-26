@@ -11,9 +11,19 @@ import { AuthModule } from '@auth';
 import { JoinModule } from '@app/join';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CommonModule } from '@angular/common';
+import { NzSpinModule } from 'ng-zorro-antd';
 
 @NgModule({
-  imports: [CoreModule, ShellModule, JoinModule, AuthModule, AppRoutingModule, ReactiveComponentModule, CommonModule],
+  imports: [
+    CoreModule,
+    ShellModule,
+    JoinModule,
+    AuthModule,
+    AppRoutingModule,
+    ReactiveComponentModule,
+    CommonModule,
+    NzSpinModule
+  ],
   declarations: [AppComponent],
   providers: [Keyboard, StatusBar, SplashScreen],
   bootstrap: [AppComponent]

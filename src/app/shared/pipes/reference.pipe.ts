@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { firestore } from 'firebase/app';
 
 @Pipe({
-  name: 'collectionReference'
+  name: 'reference'
 })
 export class ReferencePipe implements PipeTransform {
   static pathFromReference(reference: Reference): string {
@@ -16,18 +16,22 @@ export class ReferencePipe implements PipeTransform {
 
   transform(
     reference: Reference,
+    type: 'Collection' | 'Item',
     fieldPath?: string[],
     operator?: firestore.WhereFilterOp,
     value?: any
   ): Observable<CollectionItem<any>[]> {
-    if (fieldPath) {
-      return this.afs
-        .collection<CollectionItem<any>>(reference.collection, (ref) =>
-          ref.where(new firestore.FieldPath(...fieldPath), operator, value)
-        )
-        .valueChanges({ idField: 'id' });
-    } else {
-      return this.afs.collection<CollectionItem<any>>(reference.collection).valueChanges({ idField: 'id' });
+    switch (type) {
+      case 'Collection':
+        if (fieldPath) {
+          return this.afs
+            .collection<CollectionItem<any>>(reference.collection, (ref) =>
+              ref.where(new firestore.FieldPath(...fieldPath), operator, value)
+            )
+            .valueChanges({ idField: 'id' });
+        } else {
+          return this.afs.collection<CollectionItem<any>>(reference.collection).valueChanges({ idField: 'id' });
+        }
     }
   }
 }

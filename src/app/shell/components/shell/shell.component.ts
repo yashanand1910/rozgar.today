@@ -38,7 +38,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   invokeAction(action: MenuItem['action']) {
-    action.call(this);
+    action?.call(this);
   }
 
   private logout() {

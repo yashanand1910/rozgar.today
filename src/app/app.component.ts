@@ -13,6 +13,7 @@ import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
 import { untilDestroyed } from '@core/utils';
 import { en_US, NzI18nService } from 'ng-zorro-antd';
+import * as AuthSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
 import * as CoreActions from '@core/actions';
 import { Store } from '@ngrx/store';
@@ -26,7 +27,10 @@ const log = new Logger('App');
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  coreError$: Observable<string>;
+  error$: Observable<string>;
+  isLoading$: Observable<boolean>;
+
+  // For the nz library
   private nzI18nLanguageMap = {
     'en-US': en_US
   };
@@ -51,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
       Logger.enableProductionMode();
     }
 
-    log.debug('Init');
+    log.debug('App Init');
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
@@ -81,6 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
           );
         }
       });
+
     // Cordova platform and plugins initialization
     document.addEventListener(
       'deviceready',
@@ -90,10 +95,13 @@ export class AppComponent implements OnInit, OnDestroy {
       false
     );
 
-    this.store.dispatch(AuthActions.getUser());
-    this.store.dispatch(CoreActions.loadAlerts());
-    this.store.dispatch(CoreActions.loadConstraints());
-    this.coreError$ = this.store.select(CoreSelectors.selectError);
+    // Initialize core
+    this.store.dispatch(CoreActions.initialize());
+
+    // Restrict everything if core stuff load fails
+    this.error$ = this.store.select(CoreSelectors.selectError);
+    // Show loading until user is loaded onto store
+    this.isLoading$ = this.store.select(CoreSelectors.selectIsLoading);
   }
 
   ngOnDestroy() {

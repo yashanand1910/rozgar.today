@@ -6,6 +6,7 @@ import { Plan } from '@app/join/models';
 import * as CoreActions from '@core/actions';
 import * as CoreSelectors from '@core/selectors';
 import * as JoinActions from '@app/join/actions';
+import * as JoinSelectors from '@app/join/selectors';
 import { Collection, CollectionItem } from '@core/models';
 
 @Component({
@@ -14,9 +15,10 @@ import { Collection, CollectionItem } from '@core/models';
   styleUrls: ['./plans.component.less', '../join.component.less']
 })
 export class PlansComponent implements OnInit, OnDestroy {
-  selectedPlanId$: Observable<CollectionItem<Plan>['id']>;
+  selectedPlanId$: Observable<string>;
   plans$: Observable<CollectionItem<Plan>[]>;
   isLoading$: Observable<boolean>;
+  joinIsProcessing$: Observable<boolean>;
 
   constructor(private router: Router, private store: Store) {}
 
@@ -24,7 +26,8 @@ export class PlansComponent implements OnInit, OnDestroy {
     this.store.dispatch(CoreActions.loadCollection({ collection: Collection.Plans }));
     this.isLoading$ = this.store.select(CoreSelectors.selectCollectionIsLoading<Plan>(Collection.Plans));
     this.plans$ = this.store.select(CoreSelectors.entitySelectors<Plan>(Collection.Plans).selectAll);
-    this.selectedPlanId$ = this.store.select(CoreSelectors.selectCollectionSelectedId<Plan>(Collection.Plans));
+    this.selectedPlanId$ = this.store.select(JoinSelectors.selectSelectedPlanId);
+    this.joinIsProcessing$ = this.store.select(JoinSelectors.selectJoinIsProcessing);
   }
 
   ngOnDestroy() {
@@ -36,6 +39,6 @@ export class PlansComponent implements OnInit, OnDestroy {
   }
 
   selectPlan(id: string) {
-    this.store.dispatch(CoreActions.selectCollectionItem({ collection: Collection.Plans, id }));
+    this.store.dispatch(JoinActions.setSelectedPlan({ id }));
   }
 }

@@ -1,2 +1,9 @@
-<div *ngIf="coreError$ | ngrxPush" class="error-lock"></div>
-<router-outlet></router-outlet>
+<div *ngIf="error$ | ngrxPush" class="error-lock"></div>
+<ng-container *ngrxLet="isLoading$; let isLoading">
+  <div *ngIf="isLoading" class="loading-container">
+    <nz-spin nzSize="large"></nz-spin>
+  </div>
+  <div *ngIf="!isLoading" class="app-container">
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>

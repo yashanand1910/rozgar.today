@@ -56,6 +56,7 @@ export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State
   return (state, action) => {
     const newState = reducer(state, action);
     log.debug(action.type, {
+      // TODO fix payload always undefined
       payload: (action as any).payload,
       oldState: state,
       newState

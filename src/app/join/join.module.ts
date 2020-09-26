@@ -33,6 +33,7 @@ import { PlanComponent, AccountComponent, CreateAccountComponent, VerifyComponen
 import { ReactiveComponentModule } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared';
+import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from '@app/join/guards';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { SharedModule } from '@shared';
     NzNoAnimationModule,
     NzCheckboxModule,
     SharedModule
-  ]
+  ],
+  providers: [EnsurePlanSelectedGuard, EnsureFirestoreStateLoadedGuard]
 })
 export class JoinModule {}

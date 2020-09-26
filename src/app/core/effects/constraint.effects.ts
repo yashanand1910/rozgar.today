@@ -30,8 +30,8 @@ export class ConstraintEffects {
                 if (!Object.keys(constraints).length) throw new Error(`Failed to load constraints.`);
                 return CoreActions.loadConstraintsSuccess({ constraints });
               }),
-              catchError((error: Error) =>
-                of(CoreActions.loadConstraintsFailure({ error: error.message }), CoreActions.networkError())
+              catchError((error) =>
+                of(CoreActions.loadConstraintsFailure({ error: error.code }), CoreActions.networkError())
               )
             );
         }

@@ -33,7 +33,7 @@
   <button
     (click)="next()"
     [disabled]="(selectedPlanId$ | ngrxPush) === null"
-    [nzLoading]=""
+    [nzLoading]="joinIsProcessing$ | ngrxPush"
     nz-button
     nzSize="large"
     nzType="primary"

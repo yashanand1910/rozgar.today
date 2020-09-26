@@ -1,33 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import * as LoginActions from '../actions/login.actions';
-import { exhaustMap, map } from 'rxjs/operators';
+import * as CoreSelectors from '@core/selectors';
+import * as AuthActions from '../actions';
+import { catchError, exhaustMap, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import * as firebase from 'firebase/app';
 import { extract } from '@i18n/services';
+import { Store } from '@ngrx/store';
+import { QueryParamKey } from '@core/models';
+import { from, of } from 'rxjs';
 
 @Injectable()
 export class LoginEffects {
   logIn$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LoginActions.logIn),
+      ofType(AuthActions.logIn),
       map((action) => action.context),
-      exhaustMap((context) => {
-        return Promise.all([
-          this.afa.setPersistence(
+      withLatestFrom(this.store.select(CoreSelectors.selectQueryParam(QueryParamKey.Redirect))),
+      exhaustMap(([context, redirectUrl]) => {
+        this.afa
+          .setPersistence(
             context.remember ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION
-          ),
-          this.afa.signInWithEmailAndPassword(context.email, context.password)
-        ])
-          .then(([, userCredential]) => {
-            this.messageService.success(extract(`${userCredential.user.displayName} logged in.`));
-            this.router.navigate(['']).then();
-            return LoginActions.logInSuccess();
-          })
-          .catch((error) => LoginActions.logInFailiure({ error }));
+          )
+          .then();
+        return from(this.afa.signInWithEmailAndPassword(context.email, context.password)).pipe(
+          switchMap(() => this.actions$.pipe(ofType(AuthActions.getUserSuccess), take(1))),
+          map((action) => {
+            this.messageService.success(extract(`${action.user.displayName} logged in.`));
+            this.router.navigate([redirectUrl ? redirectUrl : '']).then();
+            return AuthActions.logInSuccess();
+          }),
+          catchError((error) => of(AuthActions.logInFailiure({ error: error.code })))
+        );
       })
     );
   });
@@ -36,6 +42,7 @@ export class LoginEffects {
     private actions$: Actions,
     private afa: AngularFireAuth,
     private router: Router,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
+    private store: Store
   ) {}
 }

@@ -12,12 +12,14 @@ import { Step } from '@app/join/models';
 export class JoinComponent implements OnInit, OnDestroy {
   currentStepNumber$: Observable<number>;
   steps$: Observable<Step[]>;
+  isLoading$: Observable<boolean>;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.currentStepNumber$ = this.store.select(JoinSelectors.selectJoinCurrentStepNumber);
     this.steps$ = this.store.select(JoinSelectors.selectJoinSteps);
+    this.isLoading$ = this.store.select(JoinSelectors.selectJoinIsLoading);
   }
 
   ngOnDestroy() {}

@@ -39,7 +39,7 @@ export const reducer = createReducer(
   on(ResetPasswordActions.verifyResetPasswordCodeFailiure, (state, action) => {
     return {
       ...state,
-      error: action.error.code,
+      error: action.error,
       isVerifying: false
     };
   }),
@@ -60,7 +60,7 @@ export const reducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      error: action.error.code
+      error: action.error
     };
   })
 );

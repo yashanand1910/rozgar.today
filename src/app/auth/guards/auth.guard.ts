@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import * as AuthSelectors from '@auth/selectors';
+import { map } from 'rxjs/operators';
+import { QueryParamKey } from '@core/models';
+import { NzMessageService } from 'ng-zorro-antd';
+import { extract } from '@i18n/services';
+import { Logger } from '@core/services';
+
+const log = new Logger('AuthGuard');
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(private store: Store, private router: Router, private messageService: NzMessageService) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.store.pipe(
+      select(AuthSelectors.selectAuthUser),
+      map((user) => {
+        if (user) {
+          return true;
+        } else {
+          const urlTree = this.router.parseUrl('/auth');
+          urlTree.queryParams = { [QueryParamKey.Redirect]: state.url };
+          log.debug('User not authenticated, redirecting after login...');
+          this.messageService.info(extract('Please login first.'));
+          return urlTree;
+        }
+      })
+    );
+  }
+}
