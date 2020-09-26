@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as AuthActions from '@auth/actions';
+import * as JoinActions from '@app/join/actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -43,7 +44,8 @@ export class SignupEffects {
             return [
               AuthActions.signUpSuccess(),
               AuthActions.sendVerificationEmail(),
-              AuthActions.getPartialUserSuccess({ user })
+              AuthActions.getPartialUserSuccess({ user }),
+              JoinActions.setJoinFirestoreState()
             ];
           }),
           catchError((error) => of(AuthActions.signUpFailiure({ error: error.code })))
