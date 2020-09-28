@@ -11,7 +11,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable()
 export class VerifyEmailEffects {
-  verifyEmailCode = createEffect(() =>
+  verifyEmailCode$ = createEffect(() =>
     this.actions$.pipe(
       ofType(VerifyEmailActions.verifyEmailCode),
       withLatestFrom(this.store.select(CoreSelectors.selectQueryParam('oobCode'))),
@@ -28,7 +28,7 @@ export class VerifyEmailEffects {
     )
   );
 
-  verifyEmail = createEffect(() =>
+  verifyEmail$ = createEffect(() =>
     this.actions$.pipe(
       ofType(VerifyEmailActions.verifyEmail),
       map((action) => action.code),

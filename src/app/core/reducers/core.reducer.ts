@@ -9,6 +9,7 @@ import * as CoreActions from '../actions';
 import { Collection } from '@core/models';
 import { InjectionToken } from '@angular/core';
 
+// Every feature state will also have an 'additional' state for storing state for containers
 export const additionalKey = 'additional';
 
 export interface State {

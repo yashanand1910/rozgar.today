@@ -32,8 +32,7 @@ import {
 import { AuthComponent, ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent } from '@auth/components';
 import { SharedModule } from '@shared';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { AuthRedirectResolver } from '@auth/resolvers';
-import { AuthGuard } from '@auth/guards';
+import { AuthGuard, EnsureAuthStateInitializedGuard } from '@auth/guards';
 
 @NgModule({
   imports: [
@@ -65,7 +64,6 @@ import { AuthGuard } from '@auth/guards';
     NzTypographyModule,
     NzResultModule
   ],
-  declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent],
-  providers: [AuthRedirectResolver, AuthGuard]
+  declarations: [LoginComponent, AuthComponent, ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent]
 })
 export class AuthModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, exhaustMap, withLatestFrom, take } from 'rxjs/operators';
+import { catchError, map, exhaustMap, withLatestFrom, take, first } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
@@ -25,7 +25,7 @@ export class ConstraintEffects {
             .doc<Constraints>(CoreConfig.Constraints)
             .valueChanges()
             .pipe(
-              take(1),
+              first(),
               map((constraints) => {
                 if (!Object.keys(constraints).length) throw new Error(`Failed to load constraints.`);
                 return CoreActions.loadConstraintsSuccess({ constraints });

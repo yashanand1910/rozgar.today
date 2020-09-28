@@ -4,7 +4,8 @@ import { Shell } from '@shell/services';
 import { JoinComponent, PaymentComponent, PlansComponent, AccountComponent } from './components';
 import { extract } from '@i18n/services';
 import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from './guards';
-import { AuthGuard } from '@auth/guards';
+import { AuthGuard, EnsureAccountVerifiedGuard } from '@auth/guards';
+import { StepPath } from '@app/join/models';
 
 const routes: Routes = [
   Shell.childRoutes([
@@ -19,26 +20,21 @@ const routes: Routes = [
       component: JoinComponent,
       children: [
         {
-          path: '',
-          redirectTo: 'plan',
-          pathMatch: 'full'
-        },
-        {
-          path: 'plan',
+          path: StepPath.Plan,
           component: PlansComponent,
           data: { title: extract('Plan') }
         },
         {
-          path: 'account',
+          path: StepPath.Account,
           component: AccountComponent,
           data: { title: extract('Account') },
           canActivate: [EnsurePlanSelectedGuard]
         },
         {
-          path: 'payment',
+          path: StepPath.Payment,
           component: PaymentComponent,
           data: { title: extract('Payment') },
-          canActivate: [AuthGuard, EnsurePlanSelectedGuard]
+          canActivate: [AuthGuard, EnsurePlanSelectedGuard, EnsureAccountVerifiedGuard]
         }
       ]
     }

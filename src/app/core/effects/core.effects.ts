@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, tap } from 'rxjs/operators';
+import { exhaustMap, map, observeOn, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as CoreActions from '@core/actions';
 import * as AuthActions from '@auth/actions';
 import { extract } from '@i18n/services';
 import { NzMessageRef, NzMessageService } from 'ng-zorro-antd';
+import { animationFrameScheduler, asapScheduler, asyncScheduler, queueScheduler } from 'rxjs';
 
 @Injectable()
 export class CoreEffects {
@@ -34,8 +35,46 @@ export class CoreEffects {
     { dispatch: false }
   );
 
+  showLoadingMessage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CoreActions.showLoadingMessage),
+        tap(() => {
+          if (!this.loadingMessage) {
+            this.loadingMessage = this.messageService.loading(extract('Please wait...'), {
+              nzDuration: this.loadingMessageDuration
+            });
+          }
+          this.loadingMessageCount++;
+          console.warn(this.loadingMessageCount);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  clearLoadingMessage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        observeOn(asyncScheduler),
+        ofType(CoreActions.clearLoadingMessage),
+        tap(() => {
+          if (this.loadingMessageCount) {
+            if (this.loadingMessageCount === 1) {
+              this.messageService.remove(this.loadingMessage.messageId);
+            }
+            this.loadingMessageCount--;
+            console.warn(this.loadingMessageCount);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
   private errorMessageDuration = 9999999;
   private networkError: NzMessageRef;
+  private loadingMessageDuration = 9999999;
+  private loadingMessage: NzMessageRef;
+  private loadingMessageCount = 0;
 
   constructor(private actions$: Actions, private router: Router, private messageService: NzMessageService) {}
 }

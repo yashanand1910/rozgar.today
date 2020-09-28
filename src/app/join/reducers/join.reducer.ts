@@ -1,7 +1,8 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import * as fromCore from '@core/reducers';
 import * as JoinActions from '../actions';
-import { Step } from '@app/join/models';
+import { Step, StepPath } from '@app/join/models';
+import { extract } from '@i18n/services';
 
 export const joinFeatureKey = 'join';
 
@@ -41,23 +42,23 @@ export class AdditionalFirestoreState {
 const initialAdditionalState: AdditionalState = {
   steps: [
     {
-      title: 'Plan',
-      path: 'plan',
+      title: extract('Plan'),
+      path: StepPath.Plan,
       icon: 'file-protect'
     },
     {
-      title: 'Account',
-      path: 'account',
+      title: extract('Account'),
+      path: StepPath.Account,
       icon: 'form'
     },
     {
-      title: 'Payment',
-      path: 'payment',
+      title: extract('Payment'),
+      path: StepPath.Payment,
       icon: 'credit-card'
     },
     {
-      title: 'Resume',
-      path: '',
+      title: extract('Resume'),
+      path: StepPath.Resume,
       icon: 'check-square'
     }
   ],

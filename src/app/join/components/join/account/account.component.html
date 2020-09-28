@@ -1,13 +1,6 @@
-<ng-container *ngrxLet="isLoading$; let isLoading">
-  <div *ngIf="isLoading; else content" class="loading-container">
-    <nz-spin nzSize="large"></nz-spin>
-  </div>
-  <ng-template #content>
-    <ng-container *ngrxLet="user$; let user">
-      <ng-container *ngrxLet="signupIsLoading$; let signupIsLoading">
-        <app-verify *ngIf="user && !signupIsLoading"></app-verify>
-        <app-create-account *ngIf="!user || signupIsLoading"></app-create-account>
-      </ng-container>
-    </ng-container>
-  </ng-template>
+<ng-container *ngrxLet="user$; let user">
+  <ng-container *ngrxLet="signupIsLoading$; let signupIsLoading">
+    <app-verify *ngIf="user && !signupIsLoading"></app-verify>
+    <app-create-account *ngIf="!user || signupIsLoading"></app-create-account>
+  </ng-container>
 </ng-container>

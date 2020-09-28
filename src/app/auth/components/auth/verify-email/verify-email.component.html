@@ -1,6 +1,6 @@
 <ng-container>
   <div *ngIf="(isVerifying$ | ngrxPush) || (isLoading$ | ngrxPush)" class="loading-container">
-    <nz-spin nzSize="large"></nz-spin>
+    <nz-spin nzSize="default"></nz-spin>
   </div>
   <div *ngIf="success$ | ngrxPush as success">
     <nz-result [nzTitle]="successitle" nzStatus="success" [nzSubTitle]="successSubtitle"></nz-result>

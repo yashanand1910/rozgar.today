@@ -11,7 +11,9 @@ import { Logger } from '@core/services';
 
 const log = new Logger('AuthGuard');
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
   constructor(private store: Store, private router: Router, private messageService: NzMessageService) {}
 
@@ -26,9 +28,9 @@ export class AuthGuard implements CanActivate {
           return true;
         } else {
           const urlTree = this.router.parseUrl('/auth');
-          urlTree.queryParams = { [QueryParamKey.Redirect]: state.url };
-          log.debug('User not authenticated, redirecting after login...');
-          this.messageService.info(extract('Please login first.'));
+          urlTree.queryParams = { [QueryParamKey.ReturnUrl]: state.url };
+          log.debug('User not authenticated, navigating to login...');
+          this.messageService.info(extract('You need to login first.'));
           return urlTree;
         }
       })

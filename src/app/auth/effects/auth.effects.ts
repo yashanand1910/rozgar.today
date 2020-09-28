@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AngularFireAuth } from '@angular/fire/auth';
+import * as fromRouter from '@ngrx/router-store';
 import * as AuthActions from '../actions';
 import * as AuthSelectors from '../selectors';
-import { catchError, delay, exhaustMap, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, delay, exhaustMap, filter, map, switchMap, first, tap, withLatestFrom } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { QueryParamKey } from '@core/models';
 
 @Injectable()
 export class AuthEffects {
   logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logOut),
-      tap(() => this.messageService.loading(extract('Logging out...'), { nzDuration: 2000 })),
+      tap(() => this.messageService.loading(extract('Logging out...'), { nzDuration: 1500 })),
       delay(2000),
       exhaustMap(() => {
         return this.afa
@@ -29,10 +31,10 @@ export class AuthEffects {
     )
   );
 
-  ensureLogOut = createEffect(() =>
+  ensureLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.ensureLogOut),
-      switchMap(() => this.afa.user.pipe(take(1))),
+      exhaustMap(() => this.afa.user.pipe(first())),
       switchMap((user) => {
         if (user) {
           return this.afa
@@ -48,7 +50,7 @@ export class AuthEffects {
     )
   );
 
-  logoutSuccess = createEffect(
+  logoutSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logOutSuccess),
@@ -65,7 +67,6 @@ export class AuthEffects {
       ofType(AuthActions.getUser),
       exhaustMap(() =>
         this.afa.user.pipe(
-          // delay(3000),
           map((user) =>
             AuthActions.getUserSuccess({
               user: user
@@ -85,6 +86,30 @@ export class AuthEffects {
         )
       )
     )
+  );
+
+  redirectAuthAction$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(fromRouter.routerNavigatedAction),
+        filter(
+          (action) =>
+            action.payload.routerState.root.firstChild.routeConfig.path === 'auth' &&
+            action.payload.routerState.root.queryParams.mode
+        ),
+        map((action) => action.payload.routerState.root.queryParams[QueryParamKey.AuthActionMode]),
+        map((mode) => {
+          switch (mode) {
+            case 'resetPassword':
+              this.router.navigate(['/auth/reset-password'], { queryParamsHandling: 'preserve' }).then();
+              break;
+            case 'verifyEmail':
+              this.router.navigate(['/auth/verify-email'], { queryParamsHandling: 'preserve' }).then();
+              break;
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
   constructor(

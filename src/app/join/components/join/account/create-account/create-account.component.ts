@@ -74,7 +74,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   }
 
   goToLogin() {
-    this.router.navigate(['/auth'], { queryParams: { [QueryParamKey.Redirect]: this.router.url } }).then();
+    this.router.navigate(['/auth'], { queryParams: { [QueryParamKey.ReturnUrl]: this.router.url } }).then();
   }
 
   private createForm() {

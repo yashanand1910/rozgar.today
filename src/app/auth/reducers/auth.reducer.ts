@@ -13,6 +13,8 @@ export const authFeatureKey = 'auth';
 export interface AdditionalState {
   user: User;
   isLoading: boolean;
+  // To indicate whether this state is updated with the Firebase user state
+  isInitialized: boolean;
   error: string;
 }
 
@@ -32,6 +34,7 @@ export interface State extends fromCore.State {
 const initialAdditionalState: AdditionalState = {
   user: null,
   isLoading: true,
+  isInitialized: false,
   error: null
 };
 
@@ -47,6 +50,7 @@ export const additionalReducer = createReducer(
     return {
       ...state,
       isLoading: false,
+      isInitialized: true,
       user: action.user,
       error: null
     };

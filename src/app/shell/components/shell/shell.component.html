@@ -6,7 +6,7 @@
     (menuItemClick)="invokeAction($event.action)"
   ></app-header>
   <div *ngIf="isLoading" class="loading-container">
-    <nz-spin nzSize="large"></nz-spin>
+    <nz-spin nzSimple nzSize="large"></nz-spin>
   </div>
   <ng-container *ngIf="!isLoading">
     <nz-content class="shell-layout" nz-row nzJustify="center">

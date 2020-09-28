@@ -18,18 +18,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { autoTips } from '@shared/validators';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
-
-const ngZorroConfig: NzConfig = {
-  form: {
-    nzAutoTips: autoTips
-  },
-  message: {
-    nzDuration: 4000
-  }
-};
+import { ngZorroConfig } from '@core/nz-global.config';
 
 @NgModule({
   imports: [

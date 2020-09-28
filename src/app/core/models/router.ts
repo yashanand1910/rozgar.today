@@ -1,3 +1,4 @@
 export enum QueryParamKey {
-  Redirect = 'redirectUrl'
+  ReturnUrl = 'returnUrl',
+  AuthActionMode = 'mode'
 }
