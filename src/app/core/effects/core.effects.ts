@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import * as CoreActions from '@core/actions';
 import * as AuthActions from '@auth/actions';
 import { extract } from '@i18n/services';
-import { NzMessageRef, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message';
 import { animationFrameScheduler, asapScheduler, asyncScheduler, queueScheduler } from 'rxjs';
 
 @Injectable()

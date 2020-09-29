@@ -7,7 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
 

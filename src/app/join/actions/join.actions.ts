@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { JoinFirestoreState } from '@app/join/reducers';
 
-export const nextJoinStep = createAction('[Join] Next Step');
+export const nextJoinStep = createAction('[Join] Next Step', props<{ setFirestoreState: boolean }>());
 
 export const previousJoinStep = createAction('[Join] Previous Step');
 

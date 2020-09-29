@@ -2,7 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
-import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
+import { NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { environment } from '@env/environment';
 import { RouteReusableStrategy } from '@core/utils';
 import { ErrorHandlerInterceptor } from '@core/http';

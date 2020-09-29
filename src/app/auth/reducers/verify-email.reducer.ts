@@ -52,7 +52,7 @@ export const reducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      success: extract('Email successfully verified. You may close this window.'),
+      success: extract('Account successfully verified. You may close this window.'),
       error: null
     };
   }),

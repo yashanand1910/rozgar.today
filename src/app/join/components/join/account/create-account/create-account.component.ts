@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import * as CoreSelectors from '@core/selectors';
 import { CustomValidators } from '@shared/validators';
 import { untilDestroyed } from '@core/utils';
@@ -9,14 +9,14 @@ import * as SignupSelectors from '@auth/selectors';
 import * as JoinActions from '@app/join/actions';
 import * as AuthActions from '@auth/actions';
 import { Alert, Collection, QueryParamKey, Reference } from '@core/models';
-import { ActivatedRoute, Router } from '@angular/router';
+import { StepComponent } from '../../step.component';
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
   styleUrls: ['./create-account.component.less', '../../join.component.less']
 })
-export class CreateAccountComponent implements OnInit, OnDestroy {
+export class CreateAccountComponent extends StepComponent implements OnInit, OnDestroy {
   passwordVisible: boolean;
   signupForm!: FormGroup;
   error$: Observable<string>;
@@ -27,11 +27,10 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   _cities: Reference = {
     collection: Collection.Cities
   };
-  alert$: Observable<Alert>;
-
-  constructor(private store: Store, private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.createForm();
     this.signupForm.controls.password.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       this.signupForm.controls.confirmPassword.updateValueAndValidity();
@@ -39,7 +38,6 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
     this.error$ = this.store.select(SignupSelectors.selectSignupError);
     this.isLoading$ = this.store.select(SignupSelectors.selectSignupIsLoading);
-    this.alert$ = this.store.select(CoreSelectors.selectAlert, { component: 'createAccount' });
     this.store
       .pipe(select(CoreSelectors.selectConstraint, { name: 'lastSalary' }), untilDestroyed(this))
       .subscribe((constraint) => {
@@ -53,10 +51,6 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
-
-  back() {
-    this.store.dispatch(JoinActions.previousJoinStep());
-  }
 
   clearError() {
     this.store.dispatch(AuthActions.clearSignupError());

@@ -6,6 +6,6 @@ export const ngZorroConfig: NzConfig = {
     nzAutoTips: autoTips
   },
   message: {
-    nzDuration: 3000
+    nzDuration: 3500
   }
 };

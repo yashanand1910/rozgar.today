@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { extract } from '@app/i18n/services';
 import {
-  AuthComponent,
   ForgotPasswordComponent,
   LoginComponent,
   ResetPasswordComponent,
   VerifyEmailComponent
-} from '@app/auth/components';
+} from '@app/auth/components/auth';
+import { AuthComponent } from '@auth/components';
 
 const routes: Routes = [
   {

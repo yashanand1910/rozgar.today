@@ -1,0 +1,29 @@
+<ng-container *ngrxLet="emailVerified$; let emailVerified">
+  <nz-result
+    *ngIf="!emailVerified"
+    nzStatus="warning"
+    [nzTitle]="'Verification Pending' | translate"
+    [nzSubTitle]="'A verification email has been sent. Please check your inbox/spam folder.' | translate"
+  >
+    <div nz-result-extra *ngrxLet="secondsLeft$; let secondsLeft">
+      <button (click)="changePlan()" nz-button nzType="link" type="button">Change Plan</button>
+      <button (click)="sendVerificationEmail()" [disabled]="!!secondsLeft" nz-button nzType="default">
+        Resend Email&nbsp;<span *ngIf="!!secondsLeft">({{ secondsLeft }}s)</span>
+      </button>
+    </div>
+  </nz-result>
+  <nz-result
+    *ngIf="emailVerified"
+    nzStatus="success"
+    [nzTitle]="'Account Verified' | translate"
+    [nzSubTitle]="'Your account is verified. You can proceed.' | translate"
+  >
+    <nz-alert nzType="error" nzDescription="Something"></nz-alert>
+    <div nz-result-extra *ngrxLet="secondsLeft$; let secondsLeft">
+      <button (click)="changePlan()" nz-button nzType="link" type="button">Change Plan</button>
+      <button (click)="next(false)" nz-button nzType="primary" translate>
+        Next <i nz-icon nzTheme="outline" nzType="caret-right"></i>
+      </button>
+    </div>
+  </nz-result>
+</ng-container>

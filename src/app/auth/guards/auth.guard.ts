@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
 import { map } from 'rxjs/operators';
 import { QueryParamKey } from '@core/models';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Logger } from '@core/services';
 

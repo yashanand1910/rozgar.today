@@ -1,8 +1,9 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rulesDirectory": ["codelyzer", "tslint-plugin-prettier"],
+  "rulesDirectory": ["codelyzer", "tslint-plugin-prettier", "nz-tslint-rules"],
   "rules": {
     "prettier": [true, ".prettierrc"],
+    "nz-secondary-entry-imports": true,
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {

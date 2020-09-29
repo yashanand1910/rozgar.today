@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CoreSelectors from '@core/selectors/core.selector';
-
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-
 import * as VerifyEmailActions from '../actions/verify-email.actions';
 import { Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/auth';

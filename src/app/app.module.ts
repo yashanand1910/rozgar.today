@@ -11,7 +11,7 @@ import { AuthModule } from '@auth';
 import { JoinModule } from '@app/join';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { CommonModule } from '@angular/common';
-import { NzSpinModule } from 'ng-zorro-antd';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   imports: [

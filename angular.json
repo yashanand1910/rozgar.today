@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rozgar.today": {
+    "rozgar-today": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,12 +18,10 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "@angularclass/hmr",
               "@ant-design/colors",
               "firebase/app",
-              "@firebase/firestore",
-              "@firebase/app",
-              "@firebase/auth"
+              "@firebase/auth",
+              "@angular/fire/firestore"
             ],
             "outputPath": "www",
             "index": "src/index.html",
@@ -110,13 +108,17 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rozgar.today:build",
+            "browserTarget": "rozgar-today:build",
             "hmr": true,
             "hmrWarning": false
           },
           "configurations": {
+            "beta": {
+              "browserTarget": "rozgar-today:build:beta",
+              "hmr": false
+            },
             "production": {
-              "browserTarget": "rozgar.today:build:production",
+              "browserTarget": "rozgar-today:build:production",
               "hmr": false
             }
           }
@@ -124,7 +126,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rozgar.today:build"
+            "browserTarget": "rozgar-today:build"
           }
         },
         "test": {
@@ -152,11 +154,14 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "rozgar.today:serve"
+            "devServerTarget": "rozgar-today:serve"
           },
           "configurations": {
+            "beta": {
+              "devServerTarget": "rozgar-today:serve:beta"
+            },
             "production": {
-              "devServerTarget": "rozgar.today:serve:production"
+              "devServerTarget": "rozgar-today:serve:production"
             }
           }
         },
@@ -167,5 +172,5 @@
       }
     }
   },
-  "defaultProject": "rozgar.today"
+  "defaultProject": "rozgar-today"
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
 import { first, map } from 'rxjs/operators';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Logger } from '@core/services';
 import { extract } from '@i18n/services';
 import { StepPath } from '@app/join/models';

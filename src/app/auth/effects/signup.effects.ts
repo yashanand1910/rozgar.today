@@ -6,11 +6,12 @@ import * as JoinActions from '@app/join/actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Profile, StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class SignupEffects {
@@ -61,10 +62,13 @@ export class SignupEffects {
       exhaustMap(([, user]) =>
         from(user.sendEmailVerification()).pipe(
           map(() => {
-            this.messageService.info(extract('An email has been sent for verification. Please check your inbox/spam.'));
+            this.messageService.info(extract('A verification email has been sent.'));
             return AuthActions.sendVerificationEmailSuccess();
           }),
-          catchError((error) => of(AuthActions.sendVerificationEmailFailiure({ error: error.code })))
+          catchError((error) => {
+            this.messageService.error(this.translationService.instant(error.code));
+            return of(AuthActions.sendVerificationEmailFailiure({ error: error.code }));
+          })
         )
       )
     );
@@ -75,7 +79,8 @@ export class SignupEffects {
     private afa: AngularFireAuth,
     private afs: AngularFirestore,
     private store: Store,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
+    private translationService: TranslateService
   ) {}
 
   getDisplayName(firstName: string, lastName: string) {

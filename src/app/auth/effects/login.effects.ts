@@ -5,7 +5,7 @@ import * as AuthActions from '../actions';
 import { catchError, exhaustMap, map, switchMap, first, withLatestFrom } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import * as firebase from 'firebase/app';
 import { extract } from '@i18n/services';
 import { Store } from '@ngrx/store';
@@ -29,7 +29,11 @@ export class LoginEffects {
           switchMap(() => this.actions$.pipe(ofType(AuthActions.getUserSuccess), first())),
           map((action) => {
             this.messageService.success(extract(`${action.user.displayName} logged in.`));
-            this.router.navigate([url ? url : ''], { replaceUrl: true }).then();
+            if (url) {
+              this.router.navigateByUrl(url, { replaceUrl: true }).then();
+            } else {
+              this.router.navigate(['']).then();
+            }
             return AuthActions.logInSuccess();
           }),
           catchError((error) => of(AuthActions.logInFailiure({ error: error.code })))

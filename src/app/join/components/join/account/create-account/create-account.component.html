@@ -1,8 +1,6 @@
 <div class="header-container">
   <div nz-typography class="title">Create Account</div>
-  <div nz-typography nzType="secondary" class="subtitle">
-    Create your account before you proceed.
-  </div>
+  <div nz-typography nzType="secondary" class="subtitle">Create your account before you proceed.</div>
 </div>
 <div nzGrid>
   <div nz-row>
@@ -222,7 +220,7 @@
             <div nz-row>
               <div [nzSpan]="9" nz-col>Already have an account? <a (click)="goToLogin()">Login</a></div>
               <div [nzSpan]="15" nz-col>
-                <button (click)="back()" nz-button nzType="link" type="button">Change Plan</button>
+                <button (click)="changePlan()" nz-button nzType="link" type="button">Change Plan</button>
                 <button
                   [disabled]="!signupForm.valid"
                   [nzLoading]="isLoading$ | ngrxPush"

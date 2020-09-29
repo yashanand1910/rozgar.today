@@ -3,21 +3,9 @@
     <nz-spin nzSize="default"></nz-spin>
   </div>
   <div *ngIf="success$ | ngrxPush as success">
-    <nz-result [nzTitle]="successitle" nzStatus="success" [nzSubTitle]="successSubtitle"></nz-result>
-    <ng-template #successitle>
-      <div class="title">Verified!</div>
-    </ng-template>
-    <ng-template #successSubtitle>
-      <div class="subtitle">{{ success | translate }}</div>
-    </ng-template>
+    <nz-result nzTitle="Account Verified" nzStatus="success" [nzSubTitle]="success | translate"></nz-result>
   </div>
   <div *ngIf="error$ | ngrxPush as error">
-    <nz-result [nzTitle]="errorTitle" nzStatus="error" [nzSubTitle]="errorSubtitle"></nz-result>
-    <ng-template #errorTitle>
-      <div class="title">Invalid</div>
-    </ng-template>
-    <ng-template #errorSubtitle>
-      <div class="subtitle">{{ error | translate }}</div>
-    </ng-template>
+    <nz-result nzTitle="Invalid" nzStatus="error" [nzSubTitle]="error | translate"></nz-result>
   </div>
 </ng-container>

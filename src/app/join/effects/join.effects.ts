@@ -5,7 +5,7 @@ import * as CoreActions from '@core/actions';
 import * as JoinActions from '../actions';
 import * as JoinSelectors from '../selectors';
 import * as AuthSelectors from '@auth/selectors';
-import { catchError, exhaustMap, map, observeOn, switchMap, first, tap, withLatestFrom, delay } from 'rxjs/operators';
+import { catchError, exhaustMap, map, observeOn, switchMap, first, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
@@ -25,20 +25,28 @@ export class JoinEffects {
         this.store.select(CoreSelectors.selectQueryParam(QueryParamKey.ReturnUrl)),
         this.store.select(AuthSelectors.selectAuthUser)
       ),
-      exhaustMap(([, path, redirectUrl, user]) => {
-        if (user) {
+      exhaustMap(([action, path, url, user]) => {
+        if (user && action.setFirestoreState) {
           this.actions$
             .pipe(
               ofType(JoinActions.setJoinFirestoreStateSuccess),
               first(),
-              tap(() =>
-                this.router.navigate([redirectUrl ? redirectUrl : `/join/${path}`], { replaceUrl: true }).then()
-              )
+              tap(() => {
+                if (url) {
+                  this.router.navigateByUrl(url, { replaceUrl: true }).then();
+                } else {
+                  this.router.navigate([`/join/${path}`]).then();
+                }
+              })
             )
             .subscribe();
           return of(JoinActions.setJoinFirestoreState());
         } else {
-          this.router.navigate([redirectUrl ? redirectUrl : `/join/${path}`], { replaceUrl: true }).then();
+          if (url) {
+            this.router.navigateByUrl(url, { replaceUrl: true }).then();
+          } else {
+            this.router.navigate([`/join/${path}`]).then();
+          }
           return EMPTY;
         }
       })

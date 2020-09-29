@@ -1,4 +1,4 @@
-import { NzSafeAny } from 'ng-zorro-antd';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 
 export type MyErrorsOptions = { en: string } & Record<string, NzSafeAny>;
