@@ -58,7 +58,7 @@ export class SignupEffects {
   sendVerificationEmail$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.sendVerificationEmail),
-      withLatestFrom(this.afa.user),
+      withLatestFrom(this.afa.authState),
       exhaustMap(([, user]) =>
         from(user.sendEmailVerification()).pipe(
           map(() => {

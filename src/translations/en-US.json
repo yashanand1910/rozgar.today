@@ -8,5 +8,6 @@
   "auth/user-not-found": "Please check your email.",
   "auth/wrong-password": "Please check your password.",
   "auth/argument-error": "Your link is invalid or has expired. Please request for another one.",
-  "auth/invalid-action-code": "Your link is invalid or has expired. Please request for another one."
+  "auth/invalid-action-code": "Your link is invalid or has expired. Please request for another one.",
+  "auth/too-many-requests": "Too many requests. Please wait for some time."
 }

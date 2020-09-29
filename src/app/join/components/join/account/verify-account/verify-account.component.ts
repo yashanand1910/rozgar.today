@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, timer } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { exhaustMap, map, take } from 'rxjs/operators';
 import * as AuthActions from '@auth/actions';
 import * as AuthSelectors from '@auth/selectors';
@@ -20,34 +20,34 @@ export class VerifyAccountComponent extends StepComponent implements OnInit, OnD
   ngOnInit(): void {
     super.ngOnInit();
 
-    this.store.dispatch(AuthActions.startObservingUser());
+    this.store.dispatch(AuthActions.startReloadingUser());
     this.emailVerified$ = this.store.pipe(
       select(AuthSelectors.selectAuthUser),
       map((user) => {
-        if (user.emailVerified) {
-          this.store.dispatch(AuthActions.stopObservingUser());
+        if (user?.emailVerified) {
+          this.store.dispatch(AuthActions.stopReloadingUser());
         }
-        return user.emailVerified;
+        return user?.emailVerified;
       })
     );
   }
 
   ngOnDestroy() {
-    this.store.dispatch(AuthActions.stopObservingUser());
+    this.store.dispatch(AuthActions.stopReloadingUser());
   }
 
   sendVerificationEmail() {
     this.store.dispatch(AuthActions.sendVerificationEmail());
-    let time = this.cooldownSeconds - 1;
     this.secondsLeft$ = this.actions$.pipe(
       // Start cooldown only when email was successfully sent
       ofType(AuthActions.sendVerificationEmailSuccess),
-      exhaustMap(() =>
-        timer(0, 1000).pipe(
+      exhaustMap(() => {
+        let time = this.cooldownSeconds - 1;
+        return timer(0, 1000).pipe(
           map(() => time--),
           take(this.cooldownSeconds)
-        )
-      )
+        );
+      })
     );
   }
 }

@@ -14,10 +14,9 @@ import {
   first,
   tap,
   withLatestFrom,
-  takeUntil,
-  take
+  takeUntil
 } from 'rxjs/operators';
-import { EMPTY, interval, of } from 'rxjs';
+import { EMPTY, from, interval, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
@@ -47,19 +46,23 @@ export class AuthEffects {
   ensureLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.ensureLogOut),
-      exhaustMap(() => this.afa.user.pipe(first())),
-      switchMap((user) => {
-        if (user) {
-          return this.afa
-            .signOut()
-            .then(() => {
-              return AuthActions.logOutSuccess();
-            })
-            .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
-        }
-        return EMPTY;
-      }),
-      catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
+      exhaustMap(() => {
+        return this.afa.authState.pipe(
+          first(),
+          switchMap((user) => {
+            if (user) {
+              return this.afa
+                .signOut()
+                .then(() => {
+                  return AuthActions.logOutSuccess();
+                })
+                .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
+            }
+            return EMPTY;
+          }),
+          catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
+        );
+      })
     )
   );
 
@@ -78,33 +81,36 @@ export class AuthEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getUser),
-      exhaustMap(() =>
-        this.afa.user.pipe(
-          map((user) =>
-            AuthActions.getUserSuccess({
+      exhaustMap(() => {
+        return this.afa.authState.pipe(
+          map((user) => {
+            return AuthActions.getUserSuccess({
               user: user ? this.sanitizeUser(user) : null
-            })
-          ),
+            });
+          }),
           catchError((error) => {
             return of(AuthActions.getUserFailiure({ error: error.code }));
           })
-        )
-      )
+        );
+      })
     )
   );
 
-  startObservingUser$ = createEffect(() =>
+  startReloadingUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.startObservingUser),
-      switchMap(() => this.afa.user),
-      switchMap((user) =>
-        interval(3500).pipe(
-          takeUntil(this.actions$.pipe(ofType(AuthActions.stopObservingUser), take(1))),
-          map(() => user.reload()),
-          map(() =>
-            AuthActions.getUserSuccess({
-              user: user ? this.sanitizeUser(user) : null
-            })
+      ofType(AuthActions.startReloadingUser),
+      switchMap(() =>
+        this.afa.authState.pipe(
+          switchMap((user) =>
+            interval(3500).pipe(
+              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingUser), first())),
+              switchMap(() => from(user.reload())),
+              map(() =>
+                AuthActions.getUserSuccess({
+                  user: user ? this.sanitizeUser(user) : null
+                })
+              )
+            )
           ),
           catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
         )
@@ -127,12 +133,12 @@ export class AuthEffects {
           switch (mode) {
             case 'resetPassword':
               this.router
-                .navigate(['/auth/reset-password'], { queryParamsHandling: 'preserve', replaceUrl: true })
+                .navigate(['/auth/reset-password'], { queryParamsHandling: 'preserve', skipLocationChange: true })
                 .then();
               break;
             case 'verifyEmail':
               this.router
-                .navigate(['/auth/verify-email'], { queryParamsHandling: 'preserve', replaceUrl: true })
+                .navigate(['/auth/verify-email'], { queryParamsHandling: 'preserve', skipLocationChange: true })
                 .then();
               break;
           }

@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
-import { map } from 'rxjs/operators';
+import { first, map, take } from 'rxjs/operators';
 import { QueryParamKey } from '@core/models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.store.pipe(
       select(AuthSelectors.selectAuthUser),
+      first(),
       map((user) => {
         if (user) {
           return true;

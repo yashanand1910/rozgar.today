@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, takeUntil, filter, take } from 'rxjs/operators';
+import { catchError, map, concatMap, takeUntil, filter, take, first } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
@@ -21,7 +21,7 @@ export class CollectionEffects {
               this.actions$.pipe(
                 ofType(CoreActions.stopLoadCollection),
                 filter((stopAction) => stopAction.collection === action.collection),
-                take(1)
+                first()
               )
             ),
             map((items) =>

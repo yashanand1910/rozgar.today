@@ -17,6 +17,6 @@ export const getUserSuccess = createAction('[Auth] Get User Success', props<{ us
 
 export const getUserFailiure = createAction('[Auth] Get User Failiure', props<{ error: string }>());
 
-export const startObservingUser = createAction('[Auth] Start Observing User');
+export const startReloadingUser = createAction('[Auth] Start Reloading User');
 
-export const stopObservingUser = createAction('[Auth] Stop Observing User');
+export const stopReloadingUser = createAction('[Auth] Stop Reloading User');
