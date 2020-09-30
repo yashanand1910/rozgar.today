@@ -48,10 +48,6 @@ jobs:
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run test:ci
 
-      - name: Run e2e Tests
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
-        run: npm run e2e:beta
-
       - name: Prepare Pre-Release
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
