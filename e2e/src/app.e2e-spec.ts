@@ -13,7 +13,7 @@ describe('when the app loads', () => {
   });
 
   it('should display the login page', async () => {
-    expect(await browser.getCurrentUrl()).toContain('/login');
+    expect(await browser.getCurrentUrl()).toContain('/auth');
   });
 
   describe('and the user logs in', () => {

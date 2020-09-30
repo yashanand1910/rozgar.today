@@ -2,6 +2,8 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
+const { StacktraceOption } = require('jasmine-spec-reporter');
+
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
@@ -16,9 +18,9 @@ exports.config = {
         ? JSON.parse(process.env.PROTRACTOR_CHROME_ARGS)
         : ['lang=en-US', '--headless'],
       prefs: {
-        intl: { accept_languages: 'en-US' },
-      },
-    },
+        intl: { accept_languages: 'en-US' }
+      }
+    }
   },
   // Only works with Chrome and Firefox
   directConnect: true,
@@ -27,14 +29,14 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function () {},
+    print: function () {}
   },
   onPrepare() {
     require('ts-node').register({
-      project: require('path').join(__dirname, './tsconfig.json'),
+      project: require('path').join(__dirname, './tsconfig.json')
     });
 
     // Better console spec reporter
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: 'pretty' } }));
-  },
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: StacktraceOption.PRETTY } }));
+  }
 };

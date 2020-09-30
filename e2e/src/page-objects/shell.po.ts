@@ -3,7 +3,7 @@
  * See docs/coding-guide/e2e-tests.md for more info.
  */
 
-import { browser, element, by } from 'protractor';
+import { element, by } from 'protractor';
 
 export class ShellPage {
   welcomeText = element(by.css('app-root h1'));

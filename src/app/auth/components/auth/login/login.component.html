@@ -1,0 +1,81 @@
+<ng-container>
+  <div class="header-container">
+    <div nz-typography class="title">Login</div>
+    <div nz-typography nzType="secondary" class="subtitle">Log in to {{ 'APP_NAME' | translate }}</div>
+  </div>
+  <div class="form-container">
+    <form (ngSubmit)="login()" [formGroup]="loginForm" [nzAutoTips] nz-form>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="mail" nzSize="large">
+            <input autofocus autocomplete="email" formControlName="email" nz-input placeholder="Email" type="text" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock" nzSize="large">
+            <input
+              autocomplete="current-password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              formControlName="password"
+              nz-input
+              placeholder="Password"
+            />
+          </nz-input-group>
+          <ng-template #suffixTemplate>
+            <i
+              (click)="passwordVisible = !passwordVisible"
+              [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+              class="cursor-pointer"
+              nz-icon
+            ></i>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <div class="login-form-margin" nz-row [nzGutter]="[0, 36]">
+        <div class="remember-me" [nzSpan]="12" nz-col>
+          <label ngDefaultControl formControlName="remember" nz-checkbox>
+            <span>Remember me</span>
+          </label>
+        </div>
+        <div [nzSpan]="12" nz-col>
+          <a class="forgot-password" routerLink="./forgot-password">Forgot password</a>
+        </div>
+      </div>
+      <div *ngIf="error$ | ngrxPush as error" nz-row [nzGutter]="[0, 36]">
+        <div nz-col nzSpan="24">
+          <nz-alert
+            nzType="error"
+            [nzMessage]="error | translate"
+            nzShowIcon
+            nzCloseable
+            nzNoAnimation
+            (nzOnClose)="clearError()"
+          ></nz-alert>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="[0, 36]">
+        <div nz-col nzSpan="24">
+          <button
+            [disabled]="!loginForm.valid"
+            [nzLoading]="isLoading$ | ngrxPush"
+            class="form-button"
+            nz-button
+            nzSize="large"
+            nzType="primary"
+            type="submit"
+          >
+            Log in
+          </button>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="[0, 36]">
+        <div class="text-center" nz-col nzSpan="24">
+          Don't have an account? <a routerLink="/join/account">Create Account</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="footer-container"></div>
+</ng-container>

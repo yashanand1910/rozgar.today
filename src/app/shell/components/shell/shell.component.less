@@ -1,0 +1,26 @@
+@import "../../../../theme/theme-variables";
+
+nz-content {
+  background: @shell-layout-background;
+}
+
+.shell-content {
+  padding-top: @padding-lg*4;
+  padding-bottom: @padding-lg*6;
+  width: @shell-layout-width;
+}
+
+@media (max-width: @screen-sm-max) {
+  .shell-content {
+    padding-top: @padding-lg*2;
+    padding-bottom: @padding-lg*2;
+  }
+}
+
+.loading-container {
+  display: flex;
+  height: calc(100vh - @layout-header-height);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

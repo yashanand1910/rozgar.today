@@ -3,41 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
     <title>rozgar.today</title>
     <base href="/" />
     <meta
-      name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+      name="viewport"
     />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="theme-color" content="#4e8ef7" />
-    <link rel="manifest" href="manifest.json" />
+    <meta content="no" name="msapplication-tap-highlight" />
+    <meta content="#4e8ef7" name="theme-color" />
+    <link href="manifest.json" rel="manifest" />
 
     <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="default" name="apple-mobile-web-app-status-bar-style" />
+    <link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
   </head>
+  <!--Start of Tawk.to Script-->
+  <!--suppress JSUnusedGlobalSymbols, JSUnusedGlobalSymbols, ES6ConvertVarToLetConst, JSDeprecatedSymbols -->
+  <script type="text/javascript">
+    try {
+      var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+      (function () {
+        var s1 = document.createElement('script'),
+          s0 = document.getElementsByTagName('script')[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/5f54b6ae4704467e89ec896f/default';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+      })();
+    } catch (error) {}
+  </script>
+  <!--End of Tawk.to Script-->
   <body>
-    <!-- Google Analytics -->
-    <script>
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        (i[r] =
-          i[r] ||
-          function () {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-      ga('create', '147300073', 'auto');
-    </script>
-    <!-- End Google Analytics -->
     <!--[if lt IE 10]>
       <p>
         You are using an <strong>outdated</strong> browser. Please
@@ -50,6 +50,7 @@
       </p>
     </noscript>
     <!-- Include Cordova script only when needed -->
+    <!--suppress HtmlUnknownTarget -->
     <script>
       if (/^app/.test(location.host)) {
         /**
@@ -68,9 +69,13 @@
         document.removeEventListener = function () {
           EventTarget.prototype.removeEventListener.apply(this, arguments);
         };
+        // noinspection HtmlUnknownTarget
         document.write('<script src="cordova.js"><\/script>');
       }
     </script>
-    <app-root></app-root>
+    <app-root>
+      <!-- TODO add proper loader-->
+      <div class="loader"></div>
+    </app-root>
   </body>
 </html>

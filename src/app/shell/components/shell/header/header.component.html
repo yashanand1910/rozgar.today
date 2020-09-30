@@ -1,0 +1,55 @@
+<nz-header class="shell-layout" nz-row nzJustify="center">
+  <nz-col class="header-content">
+    <div class="logo" translate>APP_NAME</div>
+    <ul class="menu-left" nz-menu nzMode="horizontal" nzTheme="dark">
+      <li
+        *ngFor="let menuItem of menuItemsLeft"
+        [hidden]="(menuItem.hidden | ngrxPush) || (!!menuItem.hidden && isLoading)"
+        [nzDisabled]="menuItem.disabled || isLoading"
+        [routerLink]="menuItem.link ? menuItem.link : ''"
+        nz-menu-item
+        nzMatchRouter
+        translate
+      >
+        <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
+        {{ menuItem.title | ngrxPush }}
+      </li>
+    </ul>
+    <ul class="menu-right" nz-menu nzMode="horizontal" nzTheme="dark">
+      <li
+        *ngFor="let menuItem of menuItemsRight"
+        [hidden]="(menuItem.hidden | ngrxPush) || !!menuItem.submenu || (!!menuItem.hidden && isLoading)"
+        [nzDisabled]="menuItem.disabled || isLoading"
+        [routerLink]="menuItem.link"
+        nz-menu-item
+        nzMatchRouter
+        translate
+      >
+        <i *ngIf="menuItem.icon" [nzType]="menuItem.icon" nz-icon nzTheme="outline"></i>
+        {{ menuItem.title | ngrxPush }}
+      </li>
+      <li
+        *ngFor="let menuItem of menuItemsRight"
+        [hidden]="(menuItem.hidden | ngrxPush) || !menuItem.submenu || (!!menuItem.hidden && isLoading)"
+        [nzIcon]="menuItem.icon"
+        [nzDisabled]="menuItem.disabled || isLoading"
+        [nzTitle]="menuItem.title | ngrxPush"
+        nz-submenu
+      >
+        <ul>
+          <li
+            (click)="menuItemClick.emit(item)"
+            *ngFor="let item of menuItem.submenu"
+            [hidden]="(item.hidden | ngrxPush) || (!!item.hidden && isLoading)"
+            [nzDisabled]="item.disabled || isLoading"
+            nzMatchRouter
+            nz-menu-item
+          >
+            <i *ngIf="item.icon" [nzType]="item.icon" nz-icon nzTheme="outline"></i>
+            {{ item.title | ngrxPush }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-col>
+</nz-header>

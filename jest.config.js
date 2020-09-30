@@ -1,17 +1,16 @@
 // https://github.com/thymikee/jest-preset-angular#brief-explanation-of-config
+const { pathsToModuleNameMapper } = require('ts-jest/utils');
+// In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
+// which contains the path mapping (ie the `compilerOptions.paths` option):
+const { compilerOptions } = require('./tsconfig.base');
+
 module.exports = {
   preset: 'jest-preset-angular',
   roots: ['src'],
   coverageDirectory: 'reports',
   setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
-  moduleNameMapper: {
-    '@app/(.*)': '<rootDir>/src/app/$1',
-    '@core': ['<rootDir>/src/app/@core'],
-    '@core/(.*)': ['<rootDir>/src/app/@core/$1'],
-    '@shared': ['<rootDir>/src/app/@shared'],
-    '@shared/(.*)': ['<rootDir>/src/app/@shared/$1'],
-    '@env': '<rootDir>/src/environments/environment',
-  },
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
+
   globals: {
     'ts-jest': {
       allowSyntheticDefaultImports: true,

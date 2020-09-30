@@ -1,10 +1,12 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "allowJs": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
     "types": ["jest", "node"]
   },
-  "files": ["src/polyfills.ts"],
+  "files": ["src/setup-jest.ts", "src/polyfills.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.mock.ts", "src/**/*.d.ts"]
 }

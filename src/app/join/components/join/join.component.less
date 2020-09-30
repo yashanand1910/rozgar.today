@@ -1,0 +1,41 @@
+@import "../../../../theme/theme-variables";
+
+.steps-container {
+  padding-bottom: @padding-lg*3;
+}
+
+@media (max-width: @screen-sm-max) {
+  .steps-container {
+    padding-bottom: @padding-lg;
+  }
+}
+
+.header-container {
+  padding-bottom: @padding-sm;
+}
+
+.title {
+  margin-bottom: @margin-xs;
+  font-size: @heading-3-size;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: @padding-md*2;
+}
+
+@media (max-width: @screen-md-min) {
+  .illustration-container {
+    display: none;
+  }
+}
+
+.illustration-container {
+  text-align: center;
+  opacity: 0.75;
+
+  img {
+    width: 50%;
+  }
+}

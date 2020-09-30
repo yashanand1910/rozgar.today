@@ -1,16 +1,13 @@
 {
   "APP_NAME": "rozgar.today",
-  "About": "About",
-  "Hello world !": "Hello world !",
-  "Home": "Home",
-  "Logged in as": "Logged in as",
-  "Login": "Login",
-  "Logout": "Logout",
-  "Password": "Password",
-  "Password is required": "Password is required",
-  "Username": "Username",
-  "Username is required": "Username is required",
-  "Username or password incorrect.": "Username or password incorrect.",
-  "Remember me": "Remember me",
-  "Version": "Version"
+  "auth/network-request-failed": "Unable to process request. Pleaase check your internet connection.",
+  "auth/invalid-email": "Please enter a valid email.",
+  "auth/weak-password": "Please enter a stronger password.",
+  "auth/email-already-in-use": "Account already exists. Try logging in instead.",
+  "auth/user-disabled": "Your account has been disabled.",
+  "auth/user-not-found": "Please check your email.",
+  "auth/wrong-password": "Please check your password.",
+  "auth/argument-error": "Your link is invalid or has expired. Please request for another one.",
+  "auth/invalid-action-code": "Your link is invalid or has expired. Please request for another one.",
+  "auth/too-many-requests": "Too many requests. Please wait for some time."
 }

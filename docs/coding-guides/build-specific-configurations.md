@@ -2,7 +2,7 @@
 
 ## tl;dr's
 
-ngx-rocket comes with a very helpful `env` script that will save environment-variables set at build time to constants
+rozgar.today comes with a very helpful `env` script that will save environment-variables set at build time to constants
 that can be used as configuration for your code. When combined with the `dotenv-cli` package, it enables maximum
 configurability while maintaining lots of simplicity for local development and testing.
 
@@ -128,7 +128,7 @@ Quick SSR note: SSR works by building all the client bundles like normal, but th
       - This particular staging/qa server's base for constructing URLs is qa-stable.example.com, but qa/staging
         environments could also be deployed to preprod.example.com or localhost:8081 or anywhereelse:7000.
       - This particular deployment uses a specific bucket for Amazon S3 uploads
-  - In this approach, you can use Angular's `fileReplacements` for anything environment-specific and ngx-rocket's
+  - In this approach, you can use Angular's `fileReplacements` for anything environment-specific and rozgar.today's
     `env` for anything deployment-specific. You can even have certain deployment-specific configuration fall back
     to environment-specific defaults for certain environments like so:
     ```javascript
@@ -139,7 +139,7 @@ Quick SSR note: SSR works by building all the client bundles like normal, but th
     };
     ```
 - If you don't have lots of environment variables, you can avoid dotenv-cli and use your particular shell's method
-  to expose the variables before running the ngx-rocket env tool.
+  to expose the variables before running the rozgar.today env tool.
 
 ## Introduction
 
@@ -149,7 +149,7 @@ deployment.
 
 This guide focuses on this type of build-specific configuration in a very broad sense of an Angular app, describing
 the specific Angular ways of controlling these configurations, detailing some angular-specific challenges, and
-highlighting some ngx-rocket tooling that help with them in mind.
+highlighting some rozgar.today tooling that help with them in mind.
 
 For an even broader non-Angular introduction of these concepts, see the
 [The Twelve-Factor App](https://12factor.net/config) methodology's opinions on how this type of configuration
@@ -215,9 +215,9 @@ that's pretty messy too. More importantly, there are limitations to where they c
 of AOT, such configuration variables cannot be used in Angular's decorators, because they're not statically
 analyzable (i.e. their values knowable at build-time). So it would be better if we can keep everything in the same place.
 
-### ngx-rocket to the rescue
+### rozgar.today to the rescue
 
-The ngx-rocket `env` task solves this problem really well, and avoids the need for separate `environment.ts` files for
+The rozgar.today `env` task solves this problem really well, and avoids the need for separate `environment.ts` files for
 deployment-specific configuration.
 
 To add a deployment-specific configuration:
@@ -259,9 +259,9 @@ like this instead:
 BROWSER_URL=localhost:4200
 ```
 
-## When you can use environment variables directly without ngx-rocket `env`
+## When you can use environment variables directly without rozgar.today `env`
 
-As a sidenote, ngx-rocket `env` isn't used for the proxy config file, because it isn't built and ran separately.
+As a sidenote, rozgar.today `env` isn't used for the proxy config file, because it isn't built and ran separately.
 Fortunately, for that same reason, you can directly use `process.env` within the proxy config file to avoid having
 separate proxy configs in most cases.
 

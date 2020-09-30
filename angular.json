@@ -3,11 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rozgar.today": {
+    "rozgar-today": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "less"
         }
       },
       "root": "",
@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@ant-design/colors",
+              "firebase/app",
+              "@firebase/auth",
+              "@angular/fire/firestore"
+            ],
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -24,17 +30,23 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              },
               "src/favicon.ico",
               "src/apple-touch-icon.png",
               "src/robots.txt",
               "src/manifest.json",
               "src/assets"
             ],
-            "styles": ["src/main.scss"],
+            "styles": ["src/main.less"],
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "beta": {
+              "progress": false,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -59,36 +71,66 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.beta.ts"
                 }
               ]
             },
-            "ci": {
-              "progress": false
+            "production": {
+              "progress": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "serviceWorker": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stable.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rozgar.today:build",
+            "browserTarget": "rozgar-today:build",
             "hmr": true,
             "hmrWarning": false
           },
           "configurations": {
-            "production": {
-              "browserTarget": "rozgar.today:build:production",
+            "beta": {
+              "progress": false,
+              "browserTarget": "rozgar-today:build:beta",
               "hmr": false
             },
-            "ci": {
-              "progress": false
+            "production": {
+              "progress": false,
+              "browserTarget": "rozgar-today:build:production",
+              "hmr": false
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rozgar.today:build"
+            "browserTarget": "rozgar-today:build"
           }
         },
         "test": {
@@ -98,6 +140,7 @@
           },
           "configurations": {
             "ci": {
+              "progress": false,
               "watch": false,
               "ci": true,
               "coverage": true,
@@ -116,11 +159,14 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "rozgar.today:serve"
+            "devServerTarget": "rozgar-today:serve"
           },
           "configurations": {
+            "beta": {
+              "devServerTarget": "rozgar-today:serve:beta"
+            },
             "production": {
-              "devServerTarget": "rozgar.today:serve:production"
+              "devServerTarget": "rozgar-today:serve:production"
             }
           }
         },
@@ -131,5 +177,5 @@
       }
     }
   },
-  "defaultProject": "rozgar.today"
+  "defaultProject": "rozgar-today"
 }

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.company.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.company.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
   <name>rozgar.today</name>
-  <description>A mobile app based on Ionic and Cordova.</description>
-  <author email="dev@company.com" href="http://company.com">Development Team</author>
+  <description>Get employed today at rozgar.today!</description>
+  <author email="yashanand1910@gmail.com" href="https://rozgar.today">Yash Anand</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="http://app/*"/>

@@ -1,0 +1,13 @@
+{
+  "singleQuote": true,
+  "cursorOffset": -1,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.less",
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}

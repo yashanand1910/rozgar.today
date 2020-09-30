@@ -1,0 +1,249 @@
+<div class="header-container">
+  <div nz-typography class="title">Create Account</div>
+  <div nz-typography nzType="secondary" class="subtitle">Create your account before you proceed.</div>
+</div>
+<div nzGrid>
+  <div nz-row>
+    <div [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
+      <ng-container *ngrxLet="alert$; let alert">
+        <div *ngFor="let info of alert?.info" nz-row [nzGutter]="[0, 48]">
+          <div nz-col nzSpan="24">
+            <nz-alert *ngIf="info" [nzMessage]="info | translate" nzShowIcon nzType="info"></nz-alert>
+          </div>
+        </div>
+        <div *ngFor="let warn of alert?.warn" nz-row [nzGutter]="[0, 48]">
+          <div nz-col nzSpan="24">
+            <nz-alert *ngIf="warn" [nzMessage]="warn | translate" nzShowIcon nzType="warning"></nz-alert>
+          </div>
+        </div>
+      </ng-container>
+      <form (ngSubmit)="submit()" [formGroup]="signupForm" [nzAutoTips] nz-form>
+        <div [nzGutter]="[12, 48]" nz-row>
+          <div [nzSpan]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control>
+                <input
+                  autofocus
+                  autocomplete="first-name"
+                  formControlName="firstName"
+                  id="firstName"
+                  nz-input
+                  nzSize="large"
+                  placeholder="First name"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div [nzSpan]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control>
+                <input
+                  autocomplete="additional-name"
+                  formControlName="lastName"
+                  id="lastName"
+                  nz-input
+                  nzSize="large"
+                  placeholder="Last name"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div [nzGutter]="12" nz-row>
+          <div [nzMd]="12" [nzXs]="24" nz-col>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback>
+                <nz-input-group nzPrefixIcon="mail" nzSize="large">
+                  <input autocomplete="email" formControlName="email" nz-input placeholder="Email" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div [nzMd]="12" [nzXs]="24" nz-col>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback>
+                <nz-input-group nzPrefix="+91" [nzSuffix]="suffixTemplateInfo" nzSize="large">
+                  <ng-template #suffixTemplateInfo
+                    ><i
+                      nz-icon
+                      nz-tooltip
+                      nzTooltipTitle="Only Indian (+91) numbers are allowed as of now."
+                      nzType="info-circle"
+                    ></i
+                  ></ng-template>
+                  <input
+                    max="10"
+                    autocomplete="phone"
+                    formControlName="phoneNumber"
+                    nz-input
+                    placeholder="Phone number"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div [nzGutter]="12" nz-row>
+          <div [nzSpan]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback>
+                <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" nzSize="large">
+                  <input
+                    autocomplete="new-password"
+                    [placeholder]="'Password' | translate"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    formControlName="password"
+                    nz-input
+                  />
+                </nz-input-group>
+                <ng-template #suffixTemplate>
+                  <i
+                    (click)="passwordVisible = !passwordVisible"
+                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                    class="cursor-pointer"
+                    nz-icon
+                  ></i>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div [nzSpan]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback>
+                <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" nzSize="large">
+                  <input
+                    autocomplete="new-password"
+                    [placeholder]="'Confirm password' | translate"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    formControlName="confirmPassword"
+                    nz-input
+                  />
+                </nz-input-group>
+                <ng-template #suffixTemplate>
+                  <i
+                    (click)="passwordVisible = !passwordVisible"
+                    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                    class="cursor-pointer"
+                    nz-icon
+                  ></i>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div [nzGutter]="12" nz-row>
+          <div [nzMd]="6" [nzXs]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control>
+                <nz-select
+                  ngDefaultControl
+                  (ngModelChange)="signupForm.controls['preferredCities'].patchValue(null)"
+                  nzSize="large"
+                  formControlName="country"
+                  nzShowSearch
+                  nzAllowClear
+                  nzPlaceHolder="Country"
+                >
+                  <ng-container *ngrxLet="_countries | reference: 'Collection'; let countries">
+                    <nz-option
+                      *ngFor="let country of countries"
+                      [nzLabel]="country.name"
+                      [nzValue]="country.id | createReference: _countries.collection"
+                    ></nz-option>
+                  </ng-container>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div [nzMd]="9" [nzXs]="12" nz-col>
+            <nz-form-item>
+              <nz-form-control nzExtra="Only select cities you can travel to for an on-site interview">
+                <nz-select
+                  ngDefaultControl
+                  nzNoAnimation
+                  nzSize="large"
+                  [nzDisabled]="!signupForm.controls['country'].value"
+                  [nzMaxTagPlaceholder]="tagPlaceHolder"
+                  formControlName="preferredCities"
+                  nzMaxTagCount="1"
+                  nzAllowClear
+                  nzShowSearch
+                  nzMode="multiple"
+                  nzPlaceHolder="Preferred cities"
+                >
+                  <ng-container
+                    *ngrxLet="
+                      _cities | reference: 'Collection':['country', 'id']:'==':signupForm.controls['country'].value?.id;
+                      let cities
+                    "
+                  >
+                    <nz-option
+                      [nzLabel]="city.name"
+                      [nzValue]="city.id | createReference: _cities.collection"
+                      *ngFor="let city of cities"
+                    ></nz-option>
+                  </ng-container>
+                </nz-select>
+                <ng-template #tagPlaceHolder let-selectedList> +{{ selectedList.length }}</ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div [nzMd]="9" [nzXs]="24" nz-col>
+            <nz-form-item>
+              <nz-form-control nzExtra="Salary in Lakhs per Annum. Please enter 0 if you're a fresher">
+                <nz-input-group nzSize="large" nzPrefix="₹" nzSuffix="LPA">
+                  <input
+                    min="0"
+                    type="number"
+                    formControlName="lastSalary"
+                    nz-input
+                    placeholder="Last salary (e.g. 5)"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row *ngrxLet="error$; let error" [nzGutter]="[0, 12]">
+          <div nz-col nzSpan="24">
+            <nz-alert
+              (nzOnClose)="clearError()"
+              *ngIf="error"
+              [nzMessage]="error | translate"
+              nzCloseable
+              nzNoAnimation
+              nzShowIcon
+              nzType="error"
+            ></nz-alert>
+          </div>
+        </div>
+        <div nz-row>
+          <div [nzSpan]="24" class="form-footer-container" nz-col>
+            <div nz-row>
+              <div [nzSpan]="9" nz-col>Already have an account? <a (click)="goToLogin()">Login</a></div>
+              <div [nzSpan]="15" nz-col>
+                <button (click)="changePlan()" nz-button nzType="link" type="button">Change Plan</button>
+                <button
+                  [disabled]="!signupForm.valid"
+                  [nzLoading]="isLoading$ | ngrxPush"
+                  nz-button
+                  nzSize="large"
+                  nzType="primary"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div [nzXl]="12" [nzXs]="24" [nzMd]="8" nz-col>
+      <div class="illustration-container">
+        <img alt="" src="assets/illustrations/038-employment.svg" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer-container"></div>

@@ -1,0 +1,46 @@
+@import "src/theme/theme-variables";
+
+nz-content {
+  height: 100vh;
+
+  .auth-content {
+    padding: @padding-lg*2;
+    width: @auth-layout-width;
+    background: @white;
+    box-shadow: @box-shadow-base;
+  }
+
+  @media (max-width: @screen-sm-max) {
+    .auth-content {
+      box-shadow: none;
+    }
+  }
+}
+
+.header-container {
+  text-align: center;
+  padding-bottom: @padding-lg;
+}
+
+.title {
+  font-size: @heading-2-size;
+  text-align: center;
+  margin-bottom: @margin-xs;
+}
+
+.subtitle {
+  text-align: center;
+}
+
+.form-button {
+  width: 100%;
+}
+
+.error-container {
+  text-align: center;
+  font-size: @font-size-lg;
+}
+
+.loading-container {
+  padding: @padding-lg;
+}

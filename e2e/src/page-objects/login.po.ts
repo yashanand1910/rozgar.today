@@ -3,7 +3,7 @@
  * See docs/coding-guide/e2e-tests.md for more info.
  */
 
-import { browser, element, by } from 'protractor';
+import { element, by } from 'protractor';
 
 export class LoginPage {
   usernameField = element(by.css('input[formControlName="username"]'));
