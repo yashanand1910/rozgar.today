@@ -46,6 +46,7 @@
           },
           "configurations": {
             "beta": {
+              "progress": false,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -75,6 +76,7 @@
               ]
             },
             "production": {
+              "progress": false,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -114,10 +116,12 @@
           },
           "configurations": {
             "beta": {
+              "progress": false,
               "browserTarget": "rozgar-today:build:beta",
               "hmr": false
             },
             "production": {
+              "progress": false,
               "browserTarget": "rozgar-today:build:production",
               "hmr": false
             }
@@ -136,6 +140,7 @@
           },
           "configurations": {
             "ci": {
+              "progress": false,
               "watch": false,
               "ci": true,
               "coverage": true,

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, exhaustMap, withLatestFrom, take, first } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
 import * as CoreSelectors from '../selectors';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Constraints } from '@core/models';
-import { CoreConfig } from '@core/models';
+import { Constraints, CoreConfig } from '@core/models';
 import { Store } from '@ngrx/store';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as CollectionActions from '../actions/collection.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { CollectionItem, Collection } from '@core/models';
+import { Collection, CollectionItem } from '@core/models';
 
 export interface State<T> extends EntityState<CollectionItem<T>> {
   selectedId: CollectionItem<unknown>['id'] | null;

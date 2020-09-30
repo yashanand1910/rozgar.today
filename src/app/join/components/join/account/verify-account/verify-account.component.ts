@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, timer } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { exhaustMap, map, take } from 'rxjs/operators';
 import * as AuthActions from '@auth/actions';
 import * as AuthSelectors from '@auth/selectors';

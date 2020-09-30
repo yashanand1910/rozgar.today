@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, observeOn, tap } from 'rxjs/operators';
+import { exhaustMap, observeOn, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as CoreActions from '@core/actions';
 import * as AuthActions from '@auth/actions';
 import { extract } from '@i18n/services';
 import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message';
-import { animationFrameScheduler, asapScheduler, asyncScheduler, queueScheduler } from 'rxjs';
+import { asyncScheduler } from 'rxjs';
 
 @Injectable()
 export class CoreEffects {

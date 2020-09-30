@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap, takeUntil, filter, take, first } from 'rxjs/operators';
+import { catchError, concatMap, filter, first, map, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { CollectionItem, Collection } from '@core/models';
+import { CollectionItem } from '@core/models';
 
 @Injectable()
 export class CollectionEffects {

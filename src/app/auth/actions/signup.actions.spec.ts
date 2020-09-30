@@ -1,7 +1,7 @@
 import * as fromSignup from './signup.actions';
 
-describe('loadSignups', () => {
+describe('signUp', () => {
   it('should return an action', () => {
-    expect(fromSignup.loadSignups().type).toBe('[Signup] Load Signups');
+    expect(fromSignup.signUp.type).toBe('[Signup] Sign Up');
   });
 });

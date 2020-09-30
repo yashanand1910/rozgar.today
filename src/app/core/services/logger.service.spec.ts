@@ -29,7 +29,7 @@ describe('Logger', () => {
     Logger.outputs = savedOutputs;
   });
 
-  it('should create-account an instance', () => {
+  it('should create an instance', () => {
     expect(new Logger()).toBeTruthy();
   });
 

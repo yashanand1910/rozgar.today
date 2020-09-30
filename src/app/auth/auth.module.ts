@@ -4,18 +4,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
 import {
-  LoginComponent,
   ForgotPasswordComponent,
+  LoginComponent,
   ResetPasswordComponent,
   VerifyEmailComponent
 } from '@app/auth/components/auth';
 import { EffectsModule } from '@ngrx/effects';
 import {
   AuthEffects,
-  SignupEffects,
   ForgotPasswordEffects,
   LoginEffects,
   ResetPasswordEffects,
+  SignupEffects,
   VerifyEmailEffects
 } from './effects';
 import { StoreModule } from '@ngrx/store';

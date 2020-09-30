@@ -1,7 +1,7 @@
 import * as fromForgotPassword from './forgot-password.actions';
 
-describe('loadForgotPasswords', () => {
+describe('forgotPassword', () => {
   it('should return an action', () => {
-    expect(fromForgotPassword.loadForgotPasswords().type).toBe('[ForgotPassword] Load ForgotPasswords');
+    expect(fromForgotPassword.forgotPassword.type).toBe('[ForgotPassword] Forgot Password');
   });
 });

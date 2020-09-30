@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../actions';
@@ -18,12 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   error$: Observable<string>;
   isLoading$: Observable<boolean>;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private store: Store
-  ) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.createForm();
   }
 
@@ -55,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm = this.formBuilder.group({
       email: ['', [CustomValidators.required, CustomValidators.email]],
       password: ['', [CustomValidators.required]],
-      remember: true
+      remember: [true]
     });
   }
 }

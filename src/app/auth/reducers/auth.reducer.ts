@@ -31,7 +31,7 @@ export interface State extends fromCore.State {
   [authFeatureKey]: AuthState;
 }
 
-const initialAdditionalState: AdditionalState = {
+export const initialAdditionalState: AdditionalState = {
   user: null,
   isLoading: true,
   isInitialized: false,

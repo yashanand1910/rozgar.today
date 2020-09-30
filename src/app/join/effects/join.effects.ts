@@ -5,7 +5,7 @@ import * as CoreActions from '@core/actions';
 import * as JoinActions from '../actions';
 import * as JoinSelectors from '../selectors';
 import * as AuthSelectors from '@auth/selectors';
-import { catchError, exhaustMap, map, observeOn, switchMap, first, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';

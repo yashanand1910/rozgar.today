@@ -29,7 +29,7 @@
     "env": "ngx-scripts env npm_package_version FIREBASE_API_KEY",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,less}\"",
-    "postinstall": "npm run env",
+    "postinstall": "npm run env && webdriver-manager update",
     "cordova:prepare": "ngx-scripts cordova prepare",
     "cordova:run": "ngx-scripts cordova run",
     "cordova:build": "ngx-scripts cordova build --device --release --copy dist",

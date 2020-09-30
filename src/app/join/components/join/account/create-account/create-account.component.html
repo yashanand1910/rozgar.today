@@ -136,6 +136,7 @@
             <nz-form-item>
               <nz-form-control>
                 <nz-select
+                  ngDefaultControl
                   (ngModelChange)="signupForm.controls['preferredCities'].patchValue(null)"
                   nzSize="large"
                   formControlName="country"
@@ -158,6 +159,7 @@
             <nz-form-item>
               <nz-form-control nzExtra="Only select cities you can travel to for an on-site interview">
                 <nz-select
+                  ngDefaultControl
                   nzNoAnimation
                   nzSize="large"
                   [nzDisabled]="!signupForm.controls['country'].value"

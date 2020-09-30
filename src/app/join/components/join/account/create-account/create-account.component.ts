@@ -6,9 +6,8 @@ import * as CoreSelectors from '@core/selectors';
 import { CustomValidators } from '@shared/validators';
 import { untilDestroyed } from '@core/utils';
 import * as SignupSelectors from '@auth/selectors';
-import * as JoinActions from '@app/join/actions';
 import * as AuthActions from '@auth/actions';
-import { Alert, Collection, QueryParamKey, Reference } from '@core/models';
+import { Collection, QueryParamKey, Reference } from '@core/models';
 import { StepComponent } from '../../step.component';
 
 @Component({

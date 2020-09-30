@@ -1,4 +1,4 @@
-import { reducer, initialState } from './signup.reducer';
+import { initialState, reducer } from './signup.reducer';
 
 describe('Signup Reducer', () => {
   describe('an unknown action', () => {

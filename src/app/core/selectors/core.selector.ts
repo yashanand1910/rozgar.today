@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import { State, AdditionalState, additionalKey } from '@core/reducers/core.reducer';
+import { additionalKey, AdditionalState, State } from '@core/reducers/core.reducer';
 import * as ConstraintSelectors from './constraint.selectors';
 import * as AlertSelectors from './alert.selectors';
 
@@ -12,7 +12,7 @@ export const {
   selectRouteParam // select the current url
 } = fromRouter.getSelectors(selectRouter);
 
-export const selectAdditionalState = createFeatureSelector<State, AdditionalState>(additionalKey);
+export const selectAdditionalState = createFeatureSelector<AdditionalState>(additionalKey);
 
 export const selectError = createSelector(selectAdditionalState, (state) => state.error);
 

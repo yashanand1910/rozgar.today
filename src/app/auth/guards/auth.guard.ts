@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
-import { first, map, take } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { QueryParamKey } from '@core/models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';

@@ -1,7 +1,7 @@
 import * as fromJoin from './join.actions';
 
-describe('loadJoins', () => {
+describe('nextJoinStep', () => {
   it('should return an action', () => {
-    expect(fromJoin.loadJoins().type).toBe('[Join] Load Joins');
+    expect(fromJoin.nextJoinStep.type).toBe('[Join] Next Step');
   });
 });

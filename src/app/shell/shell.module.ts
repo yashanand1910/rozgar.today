@@ -4,8 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 
 import { I18nModule } from '@app/i18n';
-import { ShellComponent } from '@shell/components';
-import { HeaderComponent } from '@shell/components';
+import { HeaderComponent, ShellComponent } from '@shell/components';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';

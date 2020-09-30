@@ -1,7 +1,7 @@
 import * as fromResetPassword from './reset-password.actions';
 
-describe('loadResetPasswords', () => {
+describe('resetPassword', () => {
   it('should return an action', () => {
-    expect(fromResetPassword.loadResetPasswords().type).toBe('[ResetPassword] Load ResetPasswords');
+    expect(fromResetPassword.resetPassword.type).toBe('[ResetPassword] Reset Password');
   });
 });

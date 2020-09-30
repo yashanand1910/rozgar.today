@@ -1,12 +1,14 @@
-import * as fromForgotPassword from '../reducers/forgot-password.reducer';
 import { selectForgotPasswordState } from './forgot-password.selectors';
+import { MockState } from '@ngrx/store/testing';
+import { authFeatureKey, AuthState, State } from '@auth/reducers';
+import { forgotPasswordFeatureKey, State as ForgotPasswordState } from '@auth/reducers/forgot-password.reducer';
 
 describe('ForgotPassword Selectors', () => {
-  it('should select the feature state', () => {
-    const result = selectForgotPasswordState({
-      [fromForgotPassword.forgotPasswordFeatureKey]: {}
-    });
+  it('should select the state', () => {
+    const state = new MockState<State>().value;
+    const authState = (state[authFeatureKey] = new MockState<AuthState>().value);
+    authState[forgotPasswordFeatureKey] = new MockState<ForgotPasswordState>().value;
 
-    expect(result).toEqual({});
+    expect(selectForgotPasswordState(state)).toEqual({});
   });
 });

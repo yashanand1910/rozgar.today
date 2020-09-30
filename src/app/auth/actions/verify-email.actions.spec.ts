@@ -1,7 +1,7 @@
 import * as fromVerifyEmail from './verify-email.actions';
 
-describe('loadVerifyEmails', () => {
+describe('verifyEmail', () => {
   it('should return an action', () => {
-    expect(fromVerifyEmail.loadVerifyEmails().type).toBe('[VerifyEmail] Load VerifyEmails');
+    expect(fromVerifyEmail.verifyEmail.type).toBe('[VerifyEmail] Verify Email');
   });
 });

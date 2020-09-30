@@ -23,7 +23,7 @@ export interface AdditionalState {
   error: string;
 }
 
-const initialState: AdditionalState = {
+export const initialState: AdditionalState = {
   error: null
 };
 

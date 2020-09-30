@@ -1,4 +1,4 @@
-import { reducer, initialState } from './forgot-password.reducer';
+import { initialState, reducer } from './forgot-password.reducer';
 
 describe('ForgotPassword Reducer', () => {
   describe('an unknown action', () => {

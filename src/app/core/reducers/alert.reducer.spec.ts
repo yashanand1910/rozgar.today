@@ -1,4 +1,4 @@
-import { reducer, initialState } from './alert.reducer';
+import { initialState, reducer } from './alert.reducer';
 
 describe('Alert Reducer', () => {
   describe('an unknown action', () => {

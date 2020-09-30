@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CoreSelectors from '@core/selectors';
 import * as AuthActions from '../actions';
-import { catchError, exhaustMap, map, switchMap, first, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';

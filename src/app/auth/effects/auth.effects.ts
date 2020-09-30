@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as fromRouter from '@ngrx/router-store';
+import * as CoreActions from '@core/actions';
 import * as AuthActions from '../actions';
 import * as AuthSelectors from '../selectors';
 import {
@@ -9,12 +10,12 @@ import {
   delay,
   exhaustMap,
   filter,
+  first,
   map,
   switchMap,
-  first,
+  takeUntil,
   tap,
-  withLatestFrom,
-  takeUntil
+  withLatestFrom
 } from 'rxjs/operators';
 import { EMPTY, from, interval, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -89,7 +90,7 @@ export class AuthEffects {
             });
           }),
           catchError((error) => {
-            return of(AuthActions.getUserFailiure({ error: error.code }));
+            return of(AuthActions.getUserFailiure({ error: error.code }), CoreActions.networkError());
           })
         );
       })

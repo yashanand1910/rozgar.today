@@ -1,4 +1,4 @@
-import { reducer, initialState } from './constraint.reducer';
+import { initialState, reducer } from './constraint.reducer';
 
 describe('Constraint Reducer', () => {
   describe('an unknown action', () => {

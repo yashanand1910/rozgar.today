@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
-import { PaymentComponent, PlansComponent, AccountComponent } from './components/join';
+import { AccountComponent, PaymentComponent, PlansComponent } from './components/join';
 import { extract } from '@i18n/services';
 import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from './guards';
 import { AuthGuard, EnsureAccountVerifiedGuard } from '@auth/guards';

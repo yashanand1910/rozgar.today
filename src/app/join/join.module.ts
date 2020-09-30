@@ -34,10 +34,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared';
 import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from '@app/join/guards';
 import {
-  VerifyAccountComponent,
-  PlanComponent,
   AccountComponent,
-  CreateAccountComponent
+  CreateAccountComponent,
+  PlanComponent,
+  VerifyAccountComponent
 } from '@app/join/components/join';
 
 @NgModule({

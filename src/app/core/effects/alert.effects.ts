@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as CoreActions from '../actions';
 import * as CoreSelectors from '../selectors';
-import { catchError, exhaustMap, first, map, take, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';

@@ -1,7 +1,7 @@
 import * as fromLogin from './login.actions';
 
-describe('loadLogins', () => {
+describe('logIn', () => {
   it('should return an action', () => {
-    expect(fromLogin.loadLogins().type).toBe('[Login] Load Logins');
+    expect(fromLogin.logIn.type).toBe('[Login] Log In');
   });
 });

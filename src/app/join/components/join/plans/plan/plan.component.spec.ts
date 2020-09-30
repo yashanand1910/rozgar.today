@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PlanComponent } from './plan.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PlanComponent', () => {
   let component: PlanComponent;
@@ -8,6 +10,8 @@ describe('PlanComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PlanComponent]
     }).compileComponents();
   }));
@@ -18,7 +22,7 @@ describe('PlanComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create-account', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

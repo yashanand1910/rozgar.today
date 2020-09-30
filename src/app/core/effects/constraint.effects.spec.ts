@@ -3,20 +3,27 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
 import { ConstraintEffects } from './constraint.effects';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '@env/environment';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('ConstraintEffects', () => {
-  // const actions$: Observable<any>;
-  // let effects: ConstraintEffects;
-  //
-  // beforeEach(() => {
-  //   TestBed.configureTestingModule({
-  //     providers: [ConstraintEffects, provideMockActions(() => actions$)]
-  //   });
-  //
-  //   effects = TestBed.inject(ConstraintEffects);
-  // });
-  //
-  // it('should be created', () => {
-  //   expect(effects).toBeTruthy();
-  // });
+  // tslint:disable-next-line:prefer-const
+  let actions$: Observable<any>;
+  let effects: ConstraintEffects;
+  let store: MockStore;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AngularFireModule.initializeApp(environment.firebase)],
+      providers: [ConstraintEffects, provideMockActions(() => actions$), provideMockStore()]
+    });
+
+    effects = TestBed.inject(ConstraintEffects);
+    store = TestBed.inject(MockStore);
+  });
+
+  it('should be created', () => {
+    expect(effects).toBeTruthy();
+  });
 });

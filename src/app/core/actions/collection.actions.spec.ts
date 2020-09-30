@@ -1,7 +1,7 @@
 import * as fromCollection from './collection.actions';
 
-describe('loadCollections', () => {
+describe('loadCollection', () => {
   it('should return an action', () => {
-    expect(fromCollection.loadCollections().type).toBe('[Collection] Load Collections');
+    expect(fromCollection.loadCollection.type).toBe('[Collection] Load Collection');
   });
 });

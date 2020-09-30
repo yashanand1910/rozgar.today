@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as AuthSelectors from '@auth/selectors';
 import { filter, first } from 'rxjs/operators';
 

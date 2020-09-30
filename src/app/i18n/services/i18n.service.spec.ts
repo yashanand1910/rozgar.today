@@ -19,6 +19,8 @@ class MockTranslateService {
     });
   }
 
+  setTranslation() {}
+
   getBrowserCultureLang() {
     return 'en-US';
   }
