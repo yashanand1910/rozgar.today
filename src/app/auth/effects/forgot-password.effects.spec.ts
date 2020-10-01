@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
-
 import { ForgotPasswordEffects } from './forgot-password.effects';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '@env/environment';

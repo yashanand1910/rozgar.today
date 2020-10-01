@@ -29,7 +29,6 @@ describe('CreateAccountComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          NzGridModule,
           TranslateModule.forRoot(),
           ReactiveComponentModule,
           ReactiveFormsModule,
@@ -61,15 +60,15 @@ describe('CreateAccountComponent', () => {
     })
   );
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateAccountComponent);
-    component = fixture.componentInstance;
-    store = TestBed.inject(MockStore);
-    actions$ = TestBed.inject(MockStore);
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it(
+    'should create',
+    waitForAsync(() => {
+      fixture = TestBed.createComponent(CreateAccountComponent);
+      component = fixture.componentInstance;
+      store = TestBed.inject(MockStore);
+      actions$ = TestBed.inject(MockStore);
+      expect(component).toBeTruthy();
+    }),
+    30000
+  );
 });

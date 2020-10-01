@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { ForgotPasswordComponent } from '@auth/components/auth';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -9,7 +8,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { selectForgotPasswordState } from '@auth/selectors';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -24,8 +22,7 @@ describe('ForgotPasswordComponent', () => {
           ReactiveFormsModule,
           NzFormModule,
           ReactiveComponentModule,
-          NzButtonModule,
-          NzIconModule
+          NzButtonModule
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [provideMockStore({ selectors: [{ selector: selectForgotPasswordState, value: false }] })],

@@ -9,7 +9,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { selectAuthIsLoading, selectAuthUser } from '@auth/selectors';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ShellComponent', () => {
   let component: ShellComponent;
@@ -20,7 +20,7 @@ describe('ShellComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          HttpClientModule,
+          HttpClientTestingModule,
           RouterTestingModule,
           TranslateModule.forRoot(),
           ReactiveComponentModule,
