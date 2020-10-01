@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CreateAccountComponent } from '@app/join/components/join';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';

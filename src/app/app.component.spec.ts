@@ -4,7 +4,6 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { AppComponent } from './app.component';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -44,7 +43,7 @@ describe('AppComponent', () => {
     waitForAsync(() => {
       const fixture = TestBed.createComponent(AppComponent);
       const app = fixture.debugElement.componentInstance;
-      const store = TestBed.inject(MockStore);
+      TestBed.inject(MockStore);
       expect(app).toBeTruthy();
     }),
     30000
