@@ -19,7 +19,7 @@ class MockTranslateService {
     });
   }
 
-  setTranslation() {}
+  setTranslation(lang: string, translations: object) {}
 
   getBrowserCultureLang() {
     return 'en-US';

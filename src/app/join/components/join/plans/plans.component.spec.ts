@@ -14,7 +14,6 @@ import { entitySelectors, selectCollectionState } from '@core/selectors';
 import { Collection } from '@core/models';
 import { Plan } from '@app/join/models';
 import { selectJoinAdditionalState } from '@app/join/selectors';
-import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 describe('PlansComponent', () => {
   let component: PlansComponent;
