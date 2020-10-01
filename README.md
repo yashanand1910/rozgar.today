@@ -2,7 +2,7 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/yashanand1910/rozgar.today)
 
-The rozgar.today web & mobile app built on Angular & Cordova. Tests setup using Jest, Protractor & Puppeteer.
+The rozgar.today web & mobile app built on Angular & Cordova. Tests setup using Jest & Jasmine.
 
 ## Environments
 
