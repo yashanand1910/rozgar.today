@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { isDevMode, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
@@ -21,6 +21,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
 import { ngZorroConfig } from '@core/nz-global.config';
+import { AngularFireRemoteConfigModule } from '@angular/fire/remote-config';
 
 @NgModule({
   imports: [
