@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, last, map, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, last, map, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
 import * as CoreSelectors from '../selectors';
 import { Constraints, CoreConfig } from '@core/models';
 import { Store } from '@ngrx/store';
-import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
+import { AngularFireRemoteConfig, budget } from '@angular/fire/remote-config';
 
 @Injectable()
 export class ConstraintEffects {
@@ -19,9 +19,10 @@ export class ConstraintEffects {
         if (existing) {
           return of(CoreActions.loadConstraintsSuccess({ constraints: existing }));
         } else {
-          return this.afr.strings[CoreConfig.Constraints].pipe(
-            last(),
-            map((str) => JSON.parse(str) as Constraints),
+          return this.afr.changes.pipe(
+            filter((param) => param.key === CoreConfig.Alerts),
+            first(),
+            map((str) => JSON.parse(str._value) as Constraints),
             map((constraints) => {
               return CoreActions.loadConstraintsSuccess({ constraints });
             }),

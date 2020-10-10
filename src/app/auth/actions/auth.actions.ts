@@ -9,14 +9,14 @@ export const logOutSuccess = createAction('[Auth] Log Out Success');
 
 export const logOutFailiure = createAction('[Auth] Log Out Failiure', props<{ error: string }>());
 
-export const getUser = createAction('[Auth] Get User');
+export const loadAuth = createAction('[Auth] Load Auth');
 
 export const getPartialUserSuccess = createAction('[Auth] Get Partial User Success', props<{ user: Partial<User> }>());
 
-export const getUserSuccess = createAction('[Auth] Get User Success', props<{ user: User }>());
+export const loadAuthSuccess = createAction('[Auth] Load Auth Success', props<{ user: User }>());
 
-export const getUserFailiure = createAction('[Auth] Get User Failiure', props<{ error: string }>());
+export const loadAuthFailiure = createAction('[Auth] Load Auth Failiure', props<{ error: string }>());
 
-export const startReloadingUser = createAction('[Auth] Start Reloading User');
+export const startReloadingAuth = createAction('[Auth] Start Reloading Auth');
 
-export const stopReloadingUser = createAction('[Auth] Stop Reloading User');
+export const stopReloadingAuth = createAction('[Auth] Stop Reloading Auth');

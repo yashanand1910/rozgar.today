@@ -40,13 +40,13 @@ export const initialAdditionalState: AdditionalState = {
 
 export const additionalReducer = createReducer(
   initialAdditionalState,
-  on(AuthActions.getUser, (state) => {
+  on(AuthActions.loadAuth, (state) => {
     return {
       ...state,
       error: null
     };
   }),
-  on(AuthActions.getUserSuccess, (state, action) => {
+  on(AuthActions.loadAuthSuccess, (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -66,7 +66,7 @@ export const additionalReducer = createReducer(
       }
     };
   }),
-  on(AuthActions.getUserFailiure, (state, action) => {
+  on(AuthActions.loadAuthFailiure, (state, action) => {
     return {
       ...state,
       isLoading: false,

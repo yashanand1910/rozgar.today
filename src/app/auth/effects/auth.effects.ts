@@ -61,7 +61,7 @@ export class AuthEffects {
             }
             return EMPTY;
           }),
-          catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
+          catchError((error) => of(AuthActions.loadAuthFailiure({ error: error.code })))
         );
       })
     )
@@ -73,47 +73,47 @@ export class AuthEffects {
         ofType(AuthActions.logOutSuccess),
         withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
         tap(([, user]) => {
-          this.messageService.success(extract(`${user.displayName} has been logged out.`));
+          this.messageService.success(extract(`${user?.displayName} has been logged out.`));
         })
       ),
     { dispatch: false }
   );
 
-  getUser$ = createEffect(() =>
+  loadAuth$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.getUser),
+      ofType(AuthActions.loadAuth),
       exhaustMap(() => {
         return this.afa.authState.pipe(
           map((user) => {
-            return AuthActions.getUserSuccess({
+            return AuthActions.loadAuthSuccess({
               user: user ? this.sanitizeUser(user) : null
             });
           }),
           catchError((error) => {
-            return of(AuthActions.getUserFailiure({ error: error.code }), CoreActions.networkError());
+            return of(AuthActions.loadAuthFailiure({ error: error.code }), CoreActions.networkError());
           })
         );
       })
     )
   );
 
-  startReloadingUser$ = createEffect(() =>
+  startReloadingAuth$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.startReloadingUser),
+      ofType(AuthActions.startReloadingAuth),
       switchMap(() =>
         this.afa.authState.pipe(
           switchMap((user) =>
             interval(3500).pipe(
-              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingUser), first())),
+              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth), first())),
               switchMap(() => from(user.reload())),
               map(() =>
-                AuthActions.getUserSuccess({
+                AuthActions.loadAuthSuccess({
                   user: user ? this.sanitizeUser(user) : null
                 })
               )
             )
           ),
-          catchError((error) => of(AuthActions.getUserFailiure({ error: error.code })))
+          catchError((error) => of(AuthActions.loadAuthFailiure({ error: error.code })))
         )
       )
     )

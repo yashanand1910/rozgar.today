@@ -5,10 +5,10 @@
     [isLoading]="isLoading"
     (menuItemClick)="invokeAction($event.action)"
   ></app-header>
-  <div *ngIf="isLoading" class="loading-container">
-    <nz-spin nzSimple nzSize="large"></nz-spin>
-  </div>
-  <ng-container *ngIf="!isLoading">
+  <!--  <div *ngIf="isLoading" class="loading-container">-->
+  <!--    <nz-spin nzSimple nzSize="large"></nz-spin>-->
+  <!--  </div>-->
+  <ng-container>
     <nz-content class="shell-layout" nz-row nzJustify="center">
       <div class="shell-content" nz-col>
         <router-outlet></router-outlet>

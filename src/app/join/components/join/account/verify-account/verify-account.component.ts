@@ -20,12 +20,12 @@ export class VerifyAccountComponent extends StepComponent implements OnInit, OnD
   ngOnInit(): void {
     super.ngOnInit();
 
-    this.store.dispatch(AuthActions.startReloadingUser());
+    this.store.dispatch(AuthActions.startReloadingAuth());
     this.emailVerified$ = this.store.pipe(
       select(AuthSelectors.selectAuthUser),
       map((user) => {
         if (user?.emailVerified) {
-          this.store.dispatch(AuthActions.stopReloadingUser());
+          this.store.dispatch(AuthActions.stopReloadingAuth());
         }
         return user?.emailVerified;
       })
@@ -33,7 +33,7 @@ export class VerifyAccountComponent extends StepComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
-    this.store.dispatch(AuthActions.stopReloadingUser());
+    this.store.dispatch(AuthActions.stopReloadingAuth());
   }
 
   sendVerificationEmail() {
