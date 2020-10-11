@@ -3,7 +3,7 @@ import { Reference } from '@core/models';
 export interface City {
   id: string;
   name: string;
-  country: Reference;
+  country: Reference<Country>;
 }
 
 export interface Country {

@@ -29,7 +29,7 @@ const routes: Routes = [
           path: StepPath.Account,
           component: AccountComponent,
           data: { title: extract('Account') },
-          canActivate: [EnsurePlanSelectedGuard]
+          canActivate: []
         },
         {
           path: StepPath.Payment,

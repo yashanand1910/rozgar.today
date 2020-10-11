@@ -1,5 +1,5 @@
 import { User as FirebaseUser } from 'firebase';
-import { Reference } from '@core/models';
+import { City, Country, Reference } from '@core/models';
 
 // User as per Firebase Auth
 export interface User {
@@ -19,7 +19,7 @@ export interface StoreUser {
 export interface Profile {
   phoneCode: string;
   phoneNumber: string;
-  country: Reference;
-  preferredCities: Reference[];
+  country: Reference<Country>;
+  preferredCities: Reference<City>[];
   lastSalary: number;
 }

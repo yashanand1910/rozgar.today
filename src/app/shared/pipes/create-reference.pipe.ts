@@ -5,7 +5,7 @@ import { Collection, Reference } from '@core/models';
   name: 'createReference'
 })
 export class CreateReferencePipe implements PipeTransform {
-  transform(id: string, collection: Collection): Reference {
+  transform(id: string, collection: Collection): Reference<unknown> {
     return { collection, id };
   }
 }
