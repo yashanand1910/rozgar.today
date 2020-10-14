@@ -1,6 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentComponent } from './payment.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PaymentComponent', () => {
   let component: PaymentComponent;
@@ -9,6 +10,7 @@ describe('PaymentComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
         declarations: [PaymentComponent]
       }).compileComponents();
     })

@@ -13,3 +13,5 @@ export const selectAuthIsLoading = createSelector(selectAuthAdditionalState, (st
 export const selectAuthIsInitialized = createSelector(selectAuthAdditionalState, (state) => state.isInitialized);
 
 export const selectAuthError = createSelector(selectAuthAdditionalState, (state) => state.error);
+
+export const selectAuthIsReloading = createSelector(selectAuthAdditionalState, (state) => state.isReloading);

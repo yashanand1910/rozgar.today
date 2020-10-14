@@ -18,13 +18,13 @@ Master WIP branch directly deployed on every push.
 
 ![Beta](https://github.com/yashanand1910/rozgar.today/workflows/Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?color=blue&include_prereleases) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/beta/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-Beta branch deployed on every merge from master and is followed by a beta pre-release.
+Beta branch deployed on every merge from master and is followed by a pre-release. This branch is to deploy a production-like environment for any kind of pre-release UAT testing.
 
 #### Stable ([rozgar.today](https://rozgar.today))
 
 ![Stable](https://github.com/yashanand1910/rozgar.today/workflows/Stable/badge.svg?branch=stable) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?color=blue) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/stable/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-Stable branch deployed on every merge from beta and is followed by a stable release.
+Stable branch deployed on every merge from beta and is followed by a release.
 
 ## Contributing
 

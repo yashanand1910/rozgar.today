@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromJoin from '../reducers';
 import * as CoreSelectors from '@core/selectors/core.selector';
+import * as AuthSelectors from '@auth/selectors';
 import { additionalKey } from '@core/reducers';
 
 export const selectJoinState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.joinFeatureKey);
@@ -32,3 +33,6 @@ export const selectJoinIsLoading = createSelector(selectJoinAdditionalState, (st
 export const selectJoinIsProcessing = createSelector(selectJoinAdditionalState, (state) => state.isProcessing);
 
 export const selectSelectedPlanId = createSelector(selectJoinAdditionalState, (state) => state.selectedPlanId);
+
+// For displaying the processing state of the stepper
+export const isStepLoading = createSelector(AuthSelectors.selectAuthIsReloading, (a) => a);

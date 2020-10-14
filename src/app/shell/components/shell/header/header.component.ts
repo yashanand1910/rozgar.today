@@ -12,6 +12,4 @@ export class HeaderComponent {
   @Input() menuItemsRight: MenuItem[];
   @Input() isLoading: boolean;
   @Output() menuItemClick = new EventEmitter<MenuItem>();
-
-  constructor() {}
 }
