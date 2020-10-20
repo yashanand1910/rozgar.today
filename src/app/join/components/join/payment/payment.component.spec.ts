@@ -2,6 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentComponent } from './payment.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 describe('PaymentComponent', () => {
   let component: PaymentComponent;
@@ -10,6 +11,7 @@ describe('PaymentComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [NzGridModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         declarations: [PaymentComponent]
       }).compileComponents();
