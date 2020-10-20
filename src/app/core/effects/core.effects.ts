@@ -13,7 +13,7 @@ export class CoreEffects {
   initialize$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CoreActions.initialize),
-      exhaustMap(() => [CoreActions.loadConstraints(), CoreActions.loadAlerts(), AuthActions.getUser()])
+      exhaustMap(() => [CoreActions.loadConstraints(), CoreActions.loadAlerts(), AuthActions.loadAuth()])
     )
   );
 

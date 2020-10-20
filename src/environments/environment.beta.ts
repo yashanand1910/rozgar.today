@@ -8,7 +8,7 @@
 import { env } from './.env';
 
 export const environment = {
-  production: true,
+  production: true, // has to behave like production
   hmr: false,
   version: env.npm_package_version,
   defaultLanguage: 'en-US',

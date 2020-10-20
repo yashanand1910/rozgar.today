@@ -7,7 +7,7 @@ import { CustomValidators } from '@shared/validators';
 import { untilDestroyed } from '@core/utils';
 import * as SignupSelectors from '@auth/selectors';
 import * as AuthActions from '@auth/actions';
-import { Collection, QueryParamKey, Reference } from '@core/models';
+import { City, Collection, Country, QueryParamKey, Reference } from '@core/models';
 import { StepComponent } from '../../step.component';
 
 @Component({
@@ -20,10 +20,10 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
   signupForm!: FormGroup;
   error$: Observable<string>;
   isLoading$: Observable<boolean>;
-  _countries: Reference = {
+  _countries: Reference<Country> = {
     collection: Collection.Countries
   };
-  _cities: Reference = {
+  _cities: Reference<City> = {
     collection: Collection.Cities
   };
 

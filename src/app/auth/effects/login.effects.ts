@@ -26,7 +26,8 @@ export class LoginEffects {
           )
           .then();
         return from(this.afa.signInWithEmailAndPassword(context.email, context.password)).pipe(
-          switchMap(() => this.actions$.pipe(ofType(AuthActions.getUserSuccess), first())),
+          // Required so that resolvers do not get resolved before the user is loaded
+          switchMap(() => this.actions$.pipe(ofType(AuthActions.loadAuthSuccess), first())),
           map((action) => {
             this.messageService.success(extract(`${action.user.displayName} logged in.`));
             if (url) {

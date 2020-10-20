@@ -57,7 +57,7 @@ const initialAdditionalState: AdditionalState = {
       icon: 'credit-card'
     },
     {
-      title: extract('Resume'),
+      title: extract('Profile'),
       path: StepPath.Resume,
       icon: 'check-square'
     }

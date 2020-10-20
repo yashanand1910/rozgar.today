@@ -1,4 +1,4 @@
-# This workflow is only to create a GitHub release with notes
+# This is only to create-account a GitHub release
 name: GitHub
 
 on:
@@ -7,17 +7,17 @@ on:
       - 'v*'
 
 jobs:
-  prerelease:
+  pre-release:
     name: Create Pre-Release
     if: "contains(github.ref, 'beta')"
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate release notes
-        id: changelog
-        uses: metcalfc/changelog-generator@v0.4.4
+      - name: Get Release Notes
+        id: get_release_notes
+        uses: yashanand1910/standard-release-notes@v1.1.1
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ github.ref }}
 
       - uses: actions/checkout@v2.3.2
       - name: Create
@@ -28,7 +28,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ steps.get_release_notes.outputs.release_notes }}
           prerelease: true
 
   release:
@@ -37,20 +37,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate release notes
-        id: changelog
-        uses: metcalfc/changelog-generator@v0.4.4
+      - name: Get Release Notes
+        id: get_release_notes
+        uses: yashanand1910/standard-release-notes@v1.1.1
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ github.ref }}
 
       - uses: actions/checkout@v2.3.2
       - name: Create
-        id: create_prerelease
+        id: create_release
         uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ steps.get_release_notes.outputs.release_notes }}
           prerelease: false

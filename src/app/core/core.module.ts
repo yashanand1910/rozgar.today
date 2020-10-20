@@ -21,6 +21,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
 import { ngZorroConfig } from '@core/nz-global.config';
+import { AngularFireRemoteConfigModule, DEFAULTS, SETTINGS } from '@angular/fire/remote-config';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { ngZorroConfig } from '@core/nz-global.config';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireRemoteConfigModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -61,6 +63,14 @@ import { ngZorroConfig } from '@core/nz-global.config';
     {
       provide: NZ_CONFIG,
       useValue: ngZorroConfig
+    },
+    {
+      provide: DEFAULTS,
+      useValue: {}
+    },
+    {
+      provide: SETTINGS,
+      useFactory: () => (!environment.production ? { minimumFetchIntervalMillis: 10_000 } : {})
     }
   ]
 })

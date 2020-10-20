@@ -13,6 +13,7 @@ export const authFeatureKey = 'auth';
 export interface AdditionalState {
   user: User;
   isLoading: boolean;
+  isReloading: boolean;
   // To indicate whether this state is updated with the Firebase user state
   isInitialized: boolean;
   error: string;
@@ -34,19 +35,20 @@ export interface State extends fromCore.State {
 export const initialAdditionalState: AdditionalState = {
   user: null,
   isLoading: true,
+  isReloading: false,
   isInitialized: false,
   error: null
 };
 
 export const additionalReducer = createReducer(
   initialAdditionalState,
-  on(AuthActions.getUser, (state) => {
+  on(AuthActions.loadAuth, (state) => {
     return {
       ...state,
       error: null
     };
   }),
-  on(AuthActions.getUserSuccess, (state, action) => {
+  on(AuthActions.loadAuthSuccess, (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -66,7 +68,7 @@ export const additionalReducer = createReducer(
       }
     };
   }),
-  on(AuthActions.getUserFailiure, (state, action) => {
+  on(AuthActions.loadAuthFailiure, (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -84,7 +86,9 @@ export const additionalReducer = createReducer(
       ...state,
       error: null
     };
-  })
+  }),
+  on(AuthActions.startReloadingAuth, (state) => ({ ...state, isReloading: true })),
+  on(AuthActions.stopReloadingAuth, (state) => ({ ...state, isReloading: false }))
 );
 
 export const reducers: ActionReducerMap<AuthState> = {

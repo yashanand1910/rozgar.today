@@ -1,7 +1,7 @@
 import * as fromAuth from './auth.actions';
 
-describe('getUser', () => {
+describe('loadAuth', () => {
   it('should return an action', () => {
-    expect(fromAuth.getUser.type).toBe('[Auth] Get User');
+    expect(fromAuth.loadAuth.type).toBe('[Auth] Load Auth');
   });
 });

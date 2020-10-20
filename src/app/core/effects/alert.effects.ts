@@ -3,11 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as CoreActions from '../actions';
 import * as CoreSelectors from '../selectors';
-import { catchError, exhaustMap, first, map, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, last, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { EMPTY, of } from 'rxjs';
 import { Alerts, CoreConfig } from '@core/models';
+import { AngularFireRemoteConfig, budget } from '@angular/fire/remote-config';
 
 @Injectable()
 export class AlertEffects {
@@ -19,24 +19,17 @@ export class AlertEffects {
         if (existing) {
           return of(CoreActions.loadAlertsSuccess({ alerts: existing }));
         } else {
-          return this.afs
-            .collection('core')
-            .doc<Alerts>(CoreConfig.Alerts)
-            .valueChanges()
-            .pipe(
-              first(),
-              map((alerts) => {
-                if (!Object.keys(alerts).length) throw new Error('Failed to load alerts.');
-                return CoreActions.loadAlertsSuccess({ alerts });
-              }),
-              catchError((error) =>
-                of(CoreActions.loadAlertsFailiure({ error: error.code }), CoreActions.networkError())
-              )
-            );
+          return this.afr.changes.pipe(
+            filter((param) => param.key === CoreConfig.Alerts),
+            first(),
+            map((str) => JSON.parse(str._value) as Alerts),
+            map((alerts) => CoreActions.loadAlertsSuccess({ alerts })),
+            catchError((error) => of(CoreActions.loadAlertsFailiure({ error: error.code }), CoreActions.networkError()))
+          );
         }
       })
     )
   );
 
-  constructor(private actions$: Actions, private store: Store, private afs: AngularFirestore) {}
+  constructor(private actions$: Actions, private store: Store, private afr: AngularFireRemoteConfig) {}
 }
