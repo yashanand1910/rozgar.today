@@ -7,12 +7,18 @@ on:
       - 'v*'
 
 jobs:
-  prerelease:
+  pre-release:
     name: Create Pre-Release
     if: "contains(github.ref, 'beta')"
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get Release Notes
+        id: get_release_notes
+        uses: yashanand1910/standard-release-notes@v1.1.1
+        with:
+          version: ${{ github.ref }}
+
       - uses: actions/checkout@v2.3.2
       - name: Create
         id: create_prerelease
@@ -22,7 +28,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body_path: ./CHANGELOG.md
+          body: ${{ steps.get_release_notes.outputs.release_notes }}
           prerelease: true
 
   release:
@@ -31,14 +37,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get Release Notes
+        id: get_release_notes
+        uses: yashanand1910/standard-release-notes@v1.1.1
+        with:
+          version: ${{ github.ref }}
+
       - uses: actions/checkout@v2.3.2
       - name: Create
-        id: create_prerelease
+        id: create_release
         uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body_path: ./CHANGELOG.md
+          body: ${{ steps.get_release_notes.outputs.release_notes }}
           prerelease: false
