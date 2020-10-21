@@ -1,6 +1,6 @@
 # rozgar.today
 
-![GitHub package.json dependency version (dev dep on branch)](https://img.shields.io/github/package-json/dependency-version/yashanand1910/rozgar.today/dev/typescript) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/yashanand1910/rozgar.today/@angular/core?label=%40angular%2Fcore) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/yashanand1910/rozgar.today)
+![GitHub package.json dependency version (dev dep on branch)](https://img.shields.io/github/package-json/dependency-version/yashanand1910/rozgar.today/dev/typescript) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/yashanand1910/rozgar.today/@angular/core?label=%40angular%2Fcore) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 The rozgar.today web & mobile app built on Angular & Cordova. Tests setup using Jest & Jasmine.
 
