@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Get Release Notes
         id: get_release_notes
-        uses: yashanand1910/standard-release-notes@v1.1.3
+        uses: yashanand1910/standard-release-notes@v1.1.0
         with:
           version: ${{ github.ref }}
 
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Get Release Notes
         id: get_release_notes
-        uses: yashanand1910/standard-release-notes@v1.1.3
+        uses: yashanand1910/standard-release-notes@v1.1.0
         with:
           version: ${{ github.ref }}
 
