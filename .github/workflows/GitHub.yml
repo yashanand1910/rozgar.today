@@ -13,13 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.2
+        
       - name: Get Release Notes
         id: get_release_notes
         uses: yashanand1910/standard-release-notes@v1.1.0
         with:
           version: ${{ github.ref }}
-
-      - uses: actions/checkout@v2.3.2
+          
       - name: Create
         id: create_prerelease
         uses: actions/create-release@v1.1.4
@@ -37,13 +38,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.2
+    
       - name: Get Release Notes
         id: get_release_notes
         uses: yashanand1910/standard-release-notes@v1.1.0
         with:
           version: ${{ github.ref }}
 
-      - uses: actions/checkout@v2.3.2
       - name: Create
         id: create_release
         uses: actions/create-release@v1.1.4
