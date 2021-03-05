@@ -11,6 +11,9 @@ jobs:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    environment:
+      name: Stable
+      url: https://rozgar.today
     runs-on: ubuntu-latest
 
     steps:
@@ -26,15 +29,6 @@ jobs:
           ref: stable
           token: ${{ secrets.ACTIONS_TOKEN }}
           fetch-depth: 0
-
-      - name: Start Deployment
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
-        uses: bobheadxi/deployments@v0.4.2
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: Stable
 
       - name: Install
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
@@ -74,13 +68,3 @@ jobs:
       - name: Deploy
         if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
-
-      - name: Finish Deployment
-        if: ${{ !contains(github.event.head_commit.message, 'chore(release)') && always() }}
-        uses: bobheadxi/deployments@v0.4.2
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://rozgar.today
