@@ -1,4 +1,5 @@
-import { User as FirebaseUser } from 'firebase';
+import firebase from 'firebase/app';
+import FirebaseUser = firebase.User;
 import { City, Country, Reference } from '@core/models';
 
 // User as per Firebase Auth

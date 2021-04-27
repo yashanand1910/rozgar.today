@@ -2,8 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CollectionItem, Reference } from '@core/models';
 import { Observable, of } from 'rxjs';
-import { firestore } from 'firebase/app';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
+import firebase from 'firebase';
+import WhereFilterOp = firebase.firestore.WhereFilterOp;
+import FieldPath = firebase.firestore.FieldPath;
 
 @Pipe({
   name: 'reference'
@@ -19,7 +21,7 @@ export class ReferencePipe implements PipeTransform {
     reference: Reference<T>,
     type: 'Collection' | 'Item',
     fieldPath?: string[],
-    operator?: firestore.WhereFilterOp,
+    operator?: WhereFilterOp,
     value?: any
   ): Observable<CollectionItem<T>[]> {
     switch (type) {
@@ -28,7 +30,7 @@ export class ReferencePipe implements PipeTransform {
           if (!value) return of([]);
           return this.afs
             .collection<CollectionItem<T>>(reference.collection, (ref) =>
-              ref.where(new firestore.FieldPath(...fieldPath), operator, value)
+              ref.where(new FieldPath(...fieldPath), operator, value)
             )
             .valueChanges({ idField: 'id' })
             .pipe(first());
