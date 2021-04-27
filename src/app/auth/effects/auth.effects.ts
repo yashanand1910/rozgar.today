@@ -23,7 +23,8 @@ import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { QueryParamKey } from '@core/models';
-import { User } from 'firebase/app';
+import firebase from 'firebase/app';
+import User = firebase.User;
 
 @Injectable()
 export class AuthEffects {
