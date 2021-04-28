@@ -2,7 +2,7 @@ name: Common
 
 on:
   pull_request:
-    branches: [master, beta, stable]
+    branches: [alpha, beta, stable]
 
 jobs:
   test:

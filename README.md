@@ -10,15 +10,15 @@ CI/CD setup using GitHub Actions & Firebase Hosting.
 
 #### Alpha ([alpha.rozgar.today](https://alpha.rozgar.today))
 
-![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=master) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/master/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
+![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=alpha) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/alpha/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-Master WIP branch directly deployed on every push.
+Alpha WIP branch directly deployed on every push.
 
 #### Beta ([beta.rozgar.today](https://beta.rozgar.today))
 
 ![Beta](https://github.com/yashanand1910/rozgar.today/workflows/Beta/badge.svg?branch=beta) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/yashanand1910/rozgar.today?color=blue&include_prereleases) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/beta/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-Beta branch deployed on every merge from master and is followed by a pre-release. This branch is to deploy a production-like environment for any kind of pre-release UAT testing.
+Beta branch deployed on every merge from alpha and is followed by a pre-release. This branch is to deploy a production-like environment for any kind of pre-release UAT testing.
 
 #### Stable ([rozgar.today](https://rozgar.today))
 
@@ -28,4 +28,4 @@ Stable branch deployed on every merge from beta and is followed by a release.
 
 ## Contributing
 
-If you wish to contribute, write to us at _development@rozgar.today_. See [documentation](https://github.com/yashanand1910/rozgar.today/blob/master/docs).
+If you wish to contribute, write to us at _development@rozgar.today_. See [documentation](https://github.com/yashanand1910/rozgar.today/blob/alpha/docs).

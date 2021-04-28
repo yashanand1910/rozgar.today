@@ -2,7 +2,7 @@ name: Alpha
 
 on:
   push:
-    branches: [master]
+    branches: [alpha]
 
 jobs:
   main:

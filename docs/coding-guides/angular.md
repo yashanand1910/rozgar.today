@@ -5,7 +5,7 @@ replacing the now well-known [AngularJS](https://angularjs.org) framework (aka A
 
 More that just a framework, Angular should now be considered as a whole _platform_ which comes with a complete set of
 tools, like its own [CLI](https://github.com/angular/angular-cli), [debug utilities](https://augury.angular.io) or
-[performance tools](https://github.com/angular/angular/tree/master/packages/benchpress).
+[performance tools](https://github.com/angular/angular/tree/alpha/packages/benchpress).
 
 Angular has been around for some time now, but I still get the feeling that it’s not getting the love it deserved,
 probably because of other players in the field like React or VueJS. While the simplicity behind these frameworks can

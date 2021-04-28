@@ -53,10 +53,10 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "yashanand1910@gmail.com"
           npm run release:beta
-          git checkout master
+          git checkout alpha
           git merge beta --allow-unrelated-histories
           git push --follow-tags origin beta
-          git push origin master
+          git push origin alpha
 
       - name: Build
         if: ${{ !contains(github.event.head_commit.message, 'chore(release)') || (!contains(github.event.head_commit.message, '-beta.') && contains(github.event.head_commit.message, 'chore(release)')) }}
