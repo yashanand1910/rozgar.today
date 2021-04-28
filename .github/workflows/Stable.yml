@@ -7,6 +7,7 @@ on:
 jobs:
   main:
     name: Test, Deploy & Release
+    if: "!contains(github.event.head_commit.message, 'chore(release)')"
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -19,7 +20,6 @@ jobs:
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -31,23 +31,18 @@ jobs:
           fetch-depth: 0
 
       - name: Install
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm install
 
       - name: Check Linting
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run lint
 
       - name: Run Unit Tests
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run test:ci
 
       - name: Run e2e Tests
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run e2e
 
       - name: Prepare Release
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: |
           git fetch --all
           git config user.name "GitHub Actions"
@@ -62,9 +57,7 @@ jobs:
           git push origin alpha
 
       - name: Build
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run build
 
       - name: Deploy
-        if: "!contains(github.event.head_commit.message, 'chore(release)')"
         run: npm run deploy -- --token "$FIREBASE_TOKEN"
