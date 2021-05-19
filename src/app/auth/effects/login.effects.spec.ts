@@ -9,7 +9,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('LoginEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: LoginEffects;
   let store: MockStore;

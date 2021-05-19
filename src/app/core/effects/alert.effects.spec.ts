@@ -8,7 +8,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '@env/environment';
 
 describe('AlertEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: AlertEffects;
   let store: MockStore;

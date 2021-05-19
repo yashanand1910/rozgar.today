@@ -8,7 +8,7 @@ import { environment } from '@env/environment';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 describe('ConstraintEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: ConstraintEffects;
   let store: MockStore;

@@ -41,7 +41,9 @@
               "src/manifest.json",
               "src/assets"
             ],
-            "styles": ["src/main.less"],
+            "styles": [
+              "src/main.less"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -146,10 +148,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json", "e2e/tsconfig.json"],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
         "e2e": {
@@ -174,5 +178,8 @@
       }
     }
   },
-  "defaultProject": "rozgar-today"
+  "defaultProject": "rozgar-today",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

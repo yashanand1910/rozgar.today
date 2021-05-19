@@ -9,7 +9,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: AuthEffects;
   let store: MockStore;

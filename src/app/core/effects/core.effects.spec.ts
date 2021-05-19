@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 
 describe('CoreEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: CoreEffects;
 

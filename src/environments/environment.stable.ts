@@ -22,5 +22,7 @@ export const environment = {
     messagingSenderId: '712869014206',
     appId: '1:712869014206:web:ead6947c791e747d450cef',
     measurementId: 'G-TGL57ZX37X'
-  }
+  },
+  stripePublishableKey:
+    'pk_test_51Hb1I6Hspk8hbSIzfU1dsnkBhLVz0h6OBmXg2j9UE310O016q4sruj0mMyqFVHEH1y3djZos0PuB9tg9xpS3Wew500IggP6rEn'
 };

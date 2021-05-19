@@ -2,7 +2,7 @@
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
 // In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
 // which contains the path mapping (ie the `compilerOptions.paths` option):
-const { compilerOptions } = require('./tsconfig.base');
+const { compilerOptions } = require('./tsconfig');
 
 module.exports = {
   preset: 'jest-preset-angular',
@@ -14,9 +14,9 @@ module.exports = {
   globals: {
     'ts-jest': {
       allowSyntheticDefaultImports: true,
-      tsConfig: '<rootDir>/tsconfig.spec.json',
-    },
+      tsConfig: '<rootDir>/tsconfig.spec.json'
+    }
   },
   // Do not ignore librairies such as ionic, ionic-native or bootstrap to transform them during unit testing.
-  transformIgnorePatterns: ['node_modules/(?!(jest-test|@ionic-native|@ng-bootstrap))'],
+  transformIgnorePatterns: ['node_modules/(?!(jest-test|@ionic-native|@ng-bootstrap))']
 };

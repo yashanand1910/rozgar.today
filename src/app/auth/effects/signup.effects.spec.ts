@@ -10,7 +10,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('SignupEffects', () => {
-  // tslint:disable-next-line:prefer-const
+  // eslint-disable-next-line prefer-const
   let actions$: Observable<any>;
   let effects: SignupEffects;
   let store: MockStore;
