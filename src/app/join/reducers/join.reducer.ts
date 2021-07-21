@@ -11,6 +11,7 @@ export interface AdditionalState {
   isLoading: boolean;
   isProcessing: boolean;
   selectedPlanId: string;
+  error: string;
 }
 
 export interface JoinState {
@@ -57,19 +58,25 @@ const initialAdditionalState: AdditionalState = {
       icon: 'credit-card'
     },
     {
-      title: extract('Profile'),
+      title: extract('Resume'),
       path: StepPath.Resume,
       icon: 'check-square'
     }
   ],
   isLoading: false,
   isProcessing: false,
-  selectedPlanId: null
+  selectedPlanId: null,
+  error: null
 };
 
 const additionalReducer = createReducer(
   initialAdditionalState,
   on(JoinActions.setSelectedPlan, (state, action) => ({ ...state, selectedPlanId: action.id })),
+  on(JoinActions.setStepDescription, (state, action) => {
+    let newSteps = state.steps.map((step) => ({ ...step }));
+    newSteps.find((step) => step.path == action.path).description = action.description;
+    return { ...state, steps: newSteps };
+  }),
   on(JoinActions.setJoinFirestoreState, (state, action) => ({ ...state, isProcessing: true })),
   on(JoinActions.setJoinFirestoreStateSuccess, (state, action) => ({ ...state, isProcessing: false })),
   on(JoinActions.setJoinFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
@@ -86,7 +93,8 @@ const additionalReducer = createReducer(
           isLoading: false
         };
   }),
-  on(JoinActions.getJoinFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error }))
+  on(JoinActions.getJoinFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
+  on(JoinActions.resetJoinState, () => initialAdditionalState)
 );
 
 export const reducers: ActionReducerMap<JoinState> = {

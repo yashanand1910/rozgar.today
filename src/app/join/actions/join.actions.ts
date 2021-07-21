@@ -1,11 +1,21 @@
 import { createAction, props } from '@ngrx/store';
 import { JoinFirestoreState } from '@app/join/reducers';
+import { StepPath } from '@app/join/models';
 
 export const nextJoinStep = createAction('[Join] Next Step', props<{ setFirestoreState: boolean }>());
 
 export const previousJoinStep = createAction('[Join] Previous Step');
 
 export const setSelectedPlan = createAction('[Join] Set Selected Plan', props<{ id: string }>());
+
+export const refreshSteps = createAction('[Join] Refresh Steps');
+
+export const setStepDescription = createAction(
+  '[Join] Set Step Description',
+  props<{ path: StepPath; description: string }>()
+);
+
+export const resetJoinState = createAction('[Join] Reset Join State');
 
 /*
  * Actions for state stored in Firestore

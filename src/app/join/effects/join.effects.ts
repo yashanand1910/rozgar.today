@@ -11,12 +11,35 @@ import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { StoreUser } from '@auth/models';
-import { asyncScheduler, EMPTY, from, of } from 'rxjs';
+import { asyncScheduler, from, of } from 'rxjs';
 import { joinFeatureKey, JoinFirestoreState } from '@app/join/reducers';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Plan, StepPath } from '@app/join/models';
+import { extract } from '@i18n/services';
 
 @Injectable()
 export class JoinEffects {
+  refreshSteps$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(JoinActions.refreshSteps),
+      withLatestFrom(
+        this.store.select(CoreSelectors.entitySelectors<Plan>(Collection.Plans).selectEntities),
+        this.store.select(JoinSelectors.selectSelectedPlanId),
+        this.store.select(AuthSelectors.selectAuthUser)
+      ),
+      switchMap(([, plans, selectedPlanId, user]) => [
+        JoinActions.setStepDescription({
+          path: StepPath.Plan,
+          description: plans[selectedPlanId]?.name
+        }),
+        JoinActions.setStepDescription({
+          path: StepPath.Account,
+          description: user?.emailVerified ? extract('Verified') : null
+        })
+      ])
+    )
+  );
+
   nextJoinStep$ = createEffect(() =>
     this.actions$.pipe(
       ofType(JoinActions.nextJoinStep),
@@ -40,14 +63,14 @@ export class JoinEffects {
               })
             )
             .subscribe();
-          return of(JoinActions.setJoinFirestoreState());
+          return [JoinActions.setJoinFirestoreState(), JoinActions.refreshSteps()];
         } else {
           if (url) {
             this.router.navigateByUrl(url, { replaceUrl: true }).then();
           } else {
             this.router.navigate([`/join/${path}`]).then();
           }
-          return EMPTY;
+          return [JoinActions.refreshSteps()];
         }
       })
     )
@@ -100,7 +123,7 @@ export class JoinEffects {
             .pipe(
               first(),
               map((storeUser) => (storeUser.state ? storeUser.state[joinFeatureKey] : null)),
-              map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
+              switchMap((state) => [JoinActions.getJoinFirestoreStateSuccess({ state }), JoinActions.refreshSteps()]),
               catchError((error) =>
                 of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
               )

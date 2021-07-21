@@ -14,8 +14,7 @@ export interface AdditionalState {
   user: User;
   isLoading: boolean;
   isReloading: boolean;
-  // To indicate whether this state is updated with the Firebase user state
-  isInitialized: boolean;
+  isInitialized: boolean; // To indicate whether this state is updated with the Firebase user state
   error: string;
 }
 

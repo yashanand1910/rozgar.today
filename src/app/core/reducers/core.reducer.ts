@@ -1,4 +1,4 @@
-import { Action, ActionReducer, ActionReducerMap, createReducer, MetaReducer, on } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, createReducer, MetaReducer, on } from '@ngrx/store';
 import { environment } from '@env/environment';
 import { Logger } from '@core/services';
 import * as fromRouter from '@ngrx/router-store';
@@ -32,9 +32,9 @@ export const additionalReducer = createReducer(
   on(CoreActions.networkError, (state) => ({ ...state, error: 'Network error, please reload.' }))
 );
 
-export const reducers = new InjectionToken<ActionReducerMap<State, Action>>('Root reducers token', {
+export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reducers token', {
   factory: () => {
-    const coreReducers: ActionReducerMap<State, Action> = {
+    const coreReducers: ActionReducerMap<State> = {
       router: fromRouter.routerReducer,
       [fromConstraint.constraintFeatureKey]: fromConstraint.reducer,
       [fromAlert.alertFeatureKey]: fromAlert.reducer,
@@ -57,8 +57,7 @@ export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State
   return (state, action) => {
     const newState = reducer(state, action);
     log.debug(action.type, {
-      // TODO fix payload always undefined
-      payload: (action as any).payload,
+      action: action,
       oldState: state,
       newState
     });

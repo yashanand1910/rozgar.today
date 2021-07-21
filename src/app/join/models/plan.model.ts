@@ -10,7 +10,7 @@ interface Point {
 }
 
 export interface Plan {
-  // id: string;
+  id: string;
   name: PlanName;
   highlight: string;
   price: number;

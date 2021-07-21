@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as fromRouter from '@ngrx/router-store';
 import * as CoreActions from '@core/actions';
 import * as AuthActions from '../actions';
+import * as JoinActions from '@app/join/actions';
 import * as AuthSelectors from '../selectors';
 import {
   catchError,
@@ -68,16 +69,17 @@ export class AuthEffects {
     )
   );
 
-  logoutSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.logOutSuccess),
-        withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
-        tap(([, user]) => {
-          this.messageService.success(extract(`${user?.displayName} has been logged out.`));
-        })
-      ),
-    { dispatch: false }
+  logoutSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logOutSuccess),
+      withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
+      exhaustMap(([, user]) => {
+        this.messageService.success(extract(`${user?.displayName} has been logged out.`));
+
+        // Add all state resets below
+        return [JoinActions.resetJoinState()];
+      })
+    )
   );
 
   loadAuth$ = createEffect(() =>

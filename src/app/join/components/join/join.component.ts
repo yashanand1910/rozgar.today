@@ -32,7 +32,7 @@ export class JoinComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  // Set step based on user's saved state (progress) if no step is already set
+  // Set step based on user's saved state (progress) if no step is set
   setCurrentStepBasedOnState() {
     if (this.router.url.split('?')[0] === '/join') {
       this.store
@@ -40,7 +40,7 @@ export class JoinComponent implements OnInit, OnDestroy {
         .pipe(first(), withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)))
         .subscribe(([state, user]) => {
           if (!user) {
-            log.debug('Navigating to first step since user not logged in...');
+            log.debug('Navigating to first step since user is not logged in...');
             this.navigateToStepBasedOnPath(StepPath.Plan);
           } else {
             log.debug('Navigating to step based on user progress...');

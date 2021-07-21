@@ -20,7 +20,7 @@ export class ConstraintEffects {
           return of(CoreActions.loadConstraintsSuccess({ constraints: existing }));
         } else {
           return this.afr.changes.pipe(
-            filter((param) => param.key === CoreConfig.Alerts),
+            filter((param) => param.key === CoreConfig.Constraints),
             first(),
             map((str) => JSON.parse(str._value) as Constraints),
             map((constraints) => {

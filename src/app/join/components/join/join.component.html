@@ -2,7 +2,7 @@
   <ng-container *ngIf="!isLoading">
     <div class="steps-container">
       <nz-steps nzStatus="process" [nzCurrent]="currentStepNumber$ | ngrxPush">
-        <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzTitle]="step.title"></nz-step>
+        <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzTitle]="step.title" [nzDescription]="(currentStepNumber$ | ngrxPush) != i ? step.description : null"></nz-step>
       </nz-steps>
     </div>
     <div>

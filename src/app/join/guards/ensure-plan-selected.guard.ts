@@ -23,8 +23,8 @@ export class EnsurePlanSelectedGuard implements CanActivate {
     return this.store.pipe(
       select(JoinSelectors.selectSelectedPlanId),
       first(),
-      map((planId) => {
-        if (!planId) {
+      map((id) => {
+        if (!id) {
           this.messageService.info(extract('You need to select a plan first.'));
           log.debug('Plan not selected, navigating...');
           const urlTree = this.router.parseUrl(`/join/${StepPath.Plan}`);
