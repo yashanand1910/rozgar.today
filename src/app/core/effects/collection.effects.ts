@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, filter, first, map, takeUntil } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, map, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
@@ -12,7 +12,7 @@ export class CollectionEffects {
   loadCollections$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CoreActions.loadCollection),
-      concatMap((action) =>
+      exhaustMap((action) =>
         this.afs
           .collection<CollectionItem<unknown>>(action.collection)
           .valueChanges({ idField: 'id' })

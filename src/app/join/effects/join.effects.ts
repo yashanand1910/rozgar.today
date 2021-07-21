@@ -5,15 +5,24 @@ import * as CoreActions from '@core/actions';
 import * as JoinActions from '../actions';
 import * as JoinSelectors from '../selectors';
 import * as AuthSelectors from '@auth/selectors';
-import { catchError, exhaustMap, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  first,
+  map,
+  mergeMap,
+  observeOn,
+  switchMap,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { StoreUser } from '@auth/models';
+import { StoreUser, User } from '@auth/models';
 import { asyncScheduler, from, of } from 'rxjs';
 import { joinFeatureKey, JoinFirestoreState } from '@app/join/reducers';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Plan, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
 
@@ -27,16 +36,26 @@ export class JoinEffects {
         this.store.select(JoinSelectors.selectSelectedPlanId),
         this.store.select(AuthSelectors.selectAuthUser)
       ),
-      switchMap(([, plans, selectedPlanId, user]) => [
-        JoinActions.setStepDescription({
-          path: StepPath.Plan,
-          description: plans[selectedPlanId]?.name
-        }),
-        JoinActions.setStepDescription({
-          path: StepPath.Account,
-          description: user?.emailVerified ? extract('Verified') : null
-        })
-      ])
+      switchMap(([, plans, selectedPlanId, user]) => {
+        if (selectedPlanId && !plans[selectedPlanId]) {
+          return this.afs
+            .collection(Collection.Plans)
+            .doc<Plan>(selectedPlanId)
+            .valueChanges()
+            .pipe(first(), withLatestFrom(of(user)));
+        } else {
+          return of([plans[selectedPlanId], user]);
+        }
+      }),
+      mergeMap(([selectedPlan, user]) => {
+        return of(
+          JoinActions.setStepDescription({ path: StepPath.Plan, description: (<Plan>selectedPlan)?.name }),
+          JoinActions.setStepDescription({
+            path: StepPath.Account,
+            description: (<User>user)?.emailVerified ? extract('Verified') : null
+          })
+        );
+      })
     )
   );
 
@@ -123,7 +142,7 @@ export class JoinEffects {
             .pipe(
               first(),
               map((storeUser) => (storeUser.state ? storeUser.state[joinFeatureKey] : null)),
-              switchMap((state) => [JoinActions.getJoinFirestoreStateSuccess({ state }), JoinActions.refreshSteps()]),
+              map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
               catchError((error) =>
                 of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
               )
@@ -135,11 +154,12 @@ export class JoinEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store,
-    private router: Router,
-    private afs: AngularFirestore,
-    private afa: AngularFireAuth
-  ) {}
+  getJoinFirestoreStateSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(JoinActions.getJoinFirestoreStateSuccess),
+      switchMap(() => of(JoinActions.refreshSteps()))
+    )
+  );
+
+  constructor(private actions$: Actions, private store: Store, private router: Router, private afs: AngularFirestore) {}
 }

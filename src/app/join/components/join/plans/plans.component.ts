@@ -23,6 +23,7 @@ export class PlansComponent extends StepComponent implements OnInit, OnDestroy {
     super.ngOnInit();
 
     this.store.dispatch(CoreActions.loadCollection({ collection: Collection.Plans }));
+
     this.isLoading$ = this.store.select(CoreSelectors.selectCollectionIsLoading<Plan>(Collection.Plans));
     this.plans$ = this.store.select(CoreSelectors.entitySelectors<Plan>(Collection.Plans).selectAll);
     this.selectedPlanId$ = this.store.select(JoinSelectors.selectSelectedPlanId);

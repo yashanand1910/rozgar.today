@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CoreSelectors from '@core/selectors/core.selector';
+import * as JoinActions from '@app/join/actions';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 import * as VerifyEmailActions from '../actions/verify-email.actions';
@@ -32,7 +33,7 @@ export class VerifyEmailEffects {
       map((action) => action.code),
       exhaustMap((code) =>
         from(this.afa.applyActionCode(code)).pipe(
-          map(() => VerifyEmailActions.verifyEmailSuccess()),
+          switchMap(() => [VerifyEmailActions.verifyEmailSuccess(), JoinActions.refreshSteps()]),
           catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
         )
       )
