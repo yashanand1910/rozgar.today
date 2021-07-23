@@ -54,6 +54,14 @@ export class JoinComponent implements OnInit, OnDestroy {
     }
   }
 
+  onStepClick(index: number) {
+    this.steps$.pipe(first()).subscribe((steps) => {
+      this.router
+        .navigate([steps[index].path], { relativeTo: this.route, queryParamsHandling: 'preserve', replaceUrl: true })
+        .then();
+    });
+  }
+
   navigateToStepBasedOnPath(path: StepPath) {
     this.router.navigate([path], { relativeTo: this.route, queryParamsHandling: 'preserve', replaceUrl: true }).then();
   }

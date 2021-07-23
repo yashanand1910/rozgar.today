@@ -1,0 +1,20 @@
+{
+  "parameterGroups": {
+    "core": {
+      "parameters": {
+        "alerts": {
+          "defaultValue": {
+            "value": "{\"createAccount\":{\"info\":[],\"warn\":[\"We try to provide you an upgrade over your last salary. Though, due to COVID-19, our support is currently impacted.\"]}}"
+          },
+          "description": "Alerts based on user's location in the UI"
+        },
+        "constraints": {
+          "defaultValue": {
+            "value": "{\"lastSalary\":{\"max\":8,\"message\":\"Support for salaries greater than 8 LPA is currently impacted\"}}"
+          },
+          "description": "Field constraints"
+        }
+      }
+    }
+  }
+}

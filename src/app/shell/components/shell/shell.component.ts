@@ -51,7 +51,7 @@ export class ShellComponent implements OnInit, OnDestroy {
       {
         title: of('Join'),
         hidden: this.user$.pipe(map((user) => !!user)),
-        link: '/join/plan'
+        link: '/join/plan' // TODO needs to be /join but that is not working as expected
       },
       {
         title: of('Login'),

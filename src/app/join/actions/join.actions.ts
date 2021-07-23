@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { JoinFirestoreState } from '@app/join/reducers';
 import { StepPath } from '@app/join/models';
+import { NzStatusType } from 'ng-zorro-antd/steps';
 
 export const nextJoinStep = createAction('[Join] Next Step', props<{ setFirestoreState: boolean }>());
 
@@ -10,9 +11,9 @@ export const setSelectedPlan = createAction('[Join] Set Selected Plan', props<{ 
 
 export const refreshSteps = createAction('[Join] Refresh Steps');
 
-export const setStepDescription = createAction(
-  '[Join] Set Step Description',
-  props<{ path: StepPath; description: string }>()
+export const setStepInfo = createAction(
+  '[Join] Set Step Info',
+  props<{ path: StepPath; description?: string; status?: NzStatusType; disabled?: boolean }>()
 );
 
 export const resetJoinState = createAction('[Join] Reset Join State');

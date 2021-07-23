@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CollectionItem, Reference } from '@core/models';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import FieldPath = firebase.firestore.FieldPath;
 

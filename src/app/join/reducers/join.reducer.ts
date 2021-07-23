@@ -44,23 +44,31 @@ const initialAdditionalState: AdditionalState = {
   steps: [
     {
       title: extract('Plan'),
+      status: 'wait',
       path: StepPath.Plan,
-      icon: 'file-protect'
+      icon: 'file-protect',
+      disabled: true
     },
     {
       title: extract('Account'),
+      status: 'wait',
       path: StepPath.Account,
-      icon: 'form'
+      icon: 'form',
+      disabled: true
     },
     {
       title: extract('Payment'),
+      status: 'wait',
       path: StepPath.Payment,
-      icon: 'credit-card'
+      icon: 'credit-card',
+      disabled: true
     },
     {
       title: extract('Resume'),
+      status: 'wait',
       path: StepPath.Resume,
-      icon: 'check-square'
+      icon: 'check-square',
+      disabled: true
     }
   ],
   isLoading: false,
@@ -72,9 +80,18 @@ const initialAdditionalState: AdditionalState = {
 const additionalReducer = createReducer(
   initialAdditionalState,
   on(JoinActions.setSelectedPlan, (state, action) => ({ ...state, selectedPlanId: action.id })),
-  on(JoinActions.setStepDescription, (state, action) => {
+  on(JoinActions.setStepInfo, (state, action) => {
     let newSteps = state.steps.map((step) => ({ ...step }));
-    newSteps.find((step) => step.path == action.path).description = action.description;
+    let newStep = newSteps.find((step) => step.path == action.path);
+    if (action.description) {
+      newStep.description = action.description;
+    }
+    if (action.status) {
+      newStep.status = action.status;
+    }
+    if ('disabled' in action) {
+      newStep.disabled = action.disabled;
+    }
     return { ...state, steps: newSteps };
   }),
   on(JoinActions.setJoinFirestoreState, (state, action) => ({ ...state, isProcessing: true })),

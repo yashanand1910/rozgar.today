@@ -48,13 +48,28 @@ export class JoinEffects {
         }
       }),
       mergeMap(([selectedPlan, user]) => {
-        return of(
-          JoinActions.setStepDescription({ path: StepPath.Plan, description: (<Plan>selectedPlan)?.name }),
-          JoinActions.setStepDescription({
-            path: StepPath.Account,
-            description: (<User>user)?.emailVerified ? extract('Verified') : null
-          })
-        );
+        let nextActions = [];
+        if (selectedPlan) {
+          nextActions.push(
+            JoinActions.setStepInfo({
+              path: StepPath.Plan,
+              description: (<Plan>selectedPlan).name,
+              status: 'finish',
+              disabled: false
+            })
+          );
+        }
+        if ((<User>user)?.emailVerified) {
+          nextActions.push(
+            JoinActions.setStepInfo({
+              path: StepPath.Account,
+              description: extract('Verified'),
+              status: 'finish',
+              disabled: false
+            })
+          );
+        }
+        return of(...nextActions);
       })
     )
   );

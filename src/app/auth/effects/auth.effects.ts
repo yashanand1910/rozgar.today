@@ -29,11 +29,14 @@ import User = firebase.User;
 
 @Injectable()
 export class AuthEffects {
+  private logoutDelay = 2000;
+  private authReloadInterval = 3500;
+
   logOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logOut),
       tap(() => this.messageService.loading(extract('Logging out...'), { nzDuration: 1500 })),
-      delay(2000),
+      delay(this.logoutDelay),
       exhaustMap(() => {
         return this.afa
           .signOut()
@@ -103,11 +106,11 @@ export class AuthEffects {
   startReloadingAuth$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.startReloadingAuth),
-      switchMap(() =>
+      exhaustMap(() =>
         this.afa.authState.pipe(
           switchMap((user) =>
-            interval(3500).pipe(
-              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth), first())),
+            interval(this.authReloadInterval).pipe(
+              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth))),
               switchMap(() => from(user.reload())),
               map(() =>
                 AuthActions.loadAuthSuccess({
