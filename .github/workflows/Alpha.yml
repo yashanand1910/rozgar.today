@@ -35,3 +35,7 @@ jobs:
 
       - name: Deploy
         run: npm run deploy:alpha -- --token "$FIREBASE_TOKEN"
+
+      - name: Deploy Backend
+        if: "contains(github.event.head_commit.message, 'deploy-backend')"
+        run: npm run deploy:backend
