@@ -7,6 +7,7 @@ on:
 jobs:
   main:
     name: Check & Deploy
+    if: "!contains(github.event.head_commit.message, 'deploy-backend-only')"
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -42,6 +43,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Cancel Previous Actions
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v2.3.2
+
       - name: Install
         run: npm run install:backend
 
