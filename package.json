@@ -12,6 +12,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "install:backend": "cd functions && npm install",
     "build:alpha": "ng build",
     "build:beta": "ng build --configuration=beta",
     "build": "ng build --prod",
