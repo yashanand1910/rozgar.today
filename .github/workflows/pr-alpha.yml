@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
         FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-        FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ROZGAR_TODAY }}
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
@@ -33,7 +32,7 @@ jobs:
         id: deployment
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: "$FIREBASE_SERVICE_ACCOUNT_KEY"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ROZGAR_TODAY }}"
           projectId: rozgar-today
           target: alpha
         env:
