@@ -6,6 +6,7 @@ name: Pull Request (Alpha)
 
 jobs:
   build_and_preview:
+    name: Test, Preview & Report Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Actions
