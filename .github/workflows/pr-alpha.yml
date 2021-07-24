@@ -38,7 +38,7 @@ jobs:
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
-          env: ${{ steps.extract_branch.outputs.branch }}
+          env: ${{ steps.extract_branch_name.outputs.branch }}
           logs: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
           ref: ${{ github.head_ref }}
 
