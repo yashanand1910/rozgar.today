@@ -6,7 +6,7 @@ name: Pull Request (Alpha)
 
 jobs:
   build_and_preview:
-    name: Test, Preview & Report Coverage
+    name: Check, Deploy Preview & Report Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Actions
@@ -21,9 +21,6 @@ jobs:
 
       - name: Check Linting
         run: npm run lint
-
-      - name: Run Unit Tests
-        run: npm run test:ci
 
       - name: Build
         run: npm run build:alpha
