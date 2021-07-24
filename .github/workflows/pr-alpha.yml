@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        FIREBASE_HOSTING_LOGS_URL: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
     steps:
       - name: Cancel Previous Actions
         uses: styfle/cancel-workflow-action@0.4.1
@@ -31,7 +32,7 @@ jobs:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: "Preview (${{ github.head_ref }})"
-          logs: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
+          logs: ${{ env.FIREBASE_HOSTING_LOGS_URL }}
           ref: ${{ github.head_ref }}
 
       - name: Build
@@ -55,5 +56,6 @@ jobs:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
+          logs: ${{ env.FIREBASE_HOSTING_LOGS_URL }}
           deployment_id: ${{ steps.start_deployment.outputs.deployment_id }}
           env_url: ${{ steps.deployment.outputs.details_url }}
