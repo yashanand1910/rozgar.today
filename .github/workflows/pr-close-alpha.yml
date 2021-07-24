@@ -3,7 +3,7 @@ name: Pull Request Close (Alpha)
 on:
   pull_request:
     branches: [alpha]
-    types: [ closed ]
+    types: [closed]
 
 jobs:
   close:
