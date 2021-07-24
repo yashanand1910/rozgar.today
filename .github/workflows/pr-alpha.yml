@@ -24,23 +24,18 @@ jobs:
       - name: Check Linting
         run: npm run lint
 
-      - name: Build
-        run: npm run build:alpha
-
-      - name: Extract Branch Name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch_name
-
       - name: Start Deployment
         uses: bobheadxi/deployments@v0.6.0
         id: start_deployment
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
-          env: ${{ steps.extract_branch_name.outputs.branch }}
+          env: "Preview (${{GITHUB_REF##*/}})"
           logs: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
           ref: ${{ github.head_ref }}
+
+      - name: Build
+        run: npm run build:alpha
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         name: Deploy Preview
