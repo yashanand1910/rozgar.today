@@ -1,0 +1,20 @@
+name: Pull Request Close (Alpha)
+
+on:
+  pull_request:
+    branches: [alpha]
+    types: [closed]
+
+jobs:
+  close:
+    name: Deactivate Preview Environment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deactivate Environment
+      uses: bobheadxi/deployments@v0.6.0
+      with:
+        step: deactivate-env
+        token: ${{ secrets.GITHUB_TOKEN }}
+        logs: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
+        env: "Preview (${{ github.head_ref }})"
+        desc: Deployment was pruned
