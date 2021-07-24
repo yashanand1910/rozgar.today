@@ -12,7 +12,7 @@ CI/CD setup using GitHub Actions & Firebase Hosting.
 
 ![Alpha](https://github.com/yashanand1910/rozgar.today/workflows/Alpha/badge.svg?branch=alpha) [![codecov](https://codecov.io/gh/yashanand1910/rozgar.today/branch/alpha/graph/badge.svg)](https://codecov.io/gh/yashanand1910/rozgar.today)
 
-Alpha WIP branch directly deployed on every push.
+Alpha WIP branch directly deployed on every push. PRs into Alpha are temporarily deployed for preview until the PR is closed.
 
 #### Beta ([beta.rozgar.today](https://beta.rozgar.today))
 
