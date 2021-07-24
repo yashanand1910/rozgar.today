@@ -14,14 +14,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from '@angular/fire';
 import { metaReducers, reducers } from './reducers/core.reducer';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
 import { ngZorroConfig } from '@core/nz-global.config';
 import { AngularFireRemoteConfigModule, DEFAULTS, SETTINGS } from '@angular/fire/remote-config';
+import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 
 @NgModule({
   imports: [
@@ -71,7 +72,10 @@ import { AngularFireRemoteConfigModule, DEFAULTS, SETTINGS } from '@angular/fire
     {
       provide: SETTINGS,
       useFactory: () => (!environment.production ? { minimumFetchIntervalMillis: 10_000 } : {})
-    }
+    },
+    { provide: USE_AUTH_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 9099] : undefined },
+    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 8080] : undefined },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 5001] : undefined }
   ]
 })
 export class CoreModule {

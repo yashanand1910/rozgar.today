@@ -1,5 +1,5 @@
 # This is only to create-account a GitHub release
-name: GitHub
+name: Release (GitHub)
 
 on:
   push:

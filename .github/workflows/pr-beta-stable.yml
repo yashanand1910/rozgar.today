@@ -1,8 +1,8 @@
-name: Common
+name: Pull Request (Beta & Stable)
 
 on:
   pull_request:
-    branches: [alpha, beta, stable]
+    branches: [beta, stable]
 
 jobs:
   test:

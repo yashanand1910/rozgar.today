@@ -14,6 +14,7 @@ export const environment = {
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
   firebase: {
+    useEmulators: false,
     apiKey: env.FIREBASE_API_KEY,
     authDomain: 'rozgar-today.firebaseapp.com',
     databaseURL: 'https://rozgar-today.firebaseio.com',

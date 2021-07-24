@@ -47,6 +47,9 @@ xcuserdata/
 /connect.lock
 /coverage
 /libpeerconnection.log
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
 npm-debug.log
 yarn-error.log
 testem.log
