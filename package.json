@@ -12,6 +12,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "clone:data": "clone-data.bash",
+    "emulate:backend": "firebase emulators:start --import data-clone",
     "install:backend": "cd functions && npm install",
     "build:alpha": "ng build",
     "build:beta": "ng build --configuration=beta",

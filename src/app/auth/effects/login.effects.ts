@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { QueryParamKey } from '@core/models';
 import { from, of } from 'rxjs';
 import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class LoginEffects {
@@ -37,7 +38,7 @@ export class LoginEffects {
             }
             return AuthActions.logInSuccess();
           }),
-          catchError((error) => of(AuthActions.logInFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(AuthActions.logInFailiure({ error: error.code })))
         );
       })
     );

@@ -12,6 +12,8 @@ import { Profile, StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
 import { TranslateService } from '@ngx-translate/core';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class SignupEffects {
@@ -49,7 +51,7 @@ export class SignupEffects {
               JoinActions.setJoinFirestoreState()
             ];
           }),
-          catchError((error) => of(AuthActions.signUpFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(AuthActions.signUpFailiure({ error: error.code })))
         )
       )
     );
@@ -65,7 +67,7 @@ export class SignupEffects {
             this.messageService.info(extract('A verification email has been sent.'));
             return AuthActions.sendVerificationEmailSuccess();
           }),
-          catchError((error) => {
+          catchError((error: FirebaseError) => {
             this.messageService.error(this.translationService.instant(error.code));
             return of(AuthActions.sendVerificationEmailFailiure({ error: error.code }));
           })

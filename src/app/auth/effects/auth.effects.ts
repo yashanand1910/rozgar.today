@@ -26,6 +26,7 @@ import { Store } from '@ngrx/store';
 import { QueryParamKey } from '@core/models';
 import firebase from 'firebase/app';
 import User = firebase.User;
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class AuthEffects {
@@ -44,7 +45,7 @@ export class AuthEffects {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
-          .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
+          .catch((error: FirebaseError) => AuthActions.logOutFailiure({ error: error.code }));
       })
     )
   );
@@ -62,11 +63,11 @@ export class AuthEffects {
                 .then(() => {
                   return AuthActions.logOutSuccess();
                 })
-                .catch((error) => AuthActions.logOutFailiure({ error: error.code }));
+                .catch((error: FirebaseError) => AuthActions.logOutFailiure({ error: error.code }));
             }
             return EMPTY;
           }),
-          catchError((error) => of(AuthActions.loadAuthFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(AuthActions.loadAuthFailiure({ error: error.code })))
         );
       })
     )
@@ -95,7 +96,7 @@ export class AuthEffects {
               user: user ? this.sanitizeUser(user) : null
             });
           }),
-          catchError((error) => {
+          catchError((error: FirebaseError) => {
             return of(AuthActions.loadAuthFailiure({ error: error.code }), CoreActions.networkError());
           })
         );
@@ -119,7 +120,7 @@ export class AuthEffects {
               )
             )
           ),
-          catchError((error) => of(AuthActions.loadAuthFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(AuthActions.loadAuthFailiure({ error: error.code })))
         )
       )
     )

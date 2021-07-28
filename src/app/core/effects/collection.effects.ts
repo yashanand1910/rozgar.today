@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 import * as CoreActions from '../actions';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CollectionItem } from '@core/models';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class CollectionEffects {
@@ -30,7 +32,7 @@ export class CollectionEffects {
                 items
               })
             ),
-            catchError((error) =>
+            catchError((error: FirebaseError) =>
               of(
                 CoreActions.loadCollectionFailure({ error: error.code, collection: action.collection }),
                 CoreActions.networkError()

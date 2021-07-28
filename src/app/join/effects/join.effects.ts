@@ -25,6 +25,8 @@ import { asyncScheduler, from, of } from 'rxjs';
 import { joinFeatureKey, JoinFirestoreState } from '@app/join/reducers';
 import { Plan, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class JoinEffects {
@@ -124,7 +126,7 @@ export class JoinEffects {
     this.actions$.pipe(
       ofType(JoinActions.setJoinFirestoreState),
       withLatestFrom(this.store.select(AuthSelectors.selectAuthUser), this.store.select(JoinSelectors.selectJoinState)),
-      exhaustMap(([action, user, state]) =>
+      exhaustMap(([, user, state]) =>
         from(
           this.afs
             .collection(Collection.Users)
@@ -136,7 +138,7 @@ export class JoinEffects {
             })
         ).pipe(
           map(() => JoinActions.setJoinFirestoreStateSuccess()),
-          catchError((error) =>
+          catchError((error: FirebaseError) =>
             of(JoinActions.setJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
           )
         )
@@ -158,7 +160,7 @@ export class JoinEffects {
               first(),
               map((storeUser) => (storeUser.state ? storeUser.state[joinFeatureKey] : null)),
               map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
-              catchError((error) =>
+              catchError((error: FirebaseError) =>
                 of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
               )
             );

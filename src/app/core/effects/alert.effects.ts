@@ -3,11 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as CoreActions from '../actions';
 import * as CoreSelectors from '../selectors';
-import { catchError, exhaustMap, filter, first, last, map, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, map, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Alerts, CoreConfig } from '@core/models';
-import { AngularFireRemoteConfig, budget } from '@angular/fire/remote-config';
+import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class AlertEffects {
@@ -24,7 +26,9 @@ export class AlertEffects {
             first(),
             map((str) => JSON.parse(str._value) as Alerts),
             map((alerts) => CoreActions.loadAlertsSuccess({ alerts })),
-            catchError((error) => of(CoreActions.loadAlertsFailiure({ error: error.code }), CoreActions.networkError()))
+            catchError((error: FirebaseError) =>
+              of(CoreActions.loadAlertsFailiure({ error: error.code }), CoreActions.networkError())
+            )
           );
         }
       })

@@ -10,6 +10,8 @@ import { from, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class ResetPasswordEffects {
@@ -20,7 +22,9 @@ export class ResetPasswordEffects {
       exhaustMap(([, code]) =>
         from(this.afa.verifyPasswordResetCode(code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
-          catchError((error) => of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error: error.code }))
+          )
         )
       )
     );
@@ -39,7 +43,7 @@ export class ResetPasswordEffects {
             this.router.navigate(['/auth']).then();
             return ResetPasswordActions.resetPasswordSuccess();
           }),
-          catchError((error) => of(ResetPasswordActions.resetPasswordFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(ResetPasswordActions.resetPasswordFailiure({ error: error.code })))
         )
       )
     );

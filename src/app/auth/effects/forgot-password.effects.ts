@@ -6,6 +6,8 @@ import { catchError, exhaustMap, map } from 'rxjs/operators';
 import * as ForgotPasswordActions from '../actions/forgot-password.actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class ForgotPasswordEffects {
@@ -16,7 +18,7 @@ export class ForgotPasswordEffects {
       exhaustMap((context) =>
         from(this.afa.sendPasswordResetEmail(context.email)).pipe(
           map(() => ForgotPasswordActions.forgotPasswordSuccess()),
-          catchError((error) => of(ForgotPasswordActions.forgotPasswordFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(ForgotPasswordActions.forgotPasswordFailiure({ error: error.code })))
         )
       )
     );

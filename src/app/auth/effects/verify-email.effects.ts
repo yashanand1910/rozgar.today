@@ -7,6 +7,8 @@ import { from, of } from 'rxjs';
 import * as VerifyEmailActions from '../actions/verify-email.actions';
 import { Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/auth';
+import firebase from 'firebase';
+import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class VerifyEmailEffects {
@@ -21,7 +23,7 @@ export class VerifyEmailEffects {
             VerifyEmailActions.verifyEmailCodeSuccess({ user: { email }, code }),
             VerifyEmailActions.verifyEmail({ code })
           ]),
-          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
         )
       )
     )
@@ -34,7 +36,7 @@ export class VerifyEmailEffects {
       exhaustMap((code) =>
         from(this.afa.applyActionCode(code)).pipe(
           switchMap(() => [VerifyEmailActions.verifyEmailSuccess(), JoinActions.refreshSteps()]),
-          catchError((error) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
+          catchError((error: FirebaseError) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
         )
       )
     )
