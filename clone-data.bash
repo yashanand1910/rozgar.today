@@ -4,6 +4,8 @@
 # Stop following command execution if command before failed
 set -e
 
+gcloud config set project rozgar-today
+
 # Remove previous bucket if exists
 delete_previous_version_if_exists() {
   # We either delete local folder and bucket object or just a bucket

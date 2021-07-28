@@ -12,7 +12,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "clone:data": "clone-data.bash",
+    "clone:data": "bash clone-data.bash",
     "emulate:backend": "firebase emulators:start --import data-clone",
     "install:backend": "cd functions && npm install",
     "build:alpha": "ng build",
@@ -37,7 +37,7 @@
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",
     "docs": "hads ./docs -o",
     "compodoc": "compodoc -p tsconfig.json -d docs/generated -s -o",
-    "env": "ngx-scripts env npm_package_version FIREBASE_API_KEY",
+    "env": "ngx-scripts env npm_package_version FIREBASE_API_KEY USE_BACKEND_EMULATOR",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "postinstall": "npm run env && webdriver-manager update && npm run install:backend",
