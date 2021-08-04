@@ -1,3 +1,4 @@
+// List of collections supported/available in Firestore
 export enum Collection {
   Countries = 'countries',
   Cities = 'cities',
@@ -5,10 +6,10 @@ export enum Collection {
   Users = 'users'
 }
 
+// Reference to a Firestore document
 export interface Reference<T> {
   collection: Collection;
   id?: string;
-  ids?: string[];
 }
 
 export type CollectionItem<T> = T & { id: string };

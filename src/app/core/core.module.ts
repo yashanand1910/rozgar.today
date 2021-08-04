@@ -23,6 +23,7 @@ import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from 
 import { ngZorroConfig } from '@core/nz-global.config';
 import { AngularFireRemoteConfigModule, DEFAULTS, SETTINGS } from '@angular/fire/remote-config';
 import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions'
     }),
     EffectsModule.forRoot([CoreEffects, ConstraintEffects, AlertEffects, CollectionEffects]),
     StoreRouterConnectingModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
+    !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
+    NgxStripeModule.forRoot(environment.stripe.publishableKey)
   ],
   providers: [
     {

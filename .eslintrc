@@ -25,7 +25,7 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": "warn",
         "@angular-eslint/component-selector": [
           "error",
           {

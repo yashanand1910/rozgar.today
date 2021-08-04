@@ -8,15 +8,13 @@ jobs:
   build_and_preview:
     name: Check & Deploy Preview
     runs-on: ubuntu-latest
+    concurrency:
+      group: pr-${{ github.head_ref }}
+      cancel-in-progress: true
     env:
         FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
         FIREBASE_HOSTING_LOGS_URL: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
     steps:
-      - name: Cancel Previous Actions
-        uses: styfle/cancel-workflow-action@0.4.1
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/checkout@v2.3.2
 
       - name: Install
@@ -26,6 +24,7 @@ jobs:
         run: npm run lint
 
       - name: Start Deployment
+        if: "!contains(github.head_ref, 'dependabot')"
         uses: bobheadxi/deployments@v0.6.0
         id: start_deployment
         with:
@@ -39,6 +38,7 @@ jobs:
         run: npm run build:alpha
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
+        if: "!contains(github.head_ref, 'dependabot')"
         name: Deploy Preview
         id: deployment
         with:
@@ -51,7 +51,7 @@ jobs:
 
       - name: Finish Deployment
         uses: bobheadxi/deployments@v0.6.0
-        if: always()
+        if: ${{ always() && !contains(github.head_ref, 'dependabot')}}
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
