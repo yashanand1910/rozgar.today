@@ -1,3 +1,5 @@
+import { Product } from '@core/models/product';
+
 export enum PlanName {
   Basic = 'Basic',
   Standard = 'Standard',
@@ -9,10 +11,9 @@ interface Point {
   value: boolean | string;
 }
 
-export interface Plan {
+export interface Plan extends Product {
   id: string;
   name: PlanName;
   highlight: string;
-  price: number;
   points: Point[];
 }

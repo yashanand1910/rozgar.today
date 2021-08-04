@@ -24,6 +24,8 @@ export const environment = {
     appId: '1:712869014206:web:ead6947c791e747d450cef',
     measurementId: 'G-TGL57ZX37X'
   },
-  stripePublishableKey:
-    'pk_test_51Hb1I6Hspk8hbSIzfU1dsnkBhLVz0h6OBmXg2j9UE310O016q4sruj0mMyqFVHEH1y3djZos0PuB9tg9xpS3Wew500IggP6rEn'
+  stripe: {
+    publishableKey:
+      'pk_test_51JJXVXSJUFAUz58Xee7OBE51NHS3JKbP3O2qupHY6EI1ftDZDGL7qnqsq1rGnwuTCS1t44Km8xKCRt4aAFoQsbC900470w0lDw'
+  }
 };

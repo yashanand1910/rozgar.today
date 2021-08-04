@@ -131,11 +131,9 @@ export class JoinEffects {
           this.afs
             .collection(Collection.Users)
             .doc<StoreUser>(user.uid)
-            .update({
-              state: {
-                [joinFeatureKey]: { ...new JoinFirestoreState(state) }
-              }
-            })
+            .collection('states')
+            .doc<JoinFirestoreState>(joinFeatureKey)
+            .set({ ...new JoinFirestoreState(state) })
         ).pipe(
           map(() => JoinActions.setJoinFirestoreStateSuccess()),
           catchError((error: FirebaseError) =>
@@ -155,10 +153,11 @@ export class JoinEffects {
           return this.afs
             .collection(Collection.Users)
             .doc<StoreUser>(user.uid)
+            .collection('states')
+            .doc<JoinFirestoreState>(joinFeatureKey)
             .valueChanges()
             .pipe(
               first(),
-              map((storeUser) => (storeUser.state ? storeUser.state[joinFeatureKey] : null)),
               map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
               catchError((error: FirebaseError) =>
                 of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())

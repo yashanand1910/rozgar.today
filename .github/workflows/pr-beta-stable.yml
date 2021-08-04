@@ -7,6 +7,9 @@ on:
 jobs:
   test:
     name: Test & Report Coverage
+    concurrency:
+      group: pr-${{ github.head_ref }}
+      cancel-in-progress: true
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
     runs-on: ubuntu-latest

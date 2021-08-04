@@ -56,11 +56,26 @@ const log = new Logger('Action');
 export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State> {
   return (state, action) => {
     const newState = reducer(state, action);
-    log.debug(action.type, {
-      action: action,
-      oldState: state,
-      newState
-    });
+    if (action['error']) {
+      log.error(`${action.type} (error: ${action['error']})`, {
+        action: action,
+        oldState: state,
+        newState
+      });
+    } else if (action['warn']) {
+      log.warn(`${action.type} (warn: ${action['warn']})`, {
+        action: action,
+        oldState: state,
+        newState
+      });
+    } else {
+      log.debug(action.type, {
+        action: action,
+        oldState: state,
+        newState
+      });
+    }
+
     return newState;
   };
 }

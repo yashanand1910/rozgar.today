@@ -8,6 +8,9 @@ jobs:
   main:
     name: Test, Deploy & Release
     if: "!contains(github.event.head_commit.message, 'chore(release)')"
+    concurrency:
+      group: build-stable
+      cancel-in-progress: true
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}

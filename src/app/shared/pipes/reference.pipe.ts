@@ -40,6 +40,7 @@ export class ReferencePipe implements PipeTransform {
             .valueChanges({ idField: 'id' })
             .pipe(first());
         }
+      // TODO case for type 'Item'
     }
   }
 }
