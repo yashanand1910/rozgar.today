@@ -5,6 +5,7 @@ import * as fromRouter from '@ngrx/router-store';
 import * as fromConstraint from './constraint.reducer';
 import * as fromAlert from './alert.reducer';
 import * as fromCollection from './collection.reducer';
+import * as fromStripe from './stripe.reducer';
 import * as CoreActions from '../actions';
 import { Collection } from '@core/models';
 import { InjectionToken } from '@angular/core';
@@ -16,6 +17,7 @@ export interface State {
   router: fromRouter.RouterReducerState;
   [fromConstraint.constraintFeatureKey]: fromConstraint.State;
   [fromAlert.alertFeatureKey]: fromAlert.State;
+  [fromStripe.stripeFeatureKey]: fromStripe.State;
   [additionalKey]: AdditionalState;
 }
 
@@ -38,13 +40,13 @@ export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reduce
       router: fromRouter.routerReducer,
       [fromConstraint.constraintFeatureKey]: fromConstraint.reducer,
       [fromAlert.alertFeatureKey]: fromAlert.reducer,
+      [fromStripe.stripeFeatureKey]: fromStripe.reducer,
       [additionalKey]: additionalReducer
     };
 
+    // Add collection reducer as well, but since it is dynamic...
     for (const key in Collection) {
-      if (Collection) {
-        coreReducers[Collection[key]] = fromCollection.reducer(Collection[key]);
-      }
+      coreReducers[Collection[key]] = fromCollection.reducer(Collection[key]);
     }
     return coreReducers as ActionReducerMap<State>;
   }
@@ -52,7 +54,16 @@ export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reduce
 
 const log = new Logger('Action');
 
-// Debug logger for each action
+/*******************
+ * Meta-reducers
+ *******************/
+
+/**
+ * Log every action for debugging / error or warn actions for more info
+ *
+ * @param {ActionReducer<State>} reducer
+ * @returns {ActionReducer<State>}
+ */
 export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State> {
   return (state, action) => {
     const newState = reducer(state, action);

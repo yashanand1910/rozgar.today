@@ -33,13 +33,12 @@ export class SignupEffects {
           }),
           // Update other details
           switchMap((user) => {
-            const { password, confirmPassword, ...safeContext } = context;
+            // Remove passwords etc. to create a safe context (profile) for storage
+            const { password, confirmPassword, ...profile } = context;
             return this.afs
               .collection<StoreUser>(Collection.Users)
               .doc<StoreUser>(user.uid)
-              .set({
-                profile: { ...user, ...safeContext } as Profile
-              })
+              .set({ profile })
               .then(() => user);
           }),
           switchMap((user: Partial<User>) => {

@@ -15,4 +15,8 @@ export interface Price {
   currency: Currency;
 }
 
-export type Product = { price: Price; [fields: string]: unknown };
+export type Product = { price: Price; metadata: Metadata; [fields: string]: unknown };
+
+export interface Metadata {
+  stripeId: string;
+}

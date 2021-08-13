@@ -1,16 +1,8 @@
 import { Profile } from '@auth/models';
 
-export interface SignupContext {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: Profile['phoneNumber'];
-  phoneCode: Profile['phoneCode'];
+export interface SignupContext extends Profile {
   password: string;
   confirmPassword: string;
-  country: Profile['country'];
-  preferredCities: Profile['preferredCities'];
-  lastSalary: Profile['lastSalary'];
 }
 
 export interface LoginContext {

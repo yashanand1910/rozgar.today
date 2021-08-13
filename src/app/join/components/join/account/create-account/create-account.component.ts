@@ -93,4 +93,7 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
     }
     return {};
   };
+
+  // TODO password strength validator
+  // TODO fix browser detecting phone field as username field
 }

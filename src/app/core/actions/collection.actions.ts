@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { Collection, CollectionItem } from '@core/models/collection';
 
-export const loadCollection = createAction('[Collection] Load Collection', props<{ collection: Collection }>());
+export const loadCollection = createAction(
+  '[Collection] Load Collection',
+  props<{ collection: Collection; live?: boolean }>()
+);
 
 export const loadCollectionSuccess = createAction(
   '[Collection] Load Collection Success',

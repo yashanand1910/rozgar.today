@@ -14,6 +14,7 @@ import {
   first,
   map,
   switchMap,
+  take,
   takeUntil,
   tap,
   withLatestFrom
@@ -107,7 +108,7 @@ export class AuthEffects {
   startReloadingAuth$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.startReloadingAuth),
-      exhaustMap(() =>
+      switchMap(() =>
         this.afa.authState.pipe(
           switchMap((user) =>
             interval(this.authReloadInterval).pipe(

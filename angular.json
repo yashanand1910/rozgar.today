@@ -180,6 +180,6 @@
   },
   "defaultProject": "rozgar-today",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "defaultCollection": "@ngrx/schematics"
   }
 }

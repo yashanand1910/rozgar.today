@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import FirebaseUser = firebase.User;
 import { City, Country, Reference } from '@core/models';
 
-// User as per Firebase Auth
+// User as per Firebase Auth. Needs to be a seperate interface because this will be stored in the state.
 export interface User {
   uid: FirebaseUser['uid'];
   emailVerified: FirebaseUser['emailVerified'];
@@ -14,10 +14,18 @@ export interface User {
 // Stored in Firestore
 export interface StoreUser {
   profile: Profile;
-  state?: any;
+  state?: unknown;
+  metadata?: Metadata;
+}
+
+export interface Metadata {
+  stripeId: string;
 }
 
 export interface Profile {
+  firstName: string;
+  lastName: string;
+  email: string;
   phoneCode: string;
   phoneNumber: string;
   country: Reference<Country>;

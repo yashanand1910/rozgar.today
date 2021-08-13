@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "typeRoots": [ "node_modules/@types" ],
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,

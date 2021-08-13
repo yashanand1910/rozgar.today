@@ -43,8 +43,11 @@ export class JoinEffects {
           return this.afs
             .collection(Collection.Plans)
             .doc<Plan>(selectedPlanId)
-            .valueChanges()
-            .pipe(first(), withLatestFrom(of(user)));
+            .get()
+            .pipe(
+              map((snapshot) => snapshot.data()),
+              withLatestFrom(of(user))
+            );
         } else {
           return of([plans[selectedPlanId], user]);
         }
@@ -155,9 +158,9 @@ export class JoinEffects {
             .doc<StoreUser>(user.uid)
             .collection('states')
             .doc<JoinFirestoreState>(joinFeatureKey)
-            .valueChanges()
+            .get()
             .pipe(
-              first(),
+              map((snapshot) => snapshot.data()),
               map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
               catchError((error: FirebaseError) =>
                 of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())

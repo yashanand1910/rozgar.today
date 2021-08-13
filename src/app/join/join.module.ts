@@ -39,6 +39,7 @@ import {
   PlanComponent,
   VerifyAccountComponent
 } from '@app/join/components/join';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {
     NzNoAnimationModule,
     NzCheckboxModule,
     SharedModule,
-    NzResultModule
+    NzResultModule,
+    NgxStripeModule
   ],
   providers: [EnsurePlanSelectedGuard, EnsureFirestoreStateLoadedGuard]
 })

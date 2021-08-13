@@ -9,5 +9,5 @@ export class CreateReferencePipe implements PipeTransform {
     return { collection, id };
   }
 
-  // TODO check new firestore reference type fields
+  // TODO check firestore reference type fields
 }

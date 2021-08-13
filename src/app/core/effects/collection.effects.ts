@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, filter, first, map, takeUntil } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, map, take, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as CoreActions from '../actions';
@@ -19,6 +19,7 @@ export class CollectionEffects {
           .collection<CollectionItem<unknown>>(action.collection)
           .valueChanges({ idField: 'id' })
           .pipe(
+            take(action.live ? Infinity : 1),
             takeUntil(
               this.actions$.pipe(
                 ofType(CoreActions.stopLoadCollection),

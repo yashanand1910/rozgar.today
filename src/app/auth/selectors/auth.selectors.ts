@@ -8,6 +8,8 @@ export const selectAuthAdditionalState = createSelector(selectAuthState, (state)
 
 export const selectAuthUser = createSelector(selectAuthAdditionalState, (state) => state.user);
 
+export const selectAuthUserUid = createSelector(selectAuthUser, (user) => user.uid);
+
 export const selectAuthIsLoading = createSelector(selectAuthAdditionalState, (state) => state.isLoading);
 
 export const selectAuthIsInitialized = createSelector(selectAuthAdditionalState, (state) => state.isInitialized);

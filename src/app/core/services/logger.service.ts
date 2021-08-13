@@ -79,7 +79,7 @@ export class Logger {
 
   /**
    * Logs messages or objects  with the info level.
-   * Works the same as console.log().
+   * Works the same as console.info().
    */
   info(...objects: any[]) {
     this.log(console.info, LogLevel.Info, objects);
@@ -87,7 +87,7 @@ export class Logger {
 
   /**
    * Logs messages or objects  with the warning level.
-   * Works the same as console.log().
+   * Works the same as console.warn().
    */
   warn(...objects: any[]) {
     this.log(console.warn, LogLevel.Warning, objects);
@@ -95,7 +95,7 @@ export class Logger {
 
   /**
    * Logs messages or objects  with the error level.
-   * Works the same as console.log().
+   * Works the same as console.error().
    */
   error(...objects: any[]) {
     this.log(console.error, LogLevel.Error, objects);

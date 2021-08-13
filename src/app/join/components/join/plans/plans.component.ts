@@ -30,9 +30,7 @@ export class PlansComponent extends StepComponent implements OnInit, OnDestroy {
     this.joinIsProcessing$ = this.store.select(JoinSelectors.selectJoinIsProcessing);
   }
 
-  ngOnDestroy() {
-    this.store.dispatch(CoreActions.stopLoadCollection({ collection: Collection.Plans }));
-  }
+  ngOnDestroy() {}
 
   selectPlan(id: string) {
     this.store.dispatch(JoinActions.setSelectedPlan({ id }));

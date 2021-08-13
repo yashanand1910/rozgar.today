@@ -5,7 +5,7 @@
   "auth/weak-password": "Please enter a stronger password.",
   "auth/email-already-in-use": "Account already exists. Try logging in instead.",
   "auth/user-disabled": "Your account has been disabled.",
-  "auth/user-not-found": "Please check your email.",
+  "auth/user-not-found": "Please check the you've email entered.",
   "auth/wrong-password": "Please check your password.",
   "auth/argument-error": "Your link is invalid or has expired. Please request for another one.",
   "auth/invalid-action-code": "Your link is invalid or has expired. Please request for another one.",

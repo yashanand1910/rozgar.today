@@ -55,7 +55,7 @@ export class VerifyAccountComponent extends StepComponent implements OnInit, OnD
   sendVerificationEmail() {
     this.store.dispatch(AuthActions.sendVerificationEmail());
     this.secondsLeft$ = this.actions$.pipe(
-      // Start cooldown only when email was successfully sent
+      // Start cooldown only after email was successfully sent
       ofType(AuthActions.sendVerificationEmailSuccess),
       exhaustMap(() => {
         let time = this.cooldownSeconds - 1;
