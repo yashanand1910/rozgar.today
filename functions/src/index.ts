@@ -1,5 +1,5 @@
 import { Collection, CreatePaymentIntentInput, CurrencyMultiplier, Product, StoreUser } from './model';
-import { getDisplayName } from './helper';
+import { getDisplayName, getIdempotencyKey } from './helper';
 
 import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
@@ -55,7 +55,7 @@ exports.createCustomer = functions.firestore
 /**
  * Create a Stripe PaymentIntent
  *
- * @params data - { item: 'path/to/document/in/firestore' }
+ * @params data - { productPath: 'path/to/document/in/firestore' }
  * @returns { clientSecret }
  */
 exports.createPaymentIntent = functions.https.onCall(async (data: CreatePaymentIntentInput) => {
@@ -71,10 +71,11 @@ exports.createPaymentIntent = functions.https.onCall(async (data: CreatePaymentI
   const paymentIntent = await stripe.paymentIntents.create({
     ...product.price,
     customer: data.stripeCustomerId
-  });
+  }, { idempotencyKey: getIdempotencyKey(data.stripeCustomerId, data.productPath) });
 
-  // Return client secret
+  // Return client secret & id
   return {
+    id: paymentIntent.id,
     clientSecret: paymentIntent.client_secret
   };
 });

@@ -15,10 +15,10 @@ export class EnsureAuthStateInitializedGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // Won't return false, will only wait until gets true
+
     return this.store.pipe(
-      select(AuthSelectors.selectAuthIsInitialized),
-      filter((isInitialized) => isInitialized),
+      select(AuthSelectors.selectIsLoaded),
+      filter((isLoaded) => isLoaded), // Won't emit false, will only wait until gets true
       first()
     );
   }

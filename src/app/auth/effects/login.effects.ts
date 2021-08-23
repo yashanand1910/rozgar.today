@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as CoreSelectors from '@core/selectors';
+import * as RouterSelectors from '@core/selectors/router.selectors';
 import * as AuthActions from '../actions';
 import { catchError, exhaustMap, first, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -19,7 +19,7 @@ export class LoginEffects {
     return this.actions$.pipe(
       ofType(AuthActions.logIn),
       map((action) => action.context),
-      withLatestFrom(this.store.select(CoreSelectors.selectQueryParam(QueryParamKey.ReturnUrl))),
+      withLatestFrom(this.store.select(RouterSelectors.selectQueryParam(QueryParamKey.ReturnUrl))),
       exhaustMap(([context, url]) => {
         this.afa
           .setPersistence(

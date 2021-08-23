@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as ForgotPasswordActions from '../actions/forgot-password.actions';
 import { extract } from '@i18n/services';
 
-export const forgotPasswordFeatureKey = 'forgotPassword';
+export const featureKey = 'forgotPassword';
 
 export interface State {
   isLoading: boolean;

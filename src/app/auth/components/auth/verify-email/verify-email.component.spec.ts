@@ -6,7 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectVerifyEmailState } from '@auth/selectors';
+import { selectState } from '@auth/selectors';
 
 describe('VerifyEmailComponent', () => {
   let component: VerifyEmailComponent;
@@ -18,7 +18,7 @@ describe('VerifyEmailComponent', () => {
       TestBed.configureTestingModule({
         imports: [TranslateModule.forRoot(), ReactiveComponentModule, NzButtonModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: selectVerifyEmailState, value: false }] })],
+        providers: [provideMockStore({ selectors: [{ selector: selectState, value: false }] })],
         declarations: [VerifyEmailComponent]
       }).compileComponents();
     })

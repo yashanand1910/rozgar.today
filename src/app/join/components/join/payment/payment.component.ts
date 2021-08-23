@@ -14,7 +14,7 @@ export class PaymentComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.initiate();
+    this.initiate();
   }
 
   /**

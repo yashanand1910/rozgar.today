@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../actions';
-import * as AuthSelectors from '../../../selectors';
+import * as LoginSelectors from '../../../selectors/login.selectors';
 import { CustomValidators } from '@shared/validators';
 import { Observable } from 'rxjs';
 
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(AuthActions.ensureLogOut());
 
-    this.error$ = this.store.select(AuthSelectors.selectLoginError);
-    this.isLoading$ = this.store.select(AuthSelectors.selectLoginIsLoading);
+    this.error$ = this.store.select(LoginSelectors.selectError);
+    this.isLoading$ = this.store.select(LoginSelectors.selectIsLoading);
   }
 
   ngOnDestroy() {}

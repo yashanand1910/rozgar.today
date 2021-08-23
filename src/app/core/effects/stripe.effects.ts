@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CoreActions from '../actions';
-import * as CoreSelectors from '../selectors';
+import * as StripeSelectors from '../selectors/stripe.selectors';
 import * as AuthSelectors from '@auth/selectors';
 import { catchError, first, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { Collection, CreatePaymentIntentInput, CreatePaymentIntentOutput, Function } from '../models';
+import { Collection, CreatePaymentIntentInput, PaymentIntent, Function } from '../models';
 import firebase from 'firebase';
 import FirebaseError = firebase.FirebaseError;
 import { of } from 'rxjs';
@@ -27,7 +27,7 @@ export class StripeEffects {
       mergeMap((action) => {
         return of(action).pipe(
           withLatestFrom(
-            this.store.select(CoreSelectors.selectStripeProductPaymentClientSecret, { productPath: action.productPath })
+            this.store.select(StripeSelectors.selectProductPaymentClientSecret, { productPath: action.productPath })
           )
         );
       }),
@@ -35,12 +35,12 @@ export class StripeEffects {
         if (clientSecret) {
           return of(CoreActions.createPaymentIntentSuccess({ productPath: action.productPath, clientSecret }));
         } else {
-          return this.store.select(AuthSelectors.selectAuthUserUid).pipe(
+          return this.store.select(AuthSelectors.selectUserUid).pipe(
             first(),
             switchMap((uid) => this.afs.collection<StoreUser>(Collection.Users).doc(uid).get()),
             map((snapshot) => snapshot.data().metadata.stripeId),
             switchMap((stripeId) =>
-              this.functions.httpsCallable<CreatePaymentIntentInput, CreatePaymentIntentOutput>(
+              this.functions.httpsCallable<CreatePaymentIntentInput, PaymentIntent>(
                 Function.CreatePaymentIntent
               )({
                 productPath: action.productPath,

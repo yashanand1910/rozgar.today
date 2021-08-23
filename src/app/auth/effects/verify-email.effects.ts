@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as CoreSelectors from '@core/selectors/core.selector';
+import * as RouterSelectors from '@core/selectors/router.selectors';
 import * as JoinActions from '@app/join/actions';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
@@ -15,7 +15,7 @@ export class VerifyEmailEffects {
   verifyEmailCode$ = createEffect(() =>
     this.actions$.pipe(
       ofType(VerifyEmailActions.verifyEmailCode),
-      withLatestFrom(this.store.select(CoreSelectors.selectQueryParam('oobCode'))),
+      withLatestFrom(this.store.select(RouterSelectors.selectQueryParam('oobCode'))),
       switchMap(([, code]) =>
         from(this.afa.checkActionCode(code)).pipe(
           map((metaData) => metaData.data.email),

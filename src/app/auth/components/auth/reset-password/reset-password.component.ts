@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as AuthSelectors from '@auth/selectors';
+import * as ResetPasswordSelectors from '@auth/selectors/reset-password.selectors';
 import * as AuthActions from '@auth/actions';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -26,10 +26,10 @@ export class ResetPasswordComponent implements OnInit {
     this.store.dispatch(AuthActions.verifyResetPasswordCode());
     this.createForm();
 
-    this.user$ = this.store.select(AuthSelectors.selectResetPasswordUser);
-    this.error$ = this.store.select(AuthSelectors.selectResetPasswordError);
-    this.isLoading$ = this.store.select(AuthSelectors.selectResetPasswordIsLoading);
-    this.isVerifying$ = this.store.select(AuthSelectors.selectResetPasswordIsVerifying);
+    this.user$ = this.store.select(ResetPasswordSelectors.selectUser);
+    this.error$ = this.store.select(ResetPasswordSelectors.selectError);
+    this.isLoading$ = this.store.select(ResetPasswordSelectors.selectIsLoading);
+    this.isVerifying$ = this.store.select(ResetPasswordSelectors.selectIsVerifying);
   }
 
   resetPassword() {

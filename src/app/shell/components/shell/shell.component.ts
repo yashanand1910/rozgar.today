@@ -30,8 +30,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.isLoading$ = this.store.select(AuthSelectors.selectAuthIsLoading);
-    this.user$ = this.store.select(AuthSelectors.selectAuthUser);
+    this.isLoading$ = this.store.select(AuthSelectors.selectIsLoading);
+    this.user$ = this.store.select(AuthSelectors.selectUser);
     this.updateHeader();
   }
 

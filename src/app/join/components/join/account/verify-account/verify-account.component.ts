@@ -22,7 +22,7 @@ export class VerifyAccountComponent extends StepComponent implements OnInit, OnD
     super.ngOnInit();
 
     this.emailVerified$ = this.store.pipe(
-      select(AuthSelectors.selectAuthUser),
+      select(AuthSelectors.selectUser),
       map((user) => {
         if (user?.emailVerified) {
           this.stopReloadingAuth();

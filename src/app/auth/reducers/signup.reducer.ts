@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SignupActions from '../actions/signup.actions';
 
-export const signupFeatureKey = 'signup';
+export const featureKey = 'signup';
 
 export interface State {
   isLoading: boolean;

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as CoreSelectors from '@core/selectors/core.selector';
+import * as RouterSelectors from '@core/selectors/router.selectors';
 import * as ResetPasswordActions from '../actions';
-import * as ResetPasswordSelectors from '../selectors';
+import * as ResetPasswordSelectors from '../selectors/reset-password.selectors';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class ResetPasswordEffects {
   verifyCode$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResetPasswordActions.verifyResetPasswordCode),
-      withLatestFrom(this.store.select(CoreSelectors.selectQueryParam('oobCode'))),
+      withLatestFrom(this.store.select(RouterSelectors.selectQueryParam('oobCode'))),
       exhaustMap(([, code]) =>
         from(this.afa.verifyPasswordResetCode(code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
@@ -33,7 +33,7 @@ export class ResetPasswordEffects {
   resetPassword$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResetPasswordActions.resetPassword),
-      withLatestFrom(this.store.select(ResetPasswordSelectors.selectResetPasswordCode)),
+      withLatestFrom(this.store.select(ResetPasswordSelectors.selectCode)),
       switchMap(([action, code]) =>
         from(this.afa.confirmPasswordReset(code, action.context.password)).pipe(
           map(() => {

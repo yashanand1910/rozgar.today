@@ -10,10 +10,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { entitySelectors, selectCollectionState } from '@core/selectors';
+import { entitySelectors, selectState } from '@core/selectors/collection.selectors';
 import { Collection } from '@core/models';
 import { Plan } from '@app/join/models';
-import { selectJoinAdditionalState } from '@app/join/selectors';
+import { selectAdditionalState } from '@app/join/selectors';
 
 describe('PlansComponent', () => {
   let component: PlansComponent;
@@ -29,7 +29,7 @@ describe('PlansComponent', () => {
           provideMockStore({
             selectors: [
               {
-                selector: selectCollectionState<Plan>(Collection.Plans),
+                selector: selectState<Plan>(Collection.Plans),
                 value: false
               },
               {
@@ -37,7 +37,7 @@ describe('PlansComponent', () => {
                 value: false
               },
               {
-                selector: selectJoinAdditionalState,
+                selector: selectAdditionalState,
                 value: false
               }
             ]

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CustomValidators } from '@shared/validators';
 import * as AuthActions from '@auth/actions';
-import * as AuthSelectors from '@auth/selectors';
+import * as ForgotPasswordSelectors from '@auth/selectors/forgot-password.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -22,9 +22,9 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
 
-    this.error$ = this.store.select(AuthSelectors.selectForgotPasswordError);
-    this.info$ = this.store.select(AuthSelectors.selectForgotPasswordInfo);
-    this.isLoading$ = this.store.select(AuthSelectors.selectForgotPasswordIsLoading);
+    this.error$ = this.store.select(ForgotPasswordSelectors.selectError);
+    this.info$ = this.store.select(ForgotPasswordSelectors.selectInfo);
+    this.isLoading$ = this.store.select(ForgotPasswordSelectors.selectIsLoading);
   }
 
   submit() {

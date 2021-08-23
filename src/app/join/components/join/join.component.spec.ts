@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { selectJoinAdditionalState, selectJoinCurrentStepNumber } from '@app/join/selectors';
+import { selectAdditionalState, selectCurrentStepNumber } from '@app/join/selectors';
 
 describe('JoinComponent', () => {
   let component: JoinComponent;
@@ -20,11 +20,11 @@ describe('JoinComponent', () => {
           provideMockStore({
             selectors: [
               {
-                selector: selectJoinAdditionalState,
+                selector: selectAdditionalState,
                 value: false
               },
               {
-                selector: selectJoinCurrentStepNumber,
+                selector: selectCurrentStepNumber,
                 value: false
               }
             ]

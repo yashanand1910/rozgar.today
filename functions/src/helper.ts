@@ -5,3 +5,7 @@ export const getDisplayName = (firstName: string, lastName: string) => {
     .substr(0, 1)
     .toUpperCase()}${lastName.substring(1)}`;
 };
+
+export const getIdempotencyKey = (customerId: string, secondaryKey: string) => {
+  return `${customerId}-${secondaryKey}`;
+}

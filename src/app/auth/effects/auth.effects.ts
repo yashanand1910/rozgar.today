@@ -14,7 +14,6 @@ import {
   first,
   map,
   switchMap,
-  take,
   takeUntil,
   tap,
   withLatestFrom
@@ -77,12 +76,12 @@ export class AuthEffects {
   logoutSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logOutSuccess),
-      withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
+      withLatestFrom(this.store.select(AuthSelectors.selectUser)),
       exhaustMap(([, user]) => {
         this.messageService.success(extract(`${user?.displayName} has been logged out.`));
 
         // Add all state resets below
-        return [JoinActions.resetJoinState()];
+        return [JoinActions.resetState()];
       })
     )
   );
@@ -101,6 +100,20 @@ export class AuthEffects {
             return of(AuthActions.loadAuthFailiure({ error: error.code }), CoreActions.networkError());
           })
         );
+      })
+    )
+  );
+
+  loadAuthSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loadAuthSuccess),
+      switchMap((action) => {
+        return of(CoreActions.getFirestoreState());
+        // if (action.user) {
+        //   return of(CoreActions.getFirestoreState());
+        // } else {
+        //   return EMPTY;
+        // }
       })
     )
   );

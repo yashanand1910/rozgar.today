@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as AlertActions from '../actions/alert.actions';
 import { Alerts } from '@core/models';
 
-export const alertFeatureKey = 'alert';
+export const featureKey = 'alert';
 
 export interface State {
   alerts: Alerts;

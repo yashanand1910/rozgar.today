@@ -5,7 +5,7 @@ export const createPaymentIntent = createAction('[Stripe] Create Payment Intent'
 
 export const createPaymentIntentSuccess = createAction(
   '[Stripe] Create Payment Intent Success',
-  props<{ clientSecret?: string } & CreatePaymentIntentInput>()
+  props<{ clientSecret?: string, id?: string } & CreatePaymentIntentInput>()
 );
 
 export const createPaymentIntentFailiure = createAction(

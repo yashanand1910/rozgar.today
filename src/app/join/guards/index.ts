@@ -1,2 +1,2 @@
 export * from './ensure-plan-selected.guard';
-export * from './ensure-firestore-state-loaded.guard';
+export * from '@core/guards/ensure-firestore-state-loaded.guard';

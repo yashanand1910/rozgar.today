@@ -43,7 +43,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
     ReactiveFormsModule,
     I18nModule,
     AuthRoutingModule,
-    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducers),
+    StoreModule.forFeature(fromAuth.featureKey, fromAuth.reducers),
     EffectsModule.forFeature([
       AuthEffects,
       SignupEffects,

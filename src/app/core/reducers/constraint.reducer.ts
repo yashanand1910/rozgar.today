@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as ConstraintActions from '../actions/constraint.actions';
 import { Constraints } from '@core/models';
 
-export const constraintFeatureKey = 'constraint';
+export const featureKey = 'constraint';
 
 export interface State {
   isLoading: boolean;

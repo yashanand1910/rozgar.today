@@ -6,7 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectForgotPasswordState } from '@auth/selectors';
+import { selectState } from '@auth/selectors';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ForgotPasswordComponent', () => {
@@ -25,7 +25,7 @@ describe('ForgotPasswordComponent', () => {
           NzButtonModule
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: selectForgotPasswordState, value: false }] })],
+        providers: [provideMockStore({ selectors: [{ selector: selectState, value: false }] })],
         declarations: [ForgotPasswordComponent]
       }).compileComponents();
     })

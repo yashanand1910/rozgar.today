@@ -1,16 +1,26 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromStripe from '../reducers/stripe.reducer';
 import { CreatePaymentIntentInput } from '@core/models';
-import { ProductPaymentState } from '../reducers/stripe.reducer';
+import { ProductPaymentIntent } from '../reducers/stripe.reducer';
 
-export const selectStripeState = createFeatureSelector<fromStripe.State>(fromStripe.stripeFeatureKey);
+export const selectState = createFeatureSelector<fromStripe.State>(fromStripe.featureKey);
 
-export const selectStripeProductPaymentState = createSelector(
-  selectStripeState,
+export const selectProductPaymentIntent = createSelector(
+  selectState,
   (state: fromStripe.State, props: CreatePaymentIntentInput) => state[props.productPath]
 );
 
-export const selectStripeProductPaymentClientSecret = createSelector(
-  (state: ProductPaymentState, props: CreatePaymentIntentInput) => selectStripeProductPaymentState(state, props),
+export const selectProductPaymentClientSecret = createSelector(
+  (state: ProductPaymentIntent, props: CreatePaymentIntentInput) => selectProductPaymentIntent(state, props),
   (state) => state?.clientSecret
 );
+
+export const selectFirestoreState = createSelector(selectState, (state) => {
+  const firestoreState = {};
+  for (const productPath in state) {
+    if (state[productPath].id) {
+      firestoreState[productPath] = { id: state[productPath].id };
+    }
+  }
+  return firestoreState;
+});

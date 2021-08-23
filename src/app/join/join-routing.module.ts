@@ -17,8 +17,8 @@ const routes: Routes = [
     },
     {
       path: 'join',
-      canActivate: [EnsureFirestoreStateLoadedGuard],
       component: JoinComponent,
+      canActivate: [EnsureFirestoreStateLoadedGuard],
       children: [
         {
           path: StepPath.Plan,

@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as CoreSelectors from '@core/selectors';
-import * as CoreActions from '@core/actions';
-import * as JoinActions from '../actions';
+import * as RouterSelectors from '@core/selectors/router.selectors';
+import * as CollectionSelectors from '@core/selectors/collection.selectors';
 import * as JoinSelectors from '../selectors';
 import * as AuthSelectors from '@auth/selectors';
+import * as JoinActions from '../actions';
+import * as CoreActions from '@core/actions';
 import {
-  catchError,
   exhaustMap,
   first,
   map,
   mergeMap,
-  observeOn,
   switchMap,
   tap,
   withLatestFrom
@@ -20,13 +19,10 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { StoreUser, User } from '@auth/models';
-import { asyncScheduler, from, of } from 'rxjs';
-import { joinFeatureKey, JoinFirestoreState } from '@app/join/reducers';
+import { User } from '@auth/models';
+import { of } from 'rxjs';
 import { Plan, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
-import firebase from 'firebase';
-import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class JoinEffects {
@@ -34,9 +30,9 @@ export class JoinEffects {
     this.actions$.pipe(
       ofType(JoinActions.refreshSteps),
       withLatestFrom(
-        this.store.select(CoreSelectors.entitySelectors<Plan>(Collection.Plans).selectEntities),
+        this.store.select(CollectionSelectors.entitySelectors<Plan>(Collection.Plans).selectEntities),
         this.store.select(JoinSelectors.selectSelectedPlanId),
-        this.store.select(AuthSelectors.selectAuthUser)
+        this.store.select(AuthSelectors.selectUser)
       ),
       switchMap(([, plans, selectedPlanId, user]) => {
         if (selectedPlanId && !plans[selectedPlanId]) {
@@ -79,19 +75,19 @@ export class JoinEffects {
     )
   );
 
-  nextJoinStep$ = createEffect(() =>
+  nextStep$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(JoinActions.nextJoinStep),
+      ofType(JoinActions.nextStep),
       withLatestFrom(
-        this.store.select(JoinSelectors.selectJoinNextStepPath),
-        this.store.select(CoreSelectors.selectQueryParam(QueryParamKey.ReturnUrl)),
-        this.store.select(AuthSelectors.selectAuthUser)
+        this.store.select(JoinSelectors.selectNextStepPath),
+        this.store.select(RouterSelectors.selectQueryParam(QueryParamKey.ReturnUrl)),
+        this.store.select(AuthSelectors.selectUser)
       ),
       exhaustMap(([action, path, url, user]) => {
         if (user && action.setFirestoreState) {
           this.actions$
             .pipe(
-              ofType(JoinActions.setJoinFirestoreStateSuccess),
+              ofType(CoreActions.setFirestoreStateSuccess),
               first(),
               tap(() => {
                 if (url) {
@@ -102,7 +98,7 @@ export class JoinEffects {
               })
             )
             .subscribe();
-          return [JoinActions.setJoinFirestoreState(), JoinActions.refreshSteps()];
+          return [CoreActions.setFirestoreState(), JoinActions.refreshSteps()];
         } else {
           if (url) {
             this.router.navigateByUrl(url, { replaceUrl: true }).then();
@@ -115,69 +111,14 @@ export class JoinEffects {
     )
   );
 
-  previousJoinStep$ = createEffect(
+  previousStep$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(JoinActions.previousJoinStep),
-        withLatestFrom(this.store.select(JoinSelectors.selectJoinPreviousStepPath)),
+        ofType(JoinActions.previousStep),
+        withLatestFrom(this.store.select(JoinSelectors.selectPreviousStepPath)),
         tap(([, path]) => this.router.navigate([`/join/${path}`]).then())
       ),
     { dispatch: false }
-  );
-
-  setJoinFirestoreState$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(JoinActions.setJoinFirestoreState),
-      withLatestFrom(this.store.select(AuthSelectors.selectAuthUser), this.store.select(JoinSelectors.selectJoinState)),
-      exhaustMap(([, user, state]) =>
-        from(
-          this.afs
-            .collection(Collection.Users)
-            .doc<StoreUser>(user.uid)
-            .collection('states')
-            .doc<JoinFirestoreState>(joinFeatureKey)
-            .set({ ...new JoinFirestoreState(state) })
-        ).pipe(
-          map(() => JoinActions.setJoinFirestoreStateSuccess()),
-          catchError((error: FirebaseError) =>
-            of(JoinActions.setJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
-          )
-        )
-      )
-    )
-  );
-
-  getJoinFirestoreState$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(JoinActions.getJoinFirestoreState),
-      withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)),
-      switchMap(([, user]) => {
-        if (user) {
-          return this.afs
-            .collection(Collection.Users)
-            .doc<StoreUser>(user.uid)
-            .collection('states')
-            .doc<JoinFirestoreState>(joinFeatureKey)
-            .get()
-            .pipe(
-              map((snapshot) => snapshot.data()),
-              map((state) => JoinActions.getJoinFirestoreStateSuccess({ state })),
-              catchError((error: FirebaseError) =>
-                of(JoinActions.getJoinFirestoreStateFailiure({ error: error.code }), CoreActions.networkError())
-              )
-            );
-        } else {
-          return of(JoinActions.getJoinFirestoreStateSuccess({})).pipe(observeOn(asyncScheduler));
-        }
-      })
-    )
-  );
-
-  getJoinFirestoreStateSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(JoinActions.getJoinFirestoreStateSuccess),
-      switchMap(() => of(JoinActions.refreshSteps()))
-    )
   );
 
   constructor(private actions$: Actions, private store: Store, private router: Router, private afs: AngularFirestore) {}

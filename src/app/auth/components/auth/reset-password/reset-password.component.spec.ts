@@ -8,7 +8,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectResetPasswordState } from '@auth/selectors';
+import { selectState } from '@auth/selectors';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ResetPasswordComponent', () => {
@@ -28,7 +28,7 @@ describe('ResetPasswordComponent', () => {
           NzButtonModule
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: selectResetPasswordState, value: false }] })],
+        providers: [provideMockStore({ selectors: [{ selector: selectState, value: false }] })],
         declarations: [ResetPasswordComponent]
       }).compileComponents();
     })

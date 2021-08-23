@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as LoginActions from '../actions/login.actions';
 
-export const loginFeatureKey = 'login';
+export const featureKey = 'login';
 
 export interface State {
   isLoading: boolean;

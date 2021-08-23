@@ -1,18 +1,18 @@
 import { createSelector } from '@ngrx/store';
 import * as fromResetPassword from '../reducers/reset-password.reducer';
-import { selectAuthState } from '@auth/selectors/auth.selectors';
+import { selectState as selectAuthState} from '@auth/selectors/auth.selectors';
 
-export const selectResetPasswordState = createSelector(
+export const selectState = createSelector(
   selectAuthState,
-  (state) => state[fromResetPassword.resetPasswordFeatureKey]
+  (state) => state[fromResetPassword.featureKey]
 );
 
-export const selectResetPasswordIsVerifying = createSelector(selectResetPasswordState, (state) => state.isVerifying);
+export const selectIsVerifying = createSelector(selectState, (state) => state.isVerifying);
 
-export const selectResetPasswordUser = createSelector(selectResetPasswordState, (state) => state.user);
+export const selectUser = createSelector(selectState, (state) => state.user);
 
-export const selectResetPasswordCode = createSelector(selectResetPasswordState, (state) => state.code);
+export const selectCode = createSelector(selectState, (state) => state.code);
 
-export const selectResetPasswordIsLoading = createSelector(selectResetPasswordState, (state) => state.isLoading);
+export const selectIsLoading = createSelector(selectState, (state) => state.isLoading);
 
-export const selectResetPasswordError = createSelector(selectResetPasswordState, (state) => state.error);
+export const selectError = createSelector(selectState, (state) => state.error);

@@ -3,7 +3,7 @@ import * as VerifyEmailActions from '../actions/verify-email.actions';
 import { User } from '@auth/models';
 import { extract } from '@i18n/services';
 
-export const verifyEmailFeatureKey = 'verifyEmail';
+export const featureKey = 'verifyEmail';
 
 export interface State {
   user: Partial<User>;

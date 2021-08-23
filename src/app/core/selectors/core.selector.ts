@@ -1,23 +1,28 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRouter from '@ngrx/router-store';
 import { additionalKey, AdditionalState, State } from '@core/reducers/core.reducer';
 import * as ConstraintSelectors from './constraint.selectors';
 import * as AlertSelectors from './alert.selectors';
-
-export const selectRouter = createFeatureSelector<State, fromRouter.RouterReducerState<any>>('router');
-
-export const {
-  selectCurrentRoute, // select the current route
-  selectQueryParam, // factory function to select a query param
-  selectRouteParam // select the current url
-} = fromRouter.getSelectors(selectRouter);
+import { featureKey as stripeFeatureKey } from '../reducers/stripe.reducer';
+import { featureKey as joinFeatureKey } from '@app/join/reducers';
+import { selectFirestoreState as selectStripeFirestoreState } from '../selectors/stripe.selectors';
+import { selectFirestoreState as selectJoinFirestoreState } from '@app/join/selectors';
 
 export const selectAdditionalState = createFeatureSelector<AdditionalState>(additionalKey);
 
 export const selectError = createSelector(selectAdditionalState, (state) => state.error);
 
 export const selectIsLoading = createSelector(
-  AlertSelectors.selectAlertIsLoading,
-  ConstraintSelectors.selectConstraintsIsLoading,
-  (alerts, constraints) => alerts || constraints
+  AlertSelectors.selectIsLoading,
+  ConstraintSelectors.selectIsLoading,
+  selectAdditionalState,
+  (alerts, constraints, state) => alerts || constraints || state.isLoading
 );
+
+export const selectIsLoaded = createSelector(selectAdditionalState, (state) => state.isLoaded);
+
+export const selectIsProcessing = createSelector(selectAdditionalState, (state) => state.isProcessing);
+
+export const selectFirestoreState = (state: State) => ({
+  [stripeFeatureKey]: selectStripeFirestoreState(state[stripeFeatureKey]),
+  [joinFeatureKey]: selectJoinFirestoreState(state[joinFeatureKey])
+});

@@ -15,32 +15,48 @@ export const additionalKey = 'additional';
 
 export interface State {
   router: fromRouter.RouterReducerState;
-  [fromConstraint.constraintFeatureKey]: fromConstraint.State;
-  [fromAlert.alertFeatureKey]: fromAlert.State;
-  [fromStripe.stripeFeatureKey]: fromStripe.State;
+  [fromConstraint.featureKey]: fromConstraint.State;
+  [fromAlert.featureKey]: fromAlert.State;
+  [fromStripe.featureKey]: fromStripe.State;
   [additionalKey]: AdditionalState;
 }
 
 export interface AdditionalState {
+  isLoading: boolean;
+  isProcessing: boolean;
+  isLoaded: boolean;
   error: string;
 }
 
 export const initialState: AdditionalState = {
+  isLoading: false,
+  isProcessing: false,
+  isLoaded: false,
   error: null
 };
 
 export const additionalReducer = createReducer(
   initialState,
-  on(CoreActions.networkError, (state) => ({ ...state, error: 'Network error, please reload.' }))
+  on(CoreActions.networkError, (state) => ({ ...state, error: 'Network error, please reload.' })),
+  on(CoreActions.getFirestoreState, (state) => ({ ...state, isLoading: true })),
+  on(CoreActions.getFirestoreStateSuccess, (state, action) => {
+    return action.state
+      ? { ...state, isLoading: false, error: null, isLoaded: true }
+      : { ...state, isLoading: false, error: null, isLoaded: true };
+  }),
+  on(CoreActions.getFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
+  on(CoreActions.setFirestoreState, (state) => ({ ...state, isProcessing: true })),
+  on(CoreActions.setFirestoreStateSuccess, (state) => ({ ...state, isProcessing: false, error: null })),
+  on(CoreActions.setFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error }))
 );
 
 export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reducers token', {
   factory: () => {
     const coreReducers: ActionReducerMap<State> = {
       router: fromRouter.routerReducer,
-      [fromConstraint.constraintFeatureKey]: fromConstraint.reducer,
-      [fromAlert.alertFeatureKey]: fromAlert.reducer,
-      [fromStripe.stripeFeatureKey]: fromStripe.reducer,
+      [fromConstraint.featureKey]: fromConstraint.reducer,
+      [fromAlert.featureKey]: fromAlert.reducer,
+      [fromStripe.featureKey]: fromStripe.reducer,
       [additionalKey]: additionalReducer
     };
 
@@ -52,11 +68,11 @@ export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reduce
   }
 });
 
-const log = new Logger('Action');
-
 /*******************
  * Meta-reducers
  *******************/
+
+const log = new Logger('Action');
 
 /**
  * Log every action for debugging / error or warn actions for more info

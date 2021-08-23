@@ -6,7 +6,7 @@ import { StepPath } from '@app/join/models';
 import { Alert, QueryParamKey } from '@core/models';
 import * as JoinActions from '@app/join/actions';
 import { Observable } from 'rxjs';
-import * as CoreSelectors from '@core/selectors';
+import * as AlertSelectors from '@core/selectors/alert.selectors';
 import { Actions } from '@ngrx/effects';
 
 @Component({
@@ -24,7 +24,7 @@ export class StepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.alert$ = this.store.select(CoreSelectors.selectAlert, { component: 'createAccount' });
+    this.alert$ = this.store.select(AlertSelectors.select, { component: 'createAccount' });
   }
 
   changePlan() {
@@ -36,10 +36,10 @@ export class StepComponent implements OnInit {
   }
 
   previous() {
-    this.store.dispatch(JoinActions.previousJoinStep());
+    this.store.dispatch(JoinActions.previousStep());
   }
 
   next(setFirestoreState: boolean = true) {
-    this.store.dispatch(JoinActions.nextJoinStep({ setFirestoreState }));
+    this.store.dispatch(JoinActions.nextStep({ setFirestoreState }));
   }
 }

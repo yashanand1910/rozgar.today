@@ -64,7 +64,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     NzTypographyModule,
     NzTagModule,
     NzButtonModule,
-    StoreModule.forFeature(fromJoin.joinFeatureKey, fromJoin.reducers),
+    StoreModule.forFeature(fromJoin.featureKey, fromJoin.reducers),
     EffectsModule.forFeature([JoinEffects]),
     NzSkeletonModule,
     NzFormModule,

@@ -16,7 +16,7 @@ export class AccountComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.user$ = this.store.select(AuthSelectors.selectAuthUser);
-    this.signupIsLoading$ = this.store.select(AuthSelectors.selectSignupIsLoading);
+    this.user$ = this.store.select(AuthSelectors.selectUser);
+    this.signupIsLoading$ = this.store.select(AuthSelectors.selectIsLoading);
   }
 }

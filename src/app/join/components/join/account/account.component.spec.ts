@@ -4,7 +4,7 @@ import { AccountComponent } from './account.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectAuthAdditionalState, selectSignupState } from '@auth/selectors';
+import { selectAdditionalState, selectState } from '@auth/selectors';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -19,11 +19,11 @@ describe('AccountComponent', () => {
           provideMockStore({
             selectors: [
               {
-                selector: selectAuthAdditionalState,
+                selector: selectAdditionalState,
                 value: false
               },
               {
-                selector: selectSignupState,
+                selector: selectState,
                 value: false
               }
             ]

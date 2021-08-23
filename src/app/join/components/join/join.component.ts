@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as JoinSelectors from '@app/join/selectors';
+import * as CoreSelectors from '@core/selectors';
 import * as AuthSelectors from '@auth/selectors';
 import { Store } from '@ngrx/store';
 import { Step, StepPath } from '@app/join/models';
@@ -23,9 +24,9 @@ export class JoinComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.currentStepNumber$ = this.store.select(JoinSelectors.selectJoinCurrentStepNumber);
-    this.steps$ = this.store.select(JoinSelectors.selectJoinSteps);
-    this.isLoading$ = this.store.select(JoinSelectors.selectJoinIsLoading);
+    this.currentStepNumber$ = this.store.select(JoinSelectors.selectCurrentStepNumber);
+    this.steps$ = this.store.select(JoinSelectors.selectSteps);
+    this.isLoading$ = this.store.select(CoreSelectors.selectIsLoading);
 
     this.setCurrentStepBasedOnState();
   }
@@ -36,8 +37,8 @@ export class JoinComponent implements OnInit, OnDestroy {
   setCurrentStepBasedOnState() {
     if (this.router.url.split('?')[0] === '/join') {
       this.store
-        .select(JoinSelectors.selectJoinAdditionalState)
-        .pipe(first(), withLatestFrom(this.store.select(AuthSelectors.selectAuthUser)))
+        .select(JoinSelectors.selectAdditionalState)
+        .pipe(first(), withLatestFrom(this.store.select(AuthSelectors.selectUser)))
         .subscribe(([state, user]) => {
           if (!user) {
             log.debug('Navigating to first step since user is not logged in...');

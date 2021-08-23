@@ -1,38 +1,34 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromJoin from '../reducers';
-import * as CoreSelectors from '@core/selectors/core.selector';
-import * as AuthSelectors from '@auth/selectors';
 import { additionalKey } from '@core/reducers';
+import * as RouterSelectors from '@core/selectors/router.selectors';
 
-export const selectJoinState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.joinFeatureKey);
+export const selectState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.featureKey);
 
-export const selectJoinAdditionalState = createSelector(selectJoinState, (state) => state[additionalKey]);
+export const selectAdditionalState = createSelector(selectState, (state) => state[additionalKey]);
 
-export const selectJoinSteps = createSelector(selectJoinAdditionalState, (state) => state.steps);
+export const selectSteps = createSelector(selectAdditionalState, (state) => state.steps);
 
-export const selectJoinCurrentStepNumber = createSelector(
-  selectJoinAdditionalState,
-  CoreSelectors.selectCurrentRoute,
+export const selectCurrentStepNumber = createSelector(
+  selectAdditionalState,
+  RouterSelectors.selectCurrentRoute,
   (state, route) => state.steps.map((step) => step.path).indexOf(route?.routeConfig?.path)
 );
 
-export const selectJoinNextStepPath = createSelector(
-  selectJoinAdditionalState,
-  selectJoinCurrentStepNumber,
+export const selectNextStepPath = createSelector(
+  selectAdditionalState,
+  selectCurrentStepNumber,
   (state, number) => state.steps[number + 1]?.path
 );
 
-export const selectJoinPreviousStepPath = createSelector(
-  selectJoinAdditionalState,
-  selectJoinCurrentStepNumber,
+export const selectPreviousStepPath = createSelector(
+  selectAdditionalState,
+  selectCurrentStepNumber,
   (state, number) => state.steps[number - 1]?.path
 );
 
-export const selectJoinIsLoading = createSelector(selectJoinAdditionalState, (state) => state.isLoading);
+export const selectSelectedPlanId = createSelector(selectAdditionalState, (state) => state.selectedPlanId);
 
-export const selectJoinIsProcessing = createSelector(selectJoinAdditionalState, (state) => state.isProcessing);
-
-export const selectSelectedPlanId = createSelector(selectJoinAdditionalState, (state) => state.selectedPlanId);
-
-// For displaying the processing state of the stepper
-export const isStepLoading = createSelector(AuthSelectors.selectAuthIsReloading, (a) => a);
+export const selectFirestoreState = createSelector(selectState, (state) => ({
+  [additionalKey]: { selectedPlanId: state ? state[additionalKey].selectedPlanId : null }
+}));

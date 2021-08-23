@@ -1,15 +1,14 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import * as fromCore from '@core/reducers';
 import * as JoinActions from '../actions';
+import * as CoreActions from '@core/actions';
 import { Step, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
 
-export const joinFeatureKey = 'join';
+export const featureKey = 'join';
 
 export interface AdditionalState {
   steps: Step[];
-  isLoading: boolean;
-  isProcessing: boolean;
   selectedPlanId: string;
   error: string;
 }
@@ -19,25 +18,7 @@ export interface JoinState {
 }
 
 export interface State extends fromCore.State {
-  [joinFeatureKey]: JoinState;
-}
-
-// For partial state stored in Firestore
-export class JoinFirestoreState {
-  [fromCore.additionalKey]: AdditionalFirestoreState;
-
-  constructor(state: JoinState) {
-    this[fromCore.additionalKey] = { ...new AdditionalFirestoreState(state[fromCore.additionalKey]) };
-  }
-}
-
-// For partial state stored in Firestore
-export class AdditionalFirestoreState {
-  selectedPlanId: string;
-
-  constructor(state: AdditionalState) {
-    this.selectedPlanId = state.selectedPlanId;
-  }
+  [featureKey]: JoinState;
 }
 
 const initialAdditionalState: AdditionalState = {
@@ -71,15 +52,13 @@ const initialAdditionalState: AdditionalState = {
       disabled: true
     }
   ],
-  isLoading: false,
-  isProcessing: false,
   selectedPlanId: null,
   error: null
 };
 
 const additionalReducer = createReducer(
   initialAdditionalState,
-  on(JoinActions.setSelectedPlan, (state, action) => ({ ...state, selectedPlanId: action.id })),
+  on(JoinActions.selectPlan, (state, action) => ({ ...state, selectedPlanId: action.id })),
   on(JoinActions.setStepInfo, (state, action) => {
     let newSteps = state.steps.map((step) => ({ ...step }));
     let newStep = newSteps.find((step) => step.path == action.path);
@@ -94,24 +73,17 @@ const additionalReducer = createReducer(
     }
     return { ...state, steps: newSteps };
   }),
-  on(JoinActions.setJoinFirestoreState, (state, action) => ({ ...state, isProcessing: true })),
-  on(JoinActions.setJoinFirestoreStateSuccess, (state, action) => ({ ...state, isProcessing: false })),
-  on(JoinActions.setJoinFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
-  on(JoinActions.getJoinFirestoreState, (state, action) => ({ ...state, isLoading: true })),
-  on(JoinActions.getJoinFirestoreStateSuccess, (state, action) => {
+  on(CoreActions.getFirestoreStateSuccess, (state, action) => {
     return action.state
       ? {
           ...state,
-          ...action.state[fromCore.additionalKey],
-          isLoading: false
+          ...action.state[fromCore.additionalKey]
         }
       : {
-          ...state,
-          isLoading: false
+          ...state
         };
   }),
-  on(JoinActions.getJoinFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
-  on(JoinActions.resetJoinState, () => initialAdditionalState)
+  on(JoinActions.resetState, () => initialAdditionalState)
 );
 
 export const reducers: ActionReducerMap<JoinState> = {

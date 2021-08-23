@@ -7,7 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectLoginState } from '@auth/selectors';
+import { selectState } from '@auth/selectors';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('LoginComponent', () => {
@@ -27,7 +27,7 @@ describe('LoginComponent', () => {
           NzIconModule
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: selectLoginState, value: false }] })],
+        providers: [provideMockStore({ selectors: [{ selector: selectState, value: false }] })],
         declarations: [LoginComponent]
       }).compileComponents();
     })

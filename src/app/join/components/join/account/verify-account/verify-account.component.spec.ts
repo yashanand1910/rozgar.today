@@ -8,7 +8,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Actions } from '@ngrx/effects';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { selectAuthAdditionalState } from '@auth/selectors';
+import { selectAdditionalState } from '@auth/selectors';
 
 describe('VerifyAccountComponent', () => {
   let component: VerifyAccountComponent;
@@ -24,7 +24,7 @@ describe('VerifyAccountComponent', () => {
           provideMockStore({
             selectors: [
               {
-                selector: selectAuthAdditionalState,
+                selector: selectAdditionalState,
                 value: false
               }
             ]

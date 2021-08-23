@@ -15,8 +15,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '@env/environment';
-import { selectAlerts } from '@core/selectors';
-import { selectSignupState } from '@auth/selectors';
+import { selectAll } from '@core/selectors/alert.selectors';
+import { selectState } from '@auth/selectors';
 
 describe('CreateAccountComponent', () => {
   let component: CreateAccountComponent;
@@ -42,11 +42,11 @@ describe('CreateAccountComponent', () => {
           provideMockStore({
             selectors: [
               {
-                selector: selectAlerts,
+                selector: selectAll,
                 value: false
               },
               {
-                selector: selectSignupState,
+                selector: selectState,
                 value: false
               }
             ]

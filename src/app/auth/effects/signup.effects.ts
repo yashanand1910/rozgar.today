@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as AuthActions from '@auth/actions';
-import * as JoinActions from '@app/join/actions';
+import * as CoreActions from '@core/actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Profile, StoreUser, User } from '@auth/models';
+import { StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -47,7 +47,7 @@ export class SignupEffects {
               AuthActions.signUpSuccess(),
               AuthActions.sendVerificationEmail(),
               AuthActions.getPartialUserSuccess({ user }),
-              JoinActions.setJoinFirestoreState()
+              CoreActions.setFirestoreState()
             ];
           }),
           catchError((error: FirebaseError) => of(AuthActions.signUpFailiure({ error: error.code })))

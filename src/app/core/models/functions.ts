@@ -11,6 +11,8 @@ export interface CreatePaymentIntentInput {
   productPath: string; // Path to the Firestore document
 }
 
-export interface CreatePaymentIntentOutput {
-  clientSecret: string; // Returned by the Stripe API
+// Returned by the Stripe API
+export interface PaymentIntent {
+  clientSecret: string;
+  id: string
 }

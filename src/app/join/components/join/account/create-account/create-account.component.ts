@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { select } from '@ngrx/store';
-import * as CoreSelectors from '@core/selectors';
+import * as ConstraintSelectors from '@core/selectors/constraint.selectors';
 import { CustomValidators } from '@shared/validators';
 import { untilDestroyed } from '@core/utils';
 import * as SignupSelectors from '@auth/selectors';
@@ -35,10 +35,10 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
       this.signupForm.controls.confirmPassword.updateValueAndValidity();
     });
 
-    this.error$ = this.store.select(SignupSelectors.selectSignupError);
-    this.isLoading$ = this.store.select(SignupSelectors.selectSignupIsLoading);
+    this.error$ = this.store.select(SignupSelectors.selectError);
+    this.isLoading$ = this.store.select(SignupSelectors.selectIsLoading);
     this.store
-      .pipe(select(CoreSelectors.selectConstraint, { name: 'lastSalary' }), untilDestroyed(this))
+      .pipe(select(ConstraintSelectors.select, { name: 'lastSalary' }), untilDestroyed(this))
       .subscribe((constraint) => {
         if (constraint) {
           return this.signupForm.controls.lastSalary.setValidators([

@@ -8,34 +8,34 @@ import * as fromVerifyEmail from './verify-email.reducer';
 import * as AuthActions from '../actions';
 import { User } from '@auth/models';
 
-export const authFeatureKey = 'auth';
+export const featureKey = 'auth';
 
 export interface AdditionalState {
   user: User;
   isLoading: boolean;
   isReloading: boolean;
-  isInitialized: boolean; // To indicate whether this state is updated with the Firebase user state
+  isLoaded: boolean; // To indicate whether this state is updated with the Firebase user state
   error: string;
 }
 
 export interface AuthState {
-  [fromSignup.signupFeatureKey]: fromSignup.State;
-  [fromLogin.loginFeatureKey]: fromLogin.State;
-  [fromForgotPassword.forgotPasswordFeatureKey]: fromForgotPassword.State;
-  [fromResetPassword.resetPasswordFeatureKey]: fromResetPassword.State;
-  [fromVerifyEmail.verifyEmailFeatureKey]: fromVerifyEmail.State;
+  [fromSignup.featureKey]: fromSignup.State;
+  [fromLogin.featureKey]: fromLogin.State;
+  [fromForgotPassword.featureKey]: fromForgotPassword.State;
+  [fromResetPassword.featureKey]: fromResetPassword.State;
+  [fromVerifyEmail.featureKey]: fromVerifyEmail.State;
   [fromCore.additionalKey]: AdditionalState;
 }
 
 export interface State extends fromCore.State {
-  [authFeatureKey]: AuthState;
+  [featureKey]: AuthState;
 }
 
 export const initialAdditionalState: AdditionalState = {
   user: null,
   isLoading: true,
   isReloading: false,
-  isInitialized: false,
+  isLoaded: false,
   error: null
 };
 
@@ -51,7 +51,7 @@ export const additionalReducer = createReducer(
     return {
       ...state,
       isLoading: false,
-      isInitialized: true,
+      isLoaded: true,
       user: action.user,
       error: null
     };
@@ -91,10 +91,10 @@ export const additionalReducer = createReducer(
 );
 
 export const reducers: ActionReducerMap<AuthState> = {
-  [fromLogin.loginFeatureKey]: fromLogin.reducer,
-  [fromSignup.signupFeatureKey]: fromSignup.reducer,
-  [fromForgotPassword.forgotPasswordFeatureKey]: fromForgotPassword.reducer,
-  [fromResetPassword.resetPasswordFeatureKey]: fromResetPassword.reducer,
-  [fromVerifyEmail.verifyEmailFeatureKey]: fromVerifyEmail.reducer,
+  [fromLogin.featureKey]: fromLogin.reducer,
+  [fromSignup.featureKey]: fromSignup.reducer,
+  [fromForgotPassword.featureKey]: fromForgotPassword.reducer,
+  [fromResetPassword.featureKey]: fromResetPassword.reducer,
+  [fromVerifyEmail.featureKey]: fromVerifyEmail.reducer,
   [fromCore.additionalKey]: additionalReducer
 };

@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as ResetPasswordActions from '../actions/reset-password.actions';
 import { User } from '@auth/models';
 
-export const resetPasswordFeatureKey = 'resetPassword';
+export const featureKey = 'resetPassword';
 
 export interface State {
   user: Partial<User>;

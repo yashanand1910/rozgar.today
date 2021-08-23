@@ -23,7 +23,7 @@ export class EnsureAccountVerifiedGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.store.pipe(
-      select(AuthSelectors.selectAuthUser),
+      select(AuthSelectors.selectUser),
       first(),
       map((user) => {
         if (user) {

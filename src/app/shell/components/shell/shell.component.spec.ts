@@ -8,7 +8,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectAuthIsLoading, selectAuthUser } from '@auth/selectors';
+import { selectIsLoading, selectUser } from '@auth/selectors';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ShellComponent', () => {
@@ -30,8 +30,8 @@ describe('ShellComponent', () => {
         providers: [
           provideMockStore({
             selectors: [
-              { selector: selectAuthIsLoading, value: false },
-              { selector: selectAuthUser, value: false }
+              { selector: selectIsLoading, value: false },
+              { selector: selectUser, value: false }
             ]
           })
         ],
