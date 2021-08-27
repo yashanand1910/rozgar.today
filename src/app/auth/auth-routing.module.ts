@@ -7,7 +7,7 @@ import {
   LoginComponent,
   ResetPasswordComponent,
   VerifyEmailComponent
-} from '@app/auth/components/auth';
+} from '@app/auth/components';
 import { AuthComponent } from '@auth/components';
 
 const routes: Routes = [

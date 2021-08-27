@@ -1,7 +1,8 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import * as fromCore from '@core/reducers';
-import * as JoinActions from '../actions';
-import * as CoreActions from '@core/actions';
+import { JoinActions } from '../actions';
+import { CoreActions } from '@core/actions';
+import { AuthActions } from '@auth/actions';
 import { Step, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
 
@@ -10,7 +11,7 @@ export const featureKey = 'join';
 export interface AdditionalState {
   steps: Step[];
   selectedPlanId: string;
-  error: string;
+  error?: string;
 }
 
 export interface JoinState {
@@ -52,8 +53,7 @@ const initialAdditionalState: AdditionalState = {
       disabled: true
     }
   ],
-  selectedPlanId: null,
-  error: null
+  selectedPlanId: null
 };
 
 const additionalReducer = createReducer(
@@ -77,13 +77,11 @@ const additionalReducer = createReducer(
     return action.state
       ? {
           ...state,
-          ...action.state[fromCore.additionalKey]
+          ...action.state[featureKey][fromCore.additionalKey]
         }
-      : {
-          ...state
-        };
+      : state;
   }),
-  on(JoinActions.resetState, () => initialAdditionalState)
+  on(AuthActions.logOutSuccess, () => initialAdditionalState)
 );
 
 export const reducers: ActionReducerMap<JoinState> = {

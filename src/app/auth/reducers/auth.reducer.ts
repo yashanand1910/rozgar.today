@@ -5,8 +5,10 @@ import * as fromLogin from './login.reducer';
 import * as fromForgotPassword from './forgot-password.reducer';
 import * as fromResetPassword from './reset-password.reducer';
 import * as fromVerifyEmail from './verify-email.reducer';
-import * as AuthActions from '../actions';
+import { AuthActions } from '../actions';
 import { User } from '@auth/models';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'auth';
 
@@ -15,7 +17,7 @@ export interface AdditionalState {
   isLoading: boolean;
   isReloading: boolean;
   isLoaded: boolean; // To indicate whether this state is updated with the Firebase user state
-  error: string;
+  error?: FirebaseError;
 }
 
 export interface AuthState {
@@ -35,8 +37,7 @@ export const initialAdditionalState: AdditionalState = {
   user: null,
   isLoading: true,
   isReloading: false,
-  isLoaded: false,
-  error: null
+  isLoaded: false
 };
 
 export const additionalReducer = createReducer(
@@ -70,7 +71,6 @@ export const additionalReducer = createReducer(
   on(AuthActions.loadAuthFailiure, (state, action) => {
     return {
       ...state,
-      isLoading: false,
       error: action.error
     };
   }),
@@ -83,6 +83,7 @@ export const additionalReducer = createReducer(
   on(AuthActions.logOutSuccess, (state, action) => {
     return {
       ...state,
+      isLoading: false,
       error: null
     };
   }),

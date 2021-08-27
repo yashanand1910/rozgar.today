@@ -1,5 +1,5 @@
-import { Collection, CreatePaymentIntentInput, CurrencyMultiplier, Product, StoreUser } from './model';
-import { getDisplayName, getIdempotencyKey } from './helper';
+import { Collection, Cart, CurrencyMultiplier, Product, StoreUser, Currency, Price } from './model';
+import { getContextDescription, getDisplayName, getIdempotencyKey } from './helper';
 
 import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
@@ -54,28 +54,70 @@ exports.createCustomer = functions.firestore
 
 /**
  * Create a Stripe PaymentIntent
- *
- * @params data - { productPath: 'path/to/document/in/firestore' }
- * @returns { clientSecret }
  */
-exports.createPaymentIntent = functions.https.onCall(async (data: CreatePaymentIntentInput) => {
-  // Get product
-  logger.log('Getting product from Firestore...');
-  const product = <Product>(await firebase.firestore().doc(data.productPath).get()).data();
-
-  // Since Stripe takes input amount in Paisa/Cents
-  product.price.amount = CurrencyMultiplier.INR * product.price.amount;
-
+exports.createPaymentIntent = functions.https.onCall(async (cart: Cart) => {
   // Create PaymentIntent
   logger.log('Creating payment intent on Stripe...');
-  const paymentIntent = await stripe.paymentIntents.create({
-    ...product.price,
-    customer: data.stripeCustomerId
-  }, { idempotencyKey: getIdempotencyKey(data.stripeCustomerId, data.productPath) });
+  const paymentIntent = await stripe.paymentIntents.create(
+    {
+      ...(await calculateTotalPrice(cart.products)),
+      customer: cart.customerId,
+      description: getContextDescription(cart.context)
+    },
+    { idempotencyKey: getIdempotencyKey(cart.context, <string>cart.customerId, 'create') }
+  );
 
-  // Return client secret & id
+  // Return client secret, id etc
   return {
     id: paymentIntent.id,
-    clientSecret: paymentIntent.client_secret
+    clientSecret: paymentIntent.client_secret,
+    amount: paymentIntent.amount,
+    currency: paymentIntent.currency
   };
 });
+
+/**
+ * Update a Stripe PaymentIntent
+ */
+exports.updatePaymentIntent = functions.https.onCall(async (cart: Cart) => {
+  // Create PaymentIntent
+  logger.log('Creating payment intent on Stripe...');
+  const paymentIntent = await stripe.paymentIntents.update(
+    <string>cart.id,
+    {
+      ...(await calculateTotalPrice(cart.products)),
+      description: getContextDescription(cart.context)
+    },
+    { idempotencyKey: getIdempotencyKey(cart.context, <string>cart.customerId, 'update') }
+  );
+
+  // Return client secret, id etc
+  return {
+    id: paymentIntent.id,
+    clientSecret: paymentIntent.client_secret,
+    amount: paymentIntent.amount,
+    currency: paymentIntent.currency
+  };
+});
+
+const calculateTotalPrice = async (productReferences: Cart['products']): Promise<Price> => {
+  // Get products from Firestore
+  logger.log('Getting products from Firestore...');
+
+  const products = [];
+  for (const reference of productReferences) {
+    const product = <Product>(
+      (await firebase.firestore().collection(reference.collection).doc(reference.id).get()).data()
+    );
+
+    // Since Stripe takes input amount in Paisa/Cents, use multiplier
+    product.price.amount = CurrencyMultiplier[product.price.currency] * product.price.amount;
+
+    products.push(product);
+  }
+
+  // TODO consider currency conversion by setting a default currency for calculations
+  return products
+    .map((product) => product.price)
+    .reduce((a, b) => ({ amount: a.amount + b.amount, currency: Currency.INR }));
+};

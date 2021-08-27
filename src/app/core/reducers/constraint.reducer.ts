@@ -1,18 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ConstraintActions from '../actions/constraint.actions';
+import { ConstraintActions } from '../actions';
 import { Constraints } from '@core/models';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'constraint';
 
 export interface State {
   isLoading: boolean;
-  error: string;
+  error?: FirebaseError;
   constraints: Constraints;
 }
 
 export const initialState: State = {
   isLoading: false,
-  error: null,
   constraints: null
 };
 

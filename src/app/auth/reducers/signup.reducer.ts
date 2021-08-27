@@ -1,20 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as SignupActions from '../actions/signup.actions';
+import { SignupActions } from '../actions';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'signup';
 
 export interface State {
   isLoading: boolean;
-  info: string;
-  warning: string;
-  error: string;
+  info?: string;
+  warning?: string;
+  error?: FirebaseError;
 }
 
 export const initialState: State = {
-  isLoading: false,
-  info: null,
-  warning: null,
-  error: null
+  isLoading: false
 };
 
 export const reducer = createReducer(

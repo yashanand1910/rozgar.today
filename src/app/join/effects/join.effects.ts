@@ -2,19 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as RouterSelectors from '@core/selectors/router.selectors';
 import * as CollectionSelectors from '@core/selectors/collection.selectors';
-import * as JoinSelectors from '../selectors';
-import * as AuthSelectors from '@auth/selectors';
-import * as JoinActions from '../actions';
-import * as CoreActions from '@core/actions';
-import {
-  exhaustMap,
-  first,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  withLatestFrom
-} from 'rxjs/operators';
+import { JoinSelectors } from '../selectors';
+import { AuthSelectors } from '@auth/selectors';
+import { JoinActions } from '../actions';
+import { CoreActions } from '@core/actions';
+import { exhaustMap, first, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';

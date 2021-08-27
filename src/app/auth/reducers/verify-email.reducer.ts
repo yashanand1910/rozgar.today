@@ -1,26 +1,25 @@
 import { createReducer, on } from '@ngrx/store';
-import * as VerifyEmailActions from '../actions/verify-email.actions';
+import { VerifyEmailActions } from '../actions';
 import { User } from '@auth/models';
 import { extract } from '@i18n/services';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'verifyEmail';
 
 export interface State {
   user: Partial<User>;
-  code: string;
+  code?: string;
   isLoading: boolean;
   isVerifying: boolean;
-  success: string;
-  error: string;
+  success?: string;
+  error?: FirebaseError;
 }
 
 export const initialState: State = {
   user: null,
-  code: null,
   isLoading: false,
-  isVerifying: true,
-  success: null,
-  error: null
+  isVerifying: true
 };
 
 export const reducer = createReducer(

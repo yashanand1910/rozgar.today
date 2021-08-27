@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as RouterSelectors from '@core/selectors/router.selectors';
-import * as JoinActions from '@app/join/actions';
+import { RouterSelectors } from '@core/selectors';
+import { JoinActions } from '@app/join/actions';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import * as VerifyEmailActions from '../actions/verify-email.actions';
+import { VerifyEmailActions } from '../actions';
 import { Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
@@ -23,7 +23,13 @@ export class VerifyEmailEffects {
             VerifyEmailActions.verifyEmailCodeSuccess({ user: { email }, code }),
             VerifyEmailActions.verifyEmail({ code })
           ]),
-          catchError((error: FirebaseError) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              VerifyEmailActions.verifyEmailCodeFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         )
       )
     )
@@ -36,7 +42,13 @@ export class VerifyEmailEffects {
       exhaustMap((code) =>
         from(this.afa.applyActionCode(code)).pipe(
           switchMap(() => [VerifyEmailActions.verifyEmailSuccess(), JoinActions.refreshSteps()]),
-          catchError((error: FirebaseError) => of(VerifyEmailActions.verifyEmailCodeFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              VerifyEmailActions.verifyEmailCodeFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         )
       )
     )

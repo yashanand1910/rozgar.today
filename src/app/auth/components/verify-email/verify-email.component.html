@@ -1,0 +1,11 @@
+<ng-container>
+  <div *ngIf="(isVerifying$ | ngrxPush) || (isLoading$ | ngrxPush)" class="loading-container">
+    <nz-spin nzSize="default"></nz-spin>
+  </div>
+  <div *ngIf="success$ | ngrxPush as success">
+    <nz-result nzTitle="Account Verified" nzStatus="success" [nzSubTitle]="success | translate"></nz-result>
+  </div>
+  <div *ngIf="error$ | ngrxPush as error">
+    <nz-result nzTitle="Invalid" nzStatus="error" [nzSubTitle]="error.code | translate"></nz-result>
+  </div>
+</ng-container>

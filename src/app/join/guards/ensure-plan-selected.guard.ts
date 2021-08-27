@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { first, map } from 'rxjs/operators';
 import { extract } from '@i18n/services';
-import * as JoinSelectors from '@app/join/selectors';
+import { JoinSelectors } from '../selectors';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Logger } from '@core/services';
 import { QueryParamKey } from '@core/models';

@@ -44,7 +44,7 @@ import { StripeEffects } from './effects/stripe.effects';
       runtimeChecks: {
         // strictStateImmutability and strictActionImmutability are enabled by default
         strictStateSerializability: true,
-        strictActionSerializability: true,
+        // strictActionSerializability: true,
         strictActionWithinNgZone: true,
         strictActionTypeUniqueness: true
       }

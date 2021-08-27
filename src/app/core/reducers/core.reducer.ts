@@ -6,9 +6,12 @@ import * as fromConstraint from './constraint.reducer';
 import * as fromAlert from './alert.reducer';
 import * as fromCollection from './collection.reducer';
 import * as fromStripe from './stripe.reducer';
-import * as CoreActions from '../actions';
+import { CoreActions } from '../actions';
 import { Collection } from '@core/models';
 import { InjectionToken } from '@angular/core';
+import { AuthActions } from '@auth/actions';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 // Every feature state will also have an 'additional' state for storing state for containers
 export const additionalKey = 'additional';
@@ -22,32 +25,31 @@ export interface State {
 }
 
 export interface AdditionalState {
-  isLoading: boolean;
+  isUpdated: boolean; // Is updated with Firestore state?
   isProcessing: boolean;
-  isLoaded: boolean;
-  error: string;
+  error?: FirebaseError;
 }
 
 export const initialState: AdditionalState = {
-  isLoading: false,
-  isProcessing: false,
-  isLoaded: false,
-  error: null
+  isUpdated: false,
+  isProcessing: false
 };
 
 export const additionalReducer = createReducer(
   initialState,
-  on(CoreActions.networkError, (state) => ({ ...state, error: 'Network error, please reload.' })),
-  on(CoreActions.getFirestoreState, (state) => ({ ...state, isLoading: true })),
+  on(CoreActions.getFirestoreState, (state) => ({ ...state })),
   on(CoreActions.getFirestoreStateSuccess, (state, action) => {
-    return action.state
-      ? { ...state, isLoading: false, error: null, isLoaded: true }
-      : { ...state, isLoading: false, error: null, isLoaded: true };
+    return action.state ? { ...state, error: null, isUpdated: true } : { ...state, error: null, isUpdated: false };
   }),
   on(CoreActions.getFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
   on(CoreActions.setFirestoreState, (state) => ({ ...state, isProcessing: true })),
-  on(CoreActions.setFirestoreStateSuccess, (state) => ({ ...state, isProcessing: false, error: null })),
-  on(CoreActions.setFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error }))
+  on(CoreActions.setFirestoreStateSuccess, (state, action) => {
+    return action.firstTime
+      ? { ...state, isProcessing: false, error: null, isUpdated: true }
+      : { ...state, isProcessing: false, error: null };
+  }),
+  on(CoreActions.setFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
+  on(AuthActions.logOutSuccess, (state) => ({ ...state, isUpdated: false }))
 );
 
 export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reducers token', {
@@ -83,8 +85,10 @@ const log = new Logger('Action');
 export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State> {
   return (state, action) => {
     const newState = reducer(state, action);
-    if (action['error']) {
-      log.error(`${action.type} (error: ${action['error']})`, {
+    if (action.type.startsWith('@ngrx/router')) {
+      log.debug(`${action.type} (url: ${action['payload'].event.url})`);
+    } else if (action['error']) {
+      log.error(`${action.type} (error: ${action['error']['code']})`, {
         action: action,
         oldState: state,
         newState
@@ -96,7 +100,7 @@ export function actionLogger(reducer: ActionReducer<State>): ActionReducer<State
         newState
       });
     } else {
-      log.debug(action.type, {
+      log.info(action.type, {
         action: action,
         oldState: state,
         newState

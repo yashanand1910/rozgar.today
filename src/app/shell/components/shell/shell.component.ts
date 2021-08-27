@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as AuthSelectors from '@auth/selectors';
-import * as AuthActions from '@auth/actions';
+import { AuthSelectors } from '@auth/selectors';
+import { AuthActions } from '@auth/actions';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '@auth/models';

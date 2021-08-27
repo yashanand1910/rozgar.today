@@ -1,1 +1,3 @@
-export * from './join.actions';
+import * as JoinActions from './join.actions';
+
+export { JoinActions };

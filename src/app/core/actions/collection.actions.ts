@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Collection, CollectionItem } from '@core/models/collection';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const loadCollection = createAction(
   '[Collection] Load Collection',
@@ -13,7 +15,7 @@ export const loadCollectionSuccess = createAction(
 
 export const loadCollectionFailure = createAction(
   '[Collection] Load Collection Failure',
-  props<{ error: string; collection: Collection }>()
+  props<{ error: FirebaseError; collection: Collection }>()
 );
 
 export const stopLoadCollection = createAction(

@@ -1,1 +1,1 @@
-export * from './ensure-firestore-state-loaded.guard';
+export * from './ensure-firestore-state-updated.guard';

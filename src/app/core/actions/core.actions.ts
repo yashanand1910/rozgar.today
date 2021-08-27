@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { State } from '@core/reducers';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const initialize = createAction('[Core] Initialize');
 
@@ -13,19 +15,25 @@ export const getFirestoreState = createAction('[Core] Get Firestore State');
 
 export const getFirestoreStateSuccess = createAction(
   '[Core] Get Firestore State Success',
-  props<{ state?: Partial<State> }>()
+  (payload: { state: Partial<State> } = { state: null }) => payload
 );
 
 export const getFirestoreStateFailiure = createAction(
   '[Core] Get Firestore State Failiure',
-  props<{ error: string }>()
+  props<{ error: FirebaseError }>()
 );
 
-export const setFirestoreState = createAction('[Core] Set Firestore State');
+export const setFirestoreState = createAction(
+  '[Core] Set Firestore State',
+  (payload: { firstTime: boolean } = { firstTime: false }) => payload
+);
 
-export const setFirestoreStateSuccess = createAction('[Core] Set Firestore State Success');
+export const setFirestoreStateSuccess = createAction(
+  '[Core] Set Firestore State Success',
+  (payload: { firstTime: boolean } = { firstTime: false }) => payload
+);
 
 export const setFirestoreStateFailiure = createAction(
   '[Core] Set Firestore State Failiure',
-  props<{ error: string }>()
+  props<{ error: FirebaseError }>()
 );

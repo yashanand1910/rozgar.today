@@ -1,21 +1,20 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ForgotPasswordActions from '../actions/forgot-password.actions';
+import { ForgotPasswordActions } from '../actions';
 import { extract } from '@i18n/services';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'forgotPassword';
 
 export interface State {
   isLoading: boolean;
-  info: string;
-  warning: string;
-  error: string;
+  info?: string;
+  warning?: string;
+  error?: FirebaseError;
 }
 
 export const initialState: State = {
-  isLoading: false,
-  info: null,
-  warning: null,
-  error: null
+  isLoading: false
 };
 
 export const reducer = createReducer(

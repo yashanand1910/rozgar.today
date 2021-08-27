@@ -4,11 +4,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { I18nModule } from '@app/i18n';
 import { AuthRoutingModule } from './auth-routing.module';
 import {
+  AuthComponent,
   ForgotPasswordComponent,
   LoginComponent,
   ResetPasswordComponent,
   VerifyEmailComponent
-} from '@app/auth/components/auth';
+} from './components';
 import { EffectsModule } from '@ngrx/effects';
 import {
   AuthEffects,
@@ -32,7 +33,6 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { AuthComponent } from '@auth/components';
 import { SharedModule } from '@shared';
 import { ReactiveComponentModule } from '@ngrx/component';
 

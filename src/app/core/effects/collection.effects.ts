@@ -3,17 +3,17 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, filter, first, map, take, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import * as CoreActions from '../actions';
+import { CollectionActions, CoreActions } from '../actions';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CollectionItem } from '@core/models';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class CollectionEffects {
   loadCollections$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CoreActions.loadCollection),
+      ofType(CollectionActions.loadCollection),
       exhaustMap((action) =>
         this.afs
           .collection<CollectionItem<unknown>>(action.collection)
@@ -22,20 +22,23 @@ export class CollectionEffects {
             take(action.live ? Infinity : 1),
             takeUntil(
               this.actions$.pipe(
-                ofType(CoreActions.stopLoadCollection),
+                ofType(CollectionActions.stopLoadCollection),
                 filter((stopAction) => stopAction.collection === action.collection),
                 first()
               )
             ),
             map((items) =>
-              CoreActions.loadCollectionSuccess({
+              CollectionActions.loadCollectionSuccess({
                 collection: action.collection,
                 items
               })
             ),
             catchError((error: FirebaseError) =>
               of(
-                CoreActions.loadCollectionFailure({ error: error.code, collection: action.collection }),
+                CollectionActions.loadCollectionFailure({
+                  error: { code: error.code, name: error.name, message: error.message, stack: error.stack },
+                  collection: action.collection
+                }),
                 CoreActions.networkError()
               )
             )

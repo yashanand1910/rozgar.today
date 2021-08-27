@@ -1,12 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import * as CollectionActions from '../actions/collection.actions';
+import { CollectionActions } from '../actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Collection, CollectionItem } from '@core/models';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export interface State<T> extends EntityState<CollectionItem<T>> {
   selectedId: CollectionItem<unknown>['id'] | null;
   isLoading: boolean;
-  error: string;
+  error?: FirebaseError;
 }
 
 export const adapter = <T>(): EntityAdapter<CollectionItem<T>> =>
@@ -17,8 +19,7 @@ export const adapter = <T>(): EntityAdapter<CollectionItem<T>> =>
 
 export const initialState: State<unknown> = adapter().getInitialState({
   selectedId: null,
-  isLoading: false,
-  error: null
+  isLoading: false
 });
 
 export const reducer = (collection: Collection) =>

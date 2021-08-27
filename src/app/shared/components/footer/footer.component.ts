@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { environment } from '@env/environment';
 
 @Component({
@@ -7,10 +7,8 @@ import { environment } from '@env/environment';
   styleUrls: ['./footer.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   version = environment.version;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

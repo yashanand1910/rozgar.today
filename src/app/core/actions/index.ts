@@ -1,5 +1,7 @@
-export * from './core.actions';
-export * from './constraint.actions';
-export * from './alert.actions';
-export * from './collection.actions';
-export * from './stripe.actions';
+import * as CoreActions from './core.actions';
+import * as ConstraintActions from './constraint.actions';
+import * as AlertActions from './alert.actions';
+import * as CollectionActions from './collection.actions';
+import * as StripeActions from './stripe.actions';
+
+export { CoreActions, ConstraintActions, AlertActions, CollectionActions, StripeActions };

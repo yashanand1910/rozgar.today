@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as RouterSelectors from '@core/selectors/router.selectors';
-import * as ResetPasswordActions from '../actions';
-import * as ResetPasswordSelectors from '../selectors/reset-password.selectors';
+import { RouterSelectors } from '@core/selectors';
+import { ResetPasswordSelectors } from '../selectors';
+import { ResetPasswordActions } from '../actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { from, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
@@ -23,7 +23,11 @@ export class ResetPasswordEffects {
         from(this.afa.verifyPasswordResetCode(code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
           catchError((error: FirebaseError) =>
-            of(ResetPasswordActions.verifyResetPasswordCodeFailiure({ error: error.code }))
+            of(
+              ResetPasswordActions.verifyResetPasswordCodeFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
           )
         )
       )
@@ -43,7 +47,13 @@ export class ResetPasswordEffects {
             this.router.navigate(['/auth']).then();
             return ResetPasswordActions.resetPasswordSuccess();
           }),
-          catchError((error: FirebaseError) => of(ResetPasswordActions.resetPasswordFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              ResetPasswordActions.resetPasswordFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         )
       )
     );

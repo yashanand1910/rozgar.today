@@ -1,33 +1,31 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ResetPasswordActions from '../actions/reset-password.actions';
+import { ResetPasswordActions } from '../actions';
 import { User } from '@auth/models';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'resetPassword';
 
 export interface State {
   user: Partial<User>;
-  code: string;
+  code?: string;
   isLoading: boolean;
   isVerifying: boolean;
-  info: string;
-  warning: string;
-  error: string;
+  info?: string;
+  warning?: string;
+  error?: FirebaseError;
 }
 
 export const initialState: State = {
   user: null,
-  code: null,
   isLoading: false,
-  isVerifying: true,
-  info: null,
-  warning: null,
-  error: null
+  isVerifying: true
 };
 
 export const reducer = createReducer(
   initialState,
 
-  on(ResetPasswordActions.verifyResetPasswordCode, (state) => initialState),
+  on(ResetPasswordActions.verifyResetPasswordCode, () => initialState),
   on(ResetPasswordActions.verifyResetPasswordCodeSuccess, (state, action) => {
     return {
       ...state,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import * as AuthSelectors from '@auth/selectors';
+import { AuthSelectors } from '@auth/selectors';
 import { first, map } from 'rxjs/operators';
 import { QueryParamKey } from '@core/models';
 import { NzMessageService } from 'ng-zorro-antd/message';

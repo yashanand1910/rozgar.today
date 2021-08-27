@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Shell } from '@shell/services';
-import { AccountComponent, PaymentComponent, PlansComponent } from './components/join';
+import { AccountComponent, PaymentComponent, PlansComponent } from './components';
 import { extract } from '@i18n/services';
-import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from './guards';
+import { EnsureFirestoreStateUpdatedGuard, EnsurePlanSelectedGuard } from './guards';
 import { AuthGuard, EnsureAccountVerifiedGuard } from '@auth/guards';
 import { StepPath } from '@app/join/models';
 import { JoinComponent } from '@app/join/components';
@@ -18,7 +18,7 @@ const routes: Routes = [
     {
       path: 'join',
       component: JoinComponent,
-      canActivate: [EnsureFirestoreStateLoadedGuard],
+      canActivate: [EnsureFirestoreStateUpdatedGuard],
       children: [
         {
           path: StepPath.Plan,

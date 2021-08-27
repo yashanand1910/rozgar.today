@@ -9,7 +9,7 @@ export enum Collection {
 // Reference to a Firestore document
 export interface Reference<T> {
   collection: Collection;
-  id?: string;
+  id: string;
 }
 
 export type CollectionItem<T> = T & { id: string };

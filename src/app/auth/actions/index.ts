@@ -1,6 +1,8 @@
-export * from './auth.actions';
-export * from './signup.actions';
-export * from './login.actions';
-export * from './forgot-password.actions';
-export * from './reset-password.actions';
-export * from './verify-email.actions';
+import * as AuthActions from './auth.actions';
+import * as SignupActions from './signup.actions';
+import * as LoginActions from './login.actions';
+import * as ForgotPasswordActions from './forgot-password.actions';
+import * as ResetPasswordActions from './reset-password.actions';
+import * as VerifyEmailActions from './verify-email.actions';
+
+export { AuthActions, SignupActions, LoginActions, ForgotPasswordActions, ResetPasswordActions, VerifyEmailActions };

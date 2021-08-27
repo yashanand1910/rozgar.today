@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import * as AuthActions from '@auth/actions';
-import * as CoreActions from '@core/actions';
+import { AuthActions, SignupActions } from '@auth/actions';
+import { CoreActions } from '@core/actions';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,14 +12,14 @@ import { StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
 import { TranslateService } from '@ngx-translate/core';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Injectable()
 export class SignupEffects {
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AuthActions.signUp),
+      ofType(SignupActions.signUp),
       map((props) => props.context),
       exhaustMap((context) =>
         from(this.afa.createUserWithEmailAndPassword(context.email, context.password)).pipe(
@@ -44,13 +44,19 @@ export class SignupEffects {
           switchMap((user: Partial<User>) => {
             this.messageService.success(extract('Account creation successful.'));
             return [
-              AuthActions.signUpSuccess(),
-              AuthActions.sendVerificationEmail(),
+              SignupActions.signUpSuccess(),
+              SignupActions.sendVerificationEmail(),
               AuthActions.getPartialUserSuccess({ user }),
-              CoreActions.setFirestoreState()
+              CoreActions.setFirestoreState({ firstTime: true })
             ];
           }),
-          catchError((error: FirebaseError) => of(AuthActions.signUpFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              SignupActions.signUpFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         )
       )
     );
@@ -58,17 +64,21 @@ export class SignupEffects {
 
   sendVerificationEmail$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AuthActions.sendVerificationEmail),
+      ofType(SignupActions.sendVerificationEmail),
       withLatestFrom(this.afa.authState),
       exhaustMap(([, user]) =>
         from(user.sendEmailVerification()).pipe(
           map(() => {
             this.messageService.info(extract('A verification email has been sent.'));
-            return AuthActions.sendVerificationEmailSuccess();
+            return SignupActions.sendVerificationEmailSuccess();
           }),
           catchError((error: FirebaseError) => {
             this.messageService.error(this.translationService.instant(error.code));
-            return of(AuthActions.sendVerificationEmailFailiure({ error: error.code }));
+            return of(
+              SignupActions.sendVerificationEmailFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            );
           })
         )
       )

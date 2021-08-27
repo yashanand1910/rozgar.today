@@ -14,5 +14,3 @@ export const setStepInfo = createAction(
   '[Join] Set Step Info',
   props<{ path: StepPath; description?: string; status?: NzStatusType; disabled?: boolean }>()
 );
-
-export const resetState = createAction('[Join] Reset Join State');

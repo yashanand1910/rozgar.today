@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as RouterSelectors from '@core/selectors/router.selectors';
-import * as AuthActions from '../actions';
+import { RouterSelectors } from '@core/selectors';
+import { LoginActions, AuthActions } from '../actions';
 import { catchError, exhaustMap, first, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import FirebaseError = firebase.FirebaseError;
 export class LoginEffects {
   logIn$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AuthActions.logIn),
+      ofType(LoginActions.logIn),
       map((action) => action.context),
       withLatestFrom(this.store.select(RouterSelectors.selectQueryParam(QueryParamKey.ReturnUrl))),
       exhaustMap(([context, url]) => {
@@ -36,9 +36,15 @@ export class LoginEffects {
             } else {
               this.router.navigate(['']).then();
             }
-            return AuthActions.logInSuccess();
+            return LoginActions.logInSuccess();
           }),
-          catchError((error: FirebaseError) => of(AuthActions.logInFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              LoginActions.logInFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         );
       })
     );

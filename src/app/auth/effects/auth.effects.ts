@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as fromRouter from '@ngrx/router-store';
-import * as CoreActions from '@core/actions';
-import * as AuthActions from '../actions';
-import * as JoinActions from '@app/join/actions';
-import * as AuthSelectors from '../selectors';
+import { CoreActions } from '@core/actions';
+import { AuthActions } from '../actions';
+import { AuthSelectors } from '../selectors';
 import {
   catchError,
   delay,
@@ -45,7 +44,11 @@ export class AuthEffects {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
-          .catch((error: FirebaseError) => AuthActions.logOutFailiure({ error: error.code }));
+          .catch((error: FirebaseError) =>
+            AuthActions.logOutFailiure({
+              error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+            })
+          );
       })
     )
   );
@@ -63,27 +66,36 @@ export class AuthEffects {
                 .then(() => {
                   return AuthActions.logOutSuccess();
                 })
-                .catch((error: FirebaseError) => AuthActions.logOutFailiure({ error: error.code }));
+                .catch((error: FirebaseError) =>
+                  AuthActions.logOutFailiure({
+                    error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  })
+                );
             }
             return EMPTY;
           }),
-          catchError((error: FirebaseError) => of(AuthActions.loadAuthFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              AuthActions.loadAuthFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         );
       })
     )
   );
 
-  logoutSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.logOutSuccess),
-      withLatestFrom(this.store.select(AuthSelectors.selectUser)),
-      exhaustMap(([, user]) => {
-        this.messageService.success(extract(`${user?.displayName} has been logged out.`));
-
-        // Add all state resets below
-        return [JoinActions.resetState()];
-      })
-    )
+  logoutSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logOutSuccess),
+        withLatestFrom(this.store.select(AuthSelectors.selectUser)),
+        map(([, user]) => {
+          this.messageService.success(extract(`${user?.displayName} has been logged out.`));
+        })
+      ),
+    { dispatch: false }
   );
 
   loadAuth$ = createEffect(() =>
@@ -97,23 +109,14 @@ export class AuthEffects {
             });
           }),
           catchError((error: FirebaseError) => {
-            return of(AuthActions.loadAuthFailiure({ error: error.code }), CoreActions.networkError());
+            return of(
+              AuthActions.loadAuthFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              }),
+              CoreActions.networkError()
+            );
           })
         );
-      })
-    )
-  );
-
-  loadAuthSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.loadAuthSuccess),
-      switchMap((action) => {
-        return of(CoreActions.getFirestoreState());
-        // if (action.user) {
-        //   return of(CoreActions.getFirestoreState());
-        // } else {
-        //   return EMPTY;
-        // }
       })
     )
   );
@@ -134,7 +137,13 @@ export class AuthEffects {
               )
             )
           ),
-          catchError((error: FirebaseError) => of(AuthActions.loadAuthFailiure({ error: error.code })))
+          catchError((error: FirebaseError) =>
+            of(
+              AuthActions.loadAuthFailiure({
+                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              })
+            )
+          )
         )
       )
     )

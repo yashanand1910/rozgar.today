@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import * as AuthSelectors from '@auth/selectors';
+import { AuthSelectors } from '@auth/selectors';
 import { first, map } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Logger } from '@core/services';
@@ -29,7 +29,7 @@ export class EnsureAccountVerifiedGuard implements CanActivate {
         if (user) {
           if (!user.emailVerified) {
             log.debug('Account not verified, navigating...');
-            this.messageService.info(extract('You need to verify your account first.'));
+            this.messageService.info(extract('We need to verify your account first.'));
             const urlTree = this.router.parseUrl(`/join/${StepPath.Account}`);
             urlTree.queryParams = { [QueryParamKey.ReturnUrl]: state.url };
             return urlTree;

@@ -13,9 +13,11 @@ import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
 import { untilDestroyed } from '@core/utils';
 import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
-import * as CoreActions from '@core/actions';
+import { CoreActions } from '@core/actions';
 import { Store } from '@ngrx/store';
-import * as CoreSelectors from '@core/selectors';
+import { CoreSelectors } from '@core/selectors';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 const log = new Logger('App');
 
@@ -25,7 +27,7 @@ const log = new Logger('App');
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  error$: Observable<string>;
+  error$: Observable<FirebaseError>;
   isLoading$: Observable<boolean>;
 
   // For the nz library

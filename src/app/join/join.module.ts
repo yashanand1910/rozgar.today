@@ -2,7 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { JoinRoutingModule } from './join-routing.module';
-import { PaymentComponent, PlansComponent } from './components/join';
+import {
+  PaymentComponent,
+  PlansComponent,
+  JoinComponent,
+  StepComponent,
+  AccountComponent,
+  CreateAccountComponent,
+  PlanComponent,
+  VerifyAccountComponent
+} from './components';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -28,17 +37,10 @@ import { StoreModule } from '@ngrx/store';
 import * as fromJoin from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { JoinEffects } from './effects';
-import { JoinComponent, StepComponent } from '@app/join/components';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared';
-import { EnsureFirestoreStateLoadedGuard, EnsurePlanSelectedGuard } from '@app/join/guards';
-import {
-  AccountComponent,
-  CreateAccountComponent,
-  PlanComponent,
-  VerifyAccountComponent
-} from '@app/join/components/join';
+import { EnsureFirestoreStateUpdatedGuard, EnsurePlanSelectedGuard } from '@app/join/guards';
 import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
@@ -64,7 +66,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     NzTypographyModule,
     NzTagModule,
     NzButtonModule,
-    StoreModule.forFeature(fromJoin.featureKey, fromJoin.reducers),
+    StoreModule.forFeature(fromJoin.featureKey, fromJoin.reducers, { initialState: {} }),
     EffectsModule.forFeature([JoinEffects]),
     NzSkeletonModule,
     NzFormModule,
@@ -83,6 +85,6 @@ import { NgxStripeModule } from 'ngx-stripe';
     NzResultModule,
     NgxStripeModule
   ],
-  providers: [EnsurePlanSelectedGuard, EnsureFirestoreStateLoadedGuard]
+  providers: [EnsurePlanSelectedGuard, EnsureFirestoreStateUpdatedGuard]
 })
 export class JoinModule {}

@@ -1,42 +1,87 @@
 import { createReducer, on } from '@ngrx/store';
-import * as StripeActions from '../actions/stripe.actions';
-import * as CoreActions from '../actions/core.actions';
+import { StripeActions } from '../actions';
+import { CoreActions } from '../actions';
+import { AuthActions } from '@auth/actions';
+import { PaymentIntent } from '@core/models';
+import firebase from 'firebase/app';
+import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'stripe';
 
-export interface State {
-  [productPath: string]: ProductPaymentIntent;
-}
+export type State = {
+  paymentIntentState: {
+    [context: string]: PaymentIntentState | undefined;
+  };
+  customerId?: string;
+};
 
-export interface ProductPaymentIntent {
-  error: string;
-  clientSecret: string;
-  id: string;
-}
+export type PaymentIntentState = {
+  error?: FirebaseError;
+} & PaymentIntent;
 
 export const initialState: State = {
-  abcd: {
-    id: null,
-    clientSecret: null,
-    error: null
-  }
+  paymentIntentState: {}
 };
 
 export const reducer = createReducer(
   initialState,
+  on(StripeActions.createPaymentIntent, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        productPaths: action.products
+      }
+    }
+  })),
   on(StripeActions.createPaymentIntentSuccess, (state, action) => ({
     ...state,
-    [action.productPath]: {
-      ...state[action.productPath],
-      clientSecret: action.clientSecret,
-      error: null
+    customerId: action.customerId ? action.customerId : state.customerId,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        id: action.id,
+        clientSecret: action.clientSecret,
+        amount: action.amount,
+        currency: action.currency,
+        error: null
+      }
     }
   })),
   on(StripeActions.createPaymentIntentFailiure, (state, action) => ({
     ...state,
-    [action.productPath]: {
-      ...state[action.productPath],
-      error: action.error
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        error: action.error
+      }
+    }
+  })),
+  on(StripeActions.updatePaymentIntentSuccess, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        id: action.id,
+        clientSecret: action.clientSecret,
+        amount: action.amount,
+        currency: action.currency,
+        error: null
+      }
+    }
+  })),
+  on(StripeActions.updatePaymentIntentFailiure, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        error: action.error
+      }
     }
   })),
   on(CoreActions.getFirestoreStateSuccess, (state, action) => {
@@ -46,7 +91,8 @@ export const reducer = createReducer(
           ...action.state[featureKey]
         }
       : {
-          ...state,
+          ...state
         };
-  })
+  }),
+  on(AuthActions.logOutSuccess, () => initialState)
 );
