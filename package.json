@@ -96,11 +96,7 @@
     "@angular-builders/jest": "^11.2.0",
     "@angular-devkit/architect": "^0.1102.10",
     "@angular-devkit/build-angular": "^0.1102.10",
-    "@angular-eslint/builder": "4.3.0",
-    "@angular-eslint/eslint-plugin": "4.3.0",
-    "@angular-eslint/eslint-plugin-template": "4.3.0",
-    "@angular-eslint/schematics": "4.3.0",
-    "@angular-eslint/template-parser": "4.3.0",
+
     "@angular/cli": "~11.2.10",
     "@angular/compiler-cli": "^11.2.11",
     "@angular/language-service": "^11.2.11",
