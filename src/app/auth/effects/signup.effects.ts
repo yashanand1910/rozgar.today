@@ -8,12 +8,13 @@ import { from, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { StoreUser, User } from '@auth/models';
+import { Profile, SignupContext, StoreUser, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
 import { TranslateService } from '@ngx-translate/core';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError, toTitleCase } from '@shared/helper';
 
 @Injectable()
 export class SignupEffects {
@@ -33,15 +34,13 @@ export class SignupEffects {
           }),
           // Update other details
           switchMap((user) => {
-            // Remove passwords etc. to create a safe context (profile) for storage
-            const { password, confirmPassword, ...profile } = context;
             return this.afs
               .collection<StoreUser>(Collection.Users)
               .doc<StoreUser>(user.uid)
-              .set({ profile })
+              .set({ profile: this.getSanitizedProfile(context) })
               .then(() => user);
           }),
-          switchMap((user: Partial<User>) => {
+          switchMap((user) => {
             this.messageService.success(extract('Account creation successful.'));
             return [
               SignupActions.signUpSuccess(),
@@ -52,8 +51,8 @@ export class SignupEffects {
           }),
           catchError((error: FirebaseError) =>
             of(
-              SignupActions.signUpFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              SignupActions.signUpFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
@@ -75,8 +74,8 @@ export class SignupEffects {
           catchError((error: FirebaseError) => {
             this.messageService.error(this.translationService.instant(error.code));
             return of(
-              SignupActions.sendVerificationEmailFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              SignupActions.sendVerificationEmailFailure({
+                error: getSerializableFirebaseError(error)
               })
             );
           })
@@ -94,15 +93,46 @@ export class SignupEffects {
     private translationService: TranslateService
   ) {}
 
-  getDisplayName(firstName: string, lastName: string) {
+  /**************
+   * Helpers
+   **************/
+
+  /**
+   * Get display name from first name & last name
+   * @param {string} firstName
+   * @param {string} lastName
+   * @return {string} Display name
+   */
+  getDisplayName = (firstName: string, lastName: string): string => {
     firstName = firstName.trim();
     lastName = lastName.trim();
     return `${firstName.substr(0, 1).toUpperCase()}${firstName.substring(1)} ${lastName
       .substr(0, 1)
       .toUpperCase()}${lastName.substring(1)}`;
-  }
+  };
 
-  getPhoneNumber(code: string, number: string) {
+  /**
+   * Get phone number from code & number
+   * @param {string} code
+   * @param {string} number
+   * @return {string} Phone number
+   */
+  getPhoneNumber = (code: string, number: string): string => {
     return `${code}${number}`;
-  }
+  };
+
+  /**
+   * Sanitizes the profile object making it safe to be stored in the database
+   * @param {SignupContext} context
+   * @return {Profile} Sanitized profile object
+   */
+  getSanitizedProfile = (context: SignupContext): Profile => {
+    // Remove passwords etc. to create a safe context (profile) for storage
+    const { password, confirmPassword, ...profile } = context;
+
+    profile.firstName = toTitleCase(profile.firstName);
+    profile.lastName = toTitleCase(profile.lastName);
+
+    return profile;
+  };
 }

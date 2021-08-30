@@ -10,8 +10,8 @@ export const verifyEmailCodeSuccess = createAction(
   props<{ user: Partial<User>; code: string }>()
 );
 
-export const verifyEmailCodeFailiure = createAction(
-  '[VerifyEmail] Verify Email Code Failiure',
+export const verifyEmailCodeFailure = createAction(
+  '[VerifyEmail] Verify Email Code Failure',
   props<{ error: FirebaseError }>()
 );
 
@@ -19,7 +19,7 @@ export const verifyEmail = createAction('[VerifyEmail] Verify Email', props<{ co
 
 export const verifyEmailSuccess = createAction('[VerifyEmail] Verify Email Success');
 
-export const verifyEmailFailiure = createAction(
-  '[VerifyEmail] Verify Email Failiure',
+export const verifyEmailFailure = createAction(
+  '[VerifyEmail] Verify Email Failure',
   props<{ error: FirebaseError }>()
 );

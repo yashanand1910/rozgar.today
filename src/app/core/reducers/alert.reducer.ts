@@ -27,5 +27,5 @@ export const reducer = createReducer(
     error: null,
     alerts: action.alerts
   })),
-  on(AlertActions.loadAlertsFailiure, (state, action) => ({ ...state, error: action.error }))
+  on(AlertActions.loadAlertsFailure, (state, action) => ({ ...state, error: action.error }))
 );

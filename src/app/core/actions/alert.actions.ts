@@ -7,4 +7,4 @@ export const loadAlerts = createAction('[Alert] Load Alerts');
 
 export const loadAlertsSuccess = createAction('[Alert] Load Alerts Success', props<{ alerts: Alerts }>());
 
-export const loadAlertsFailiure = createAction('[Alert] Load Alerts Failiure', props<{ error: FirebaseError }>());
+export const loadAlertsFailure = createAction('[Alert] Load Alerts Failure', props<{ error: FirebaseError }>());

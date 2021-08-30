@@ -10,8 +10,8 @@ export const forgotPassword = createAction(
 
 export const forgotPasswordSuccess = createAction('[ForgotPassword] Forgot Password Success');
 
-export const forgotPasswordFailiure = createAction(
-  '[ForgotPassword] Forgot Password Failiure',
+export const forgotPasswordFailure = createAction(
+  '[ForgotPassword] Forgot Password Failure',
   props<{ error: FirebaseError }>()
 );
 

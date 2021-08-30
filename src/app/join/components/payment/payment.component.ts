@@ -4,9 +4,10 @@ import { StripeActions } from '@core/actions';
 import { JoinSelectors } from '../../selectors';
 import { StripeSelectors } from '@core/selectors';
 import { Collection, PaymentIntentContext, Reference } from '@core/models';
-import { tap, withLatestFrom } from 'rxjs/operators';
-import { areSetsEqual } from '@shared/helper';
+import { first, tap, withLatestFrom } from 'rxjs/operators';
+import { areArrayElementsEqual } from '@shared/helper';
 import { Product } from '@core/models/product';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
@@ -14,9 +15,15 @@ import { Product } from '@core/models/product';
   styleUrls: ['./payment.component.less', '../join.component.less']
 })
 export class PaymentComponent implements OnInit {
+  isLoading$: Observable<boolean>;
+
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(StripeSelectors.selectPaymentIntentIsLoading, {
+      context: PaymentIntentContext.FirstTimePlanPurchase
+    });
+
     this.initialize();
   }
 
@@ -24,43 +31,46 @@ export class PaymentComponent implements OnInit {
    * Create/Load/Update Stripe Payment Intent for the context with the selected plan
    */
   initialize() {
-    this.store.pipe(
-      select(JoinSelectors.selectSelectedPlanId),
-      withLatestFrom(
-        this.store.select(StripeSelectors.selectPaymentIntentState, {
-          context: PaymentIntentContext.FirstTimePlanPurchase
-        })
-      ),
-      tap(([planId, paymentIntent]) => {
-        const products = new Set<Reference<Product>>([{ collection: Collection.Plans, id: planId }]);
+    this.store
+      .pipe(
+        select(JoinSelectors.selectSelectedPlanId),
+        first(),
+        withLatestFrom(
+          this.store.select(StripeSelectors.selectPaymentIntentState, {
+            context: PaymentIntentContext.FirstTimePlanPurchase
+          })
+        ),
+        tap(([planId, paymentIntent]) => {
+          const products = [{ collection: Collection.Plans, id: planId }];
 
-        // If payment intent found in state
-        if (paymentIntent) {
-          if (areSetsEqual(paymentIntent.products, products)) {
+          // If payment intent found in state
+          if (paymentIntent) {
+            if (areArrayElementsEqual<Reference<Product>>(paymentIntent.products, products)) {
+              this.store.dispatch(
+                StripeActions.loadPaymentIntent({
+                  context: PaymentIntentContext.FirstTimePlanPurchase,
+                  id: paymentIntent.id
+                })
+              );
+            } else {
+              this.store.dispatch(
+                StripeActions.updatePaymentIntent({
+                  id: paymentIntent.id,
+                  context: PaymentIntentContext.FirstTimePlanPurchase,
+                  products
+                })
+              );
+            }
+          } else {
             this.store.dispatch(
               StripeActions.createPaymentIntent({
                 context: PaymentIntentContext.FirstTimePlanPurchase,
                 products
               })
             );
-          } else {
-            this.store.dispatch(
-              StripeActions.updatePaymentIntent({
-                id: paymentIntent.id,
-                context: PaymentIntentContext.FirstTimePlanPurchase,
-                products
-              })
-            );
           }
-        } else {
-          this.store.dispatch(
-            StripeActions.createPaymentIntent({
-              context: PaymentIntentContext.FirstTimePlanPurchase,
-              products
-            })
-          );
-        }
-      })
-    );
+        })
+      )
+      .subscribe();
   }
 }

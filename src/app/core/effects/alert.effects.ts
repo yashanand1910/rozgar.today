@@ -10,6 +10,7 @@ import { Alerts, CoreConfig } from '@core/models';
 import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class AlertEffects {
@@ -28,8 +29,8 @@ export class AlertEffects {
             map((alerts) => AlertActions.loadAlertsSuccess({ alerts })),
             catchError((error: FirebaseError) =>
               of(
-                AlertActions.loadAlertsFailiure({
-                  error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                AlertActions.loadAlertsFailure({
+                  error: getSerializableFirebaseError(error)
                 }),
                 CoreActions.networkError()
               )

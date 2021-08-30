@@ -18,6 +18,11 @@ export const environment = {
   supportedLanguages: ['en-US'],
   firebase: {
     useEmulators: env.USE_BACKEND_EMULATOR == 'Yes',
+    emulator: {
+      authURL: 'http://localhost:9099',
+      firestoreURL: ['localhost', 8080],
+      functionsURL: ['localhost', 5001]
+    },
     apiKey: env.FIREBASE_API_KEY,
     authDomain: 'rozgar-today.firebaseapp.com',
     databaseURL: 'https://rozgar-today.firebaseio.com',

@@ -17,6 +17,7 @@ export type State = {
 
 export type PaymentIntentState = {
   error?: FirebaseError;
+  isLoading: boolean;
 } & PaymentIntent;
 
 export const initialState: State = {
@@ -30,8 +31,9 @@ export const reducer = createReducer(
     paymentIntentState: {
       ...state.paymentIntentState,
       [action.context]: {
+        isLoading: true,
         ...state.paymentIntentState[action.context],
-        productPaths: action.products
+        products: action.products
       }
     }
   })),
@@ -46,11 +48,12 @@ export const reducer = createReducer(
         clientSecret: action.clientSecret,
         amount: action.amount,
         currency: action.currency,
+        isLoading: false,
         error: null
       }
     }
   })),
-  on(StripeActions.createPaymentIntentFailiure, (state, action) => ({
+  on(StripeActions.createPaymentIntentFailure, (state, action) => ({
     ...state,
     paymentIntentState: {
       ...state.paymentIntentState,
@@ -60,21 +63,66 @@ export const reducer = createReducer(
       }
     }
   })),
+  on(StripeActions.updatePaymentIntent, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        products: action.products,
+        isLoading: true
+      }
+    }
+  })),
   on(StripeActions.updatePaymentIntentSuccess, (state, action) => ({
     ...state,
     paymentIntentState: {
       ...state.paymentIntentState,
       [action.context]: {
         ...state.paymentIntentState[action.context],
-        id: action.id,
         clientSecret: action.clientSecret,
         amount: action.amount,
         currency: action.currency,
+        isLoading: false,
         error: null
       }
     }
   })),
-  on(StripeActions.updatePaymentIntentFailiure, (state, action) => ({
+  on(StripeActions.updatePaymentIntentFailure, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        error: action.error
+      }
+    }
+  })),
+  on(StripeActions.loadPaymentIntent, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        isLoading: true
+      }
+    }
+  })),
+  on(StripeActions.loadPaymentIntentSuccess, (state, action) => ({
+    ...state,
+    paymentIntentState: {
+      ...state.paymentIntentState,
+      [action.context]: {
+        ...state.paymentIntentState[action.context],
+        clientSecret: action.clientSecret,
+        amount: action.amount,
+        currency: action.currency,
+        isLoading: false,
+        error: null
+      }
+    }
+  })),
+  on(StripeActions.loadPaymentIntentFailure, (state, action) => ({
     ...state,
     paymentIntentState: {
       ...state.paymentIntentState,

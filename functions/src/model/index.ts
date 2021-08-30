@@ -11,13 +11,18 @@ export interface Cart {
   context: PaymentIntentContext;
   id?: string; // Stripe PaymentIntent ID
   customerId?: string; // Stripe Customer ID
-  products: Set<Reference<Product>>; // Reference to the Firestore document
+  products: Reference<Product>[]; // Reference to the Firestore document
 }
 
 // List of allowed contexts in order to reuse payment intents for a customer
 export enum PaymentIntentContext {
   FirstTimePlanPurchase = 'firstTimePlanPurchase'
 }
+
+export type PaymentIntentOutput = {
+  id: string;
+  clientSecret: string;
+} & Price;
 
 export const enum Currency {
   INR = 'INR',

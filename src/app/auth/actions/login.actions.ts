@@ -7,6 +7,6 @@ export const logIn = createAction('[Login] Log In', props<{ context: LoginContex
 
 export const logInSuccess = createAction('[Login] Log In Success');
 
-export const logInFailiure = createAction('[Login] Log In Failiure', props<{ error: FirebaseError }>());
+export const logInFailure = createAction('[Login] Log In Failure', props<{ error: FirebaseError }>());
 
 export const clearLoginError = createAction('[Login] Clear Login Error');

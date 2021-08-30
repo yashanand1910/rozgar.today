@@ -23,9 +23,11 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
   error$: Observable<FirebaseError>;
   isLoading$: Observable<boolean>;
   _countries: Reference<Country> = {
+    id: null,
     collection: Collection.Countries
   };
   _cities: Reference<City> = {
+    id: null,
     collection: Collection.Cities
   };
 

@@ -34,7 +34,7 @@ export const reducer = createReducer(
       isVerifying: false
     };
   }),
-  on(ResetPasswordActions.verifyResetPasswordCodeFailiure, (state, action) => {
+  on(ResetPasswordActions.verifyResetPasswordCodeFailure, (state, action) => {
     return {
       ...state,
       error: action.error,
@@ -54,7 +54,7 @@ export const reducer = createReducer(
       error: null
     };
   }),
-  on(ResetPasswordActions.resetPasswordFailiure, (state, action) => {
+  on(ResetPasswordActions.resetPasswordFailure, (state, action) => {
     return {
       ...state,
       isLoading: false,

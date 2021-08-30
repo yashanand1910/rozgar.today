@@ -16,6 +16,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
 import { JoinActions } from '@app/join/actions';
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class CoreEffects {
@@ -42,8 +43,8 @@ export class CoreEffects {
           map(() => CoreActions.setFirestoreStateSuccess({ firstTime: action.firstTime })),
           catchError((error: FirebaseError) =>
             of(
-              CoreActions.setFirestoreStateFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              CoreActions.setFirestoreStateFailure({
+                error: getSerializableFirebaseError(error)
               }),
               CoreActions.networkError()
             )
@@ -68,8 +69,8 @@ export class CoreEffects {
               map((state) => CoreActions.getFirestoreStateSuccess({ state })),
               catchError((error: FirebaseError) =>
                 of(
-                  CoreActions.getFirestoreStateFailiure({
-                    error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  CoreActions.getFirestoreStateFailure({
+                    error: getSerializableFirebaseError(error)
                   }),
                   CoreActions.networkError()
                 )

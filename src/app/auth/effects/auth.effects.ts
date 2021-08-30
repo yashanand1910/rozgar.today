@@ -26,6 +26,7 @@ import { QueryParamKey } from '@core/models';
 import firebase from 'firebase/app';
 import User = firebase.User;
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class AuthEffects {
@@ -45,8 +46,8 @@ export class AuthEffects {
             return AuthActions.logOutSuccess();
           })
           .catch((error: FirebaseError) =>
-            AuthActions.logOutFailiure({
-              error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+            AuthActions.logOutFailure({
+              error: getSerializableFirebaseError(error)
             })
           );
       })
@@ -67,8 +68,8 @@ export class AuthEffects {
                   return AuthActions.logOutSuccess();
                 })
                 .catch((error: FirebaseError) =>
-                  AuthActions.logOutFailiure({
-                    error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  AuthActions.logOutFailure({
+                    error: getSerializableFirebaseError(error)
                   })
                 );
             }
@@ -76,8 +77,8 @@ export class AuthEffects {
           }),
           catchError((error: FirebaseError) =>
             of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              AuthActions.loadAuthFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
@@ -110,8 +111,8 @@ export class AuthEffects {
           }),
           catchError((error: FirebaseError) => {
             return of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              AuthActions.loadAuthFailure({
+                error: getSerializableFirebaseError(error)
               }),
               CoreActions.networkError()
             );
@@ -139,8 +140,8 @@ export class AuthEffects {
           ),
           catchError((error: FirebaseError) =>
             of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              AuthActions.loadAuthFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )

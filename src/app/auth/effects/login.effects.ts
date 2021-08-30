@@ -12,6 +12,7 @@ import { QueryParamKey } from '@core/models';
 import { from, of } from 'rxjs';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class LoginEffects {
@@ -40,8 +41,8 @@ export class LoginEffects {
           }),
           catchError((error: FirebaseError) =>
             of(
-              LoginActions.logInFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              LoginActions.logInFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )

@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class ForgotPasswordEffects {
@@ -18,8 +19,8 @@ export class ForgotPasswordEffects {
           map(() => ForgotPasswordActions.forgotPasswordSuccess()),
           catchError((error: FirebaseError) =>
             of(
-              ForgotPasswordActions.forgotPasswordFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              ForgotPasswordActions.forgotPasswordFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )

@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class ConstraintEffects {
@@ -30,7 +31,7 @@ export class ConstraintEffects {
             catchError((error: FirebaseError) =>
               of(
                 ConstraintActions.loadConstraintsFailure({
-                  error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  error: getSerializableFirebaseError(error)
                 }),
                 CoreActions.networkError()
               )

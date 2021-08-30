@@ -31,14 +31,14 @@ export const reducer = createReducer(
       isLoading: false
     };
   }),
-  on(SignupActions.signUpFailiure, (state, action) => {
+  on(SignupActions.signUpFailure, (state, action) => {
     return {
       ...state,
       error: action.error,
       isLoading: false
     };
   }),
-  on(SignupActions.sendVerificationEmailFailiure, (state, action) => {
+  on(SignupActions.sendVerificationEmailFailure, (state, action) => {
     return {
       ...state,
       error: action.error

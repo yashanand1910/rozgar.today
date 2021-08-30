@@ -32,7 +32,7 @@ export const reducer = createReducer(
       isLoading: false
     };
   }),
-  on(LoginActions.logInFailiure, (state, action) => {
+  on(LoginActions.logInFailure, (state, action) => {
     return {
       ...state,
       error: action.error,

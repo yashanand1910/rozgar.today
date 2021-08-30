@@ -18,8 +18,8 @@ export const getFirestoreStateSuccess = createAction(
   (payload: { state: Partial<State> } = { state: null }) => payload
 );
 
-export const getFirestoreStateFailiure = createAction(
-  '[Core] Get Firestore State Failiure',
+export const getFirestoreStateFailure = createAction(
+  '[Core] Get Firestore State Failure',
   props<{ error: FirebaseError }>()
 );
 
@@ -33,7 +33,7 @@ export const setFirestoreStateSuccess = createAction(
   (payload: { firstTime: boolean } = { firstTime: false }) => payload
 );
 
-export const setFirestoreStateFailiure = createAction(
-  '[Core] Set Firestore State Failiure',
+export const setFirestoreStateFailure = createAction(
+  '[Core] Set Firestore State Failure',
   props<{ error: FirebaseError }>()
 );

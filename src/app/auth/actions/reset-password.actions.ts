@@ -10,8 +10,8 @@ export const verifyResetPasswordCodeSuccess = createAction(
   props<{ user: Partial<User>; code: string }>()
 );
 
-export const verifyResetPasswordCodeFailiure = createAction(
-  '[ResetPassword] Verify Code Failiure',
+export const verifyResetPasswordCodeFailure = createAction(
+  '[ResetPassword] Verify Code Failure',
   props<{ error: FirebaseError }>()
 );
 
@@ -19,8 +19,8 @@ export const resetPassword = createAction('[ResetPassword] Reset Password', prop
 
 export const resetPasswordSuccess = createAction('[ResetPassword] Reset Password Success');
 
-export const resetPasswordFailiure = createAction(
-  '[ResetPassword] Reset Password Failiure',
+export const resetPasswordFailure = createAction(
+  '[ResetPassword] Reset Password Failure',
   props<{ error: FirebaseError }>()
 );
 

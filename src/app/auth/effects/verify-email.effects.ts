@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class VerifyEmailEffects {
@@ -25,8 +26,8 @@ export class VerifyEmailEffects {
           ]),
           catchError((error: FirebaseError) =>
             of(
-              VerifyEmailActions.verifyEmailCodeFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              VerifyEmailActions.verifyEmailCodeFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
@@ -44,8 +45,8 @@ export class VerifyEmailEffects {
           switchMap(() => [VerifyEmailActions.verifyEmailSuccess(), JoinActions.refreshSteps()]),
           catchError((error: FirebaseError) =>
             of(
-              VerifyEmailActions.verifyEmailCodeFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              VerifyEmailActions.verifyEmailCodeFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )

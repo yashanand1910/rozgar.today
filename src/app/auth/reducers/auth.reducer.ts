@@ -68,7 +68,7 @@ export const additionalReducer = createReducer(
       }
     };
   }),
-  on(AuthActions.loadAuthFailiure, (state, action) => {
+  on(AuthActions.loadAuthFailure, (state, action) => {
     return {
       ...state,
       error: action.error

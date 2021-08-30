@@ -8,6 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CollectionItem } from '@core/models';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class CollectionEffects {
@@ -36,7 +37,7 @@ export class CollectionEffects {
             catchError((error: FirebaseError) =>
               of(
                 CollectionActions.loadCollectionFailure({
-                  error: { code: error.code, name: error.name, message: error.message, stack: error.stack },
+                  error: getSerializableFirebaseError(error),
                   collection: action.collection
                 }),
                 CoreActions.networkError()

@@ -12,6 +12,7 @@ import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import FirebaseError = firebase.FirebaseError;
+import { getSerializableFirebaseError } from '@shared/helper';
 
 @Injectable()
 export class ResetPasswordEffects {
@@ -24,8 +25,8 @@ export class ResetPasswordEffects {
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
           catchError((error: FirebaseError) =>
             of(
-              ResetPasswordActions.verifyResetPasswordCodeFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              ResetPasswordActions.verifyResetPasswordCodeFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
@@ -49,8 +50,8 @@ export class ResetPasswordEffects {
           }),
           catchError((error: FirebaseError) =>
             of(
-              ResetPasswordActions.resetPasswordFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              ResetPasswordActions.resetPasswordFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
