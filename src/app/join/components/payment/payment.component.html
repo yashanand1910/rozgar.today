@@ -9,7 +9,7 @@
     <div *ngrxLet="isLoading$ as isLoading" [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
       <nz-skeleton *ngIf='isLoading'></nz-skeleton>
       <div *ngIf='!isLoading'>
-<!--        <ngx-stripe-card></ngx-stripe-card>-->
+        <ngx-stripe-card></ngx-stripe-card>
         <button nz-button translate>Pay</button>
       </div>
     </div>
