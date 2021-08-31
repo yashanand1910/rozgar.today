@@ -41,7 +41,7 @@
     "env:backend": "cd functions && firebase functions:config:get > .runtimeconfig.json",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,less}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,less}\"",
-    "postinstall": "npm run env && webdriver-manager update && npm run install:backend && npm run env:backend",
+    "postinstall": "npm run env && webdriver-manager update && npm run install:backend",
     "cordova:prepare": "ngx-scripts cordova prepare",
     "cordova:run": "ngx-scripts cordova run",
     "cordova:build": "ngx-scripts cordova build --device --release --copy dist",
