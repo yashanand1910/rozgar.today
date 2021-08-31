@@ -7,7 +7,7 @@ name: Pull Request (Alpha)
 jobs:
   build_and_preview:
     name: Check & Deploy Preview
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     concurrency:
       group: pr-${{ github.head_ref }}
       cancel-in-progress: true
