@@ -3,14 +3,15 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { RouterSelectors } from '@core/selectors';
 import { JoinActions } from '@app/join/actions';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { from, of } from 'rxjs';
+import { defer, of } from 'rxjs';
 import { VerifyEmailActions } from '../actions';
 import { Store } from '@ngrx/store';
-import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase/app';
-import FirebaseError = firebase.FirebaseError;
+import { applyActionCode, Auth, checkActionCode } from '@angular/fire/auth';
+import firebase from 'firebase/compat/app';
 import { getSerializableFirebaseError } from '@shared/helper';
+import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class VerifyEmailEffects {
   verifyEmailCode$ = createEffect(() =>
@@ -18,7 +19,7 @@ export class VerifyEmailEffects {
       ofType(VerifyEmailActions.verifyEmailCode),
       withLatestFrom(this.store.select(RouterSelectors.selectQueryParam('oobCode'))),
       switchMap(([, code]) =>
-        from(this.afa.checkActionCode(code)).pipe(
+        defer(() => checkActionCode(this.auth, code)).pipe(
           map((metaData) => metaData.data.email),
           switchMap((email) => [
             VerifyEmailActions.verifyEmailCodeSuccess({ user: { email }, code }),
@@ -41,7 +42,7 @@ export class VerifyEmailEffects {
       ofType(VerifyEmailActions.verifyEmail),
       map((action) => action.code),
       exhaustMap((code) =>
-        from(this.afa.applyActionCode(code)).pipe(
+        defer(() => applyActionCode(this.auth, code)).pipe(
           switchMap(() => [VerifyEmailActions.verifyEmailSuccess(), JoinActions.refreshSteps()]),
           catchError((error: FirebaseError) =>
             of(
@@ -55,5 +56,5 @@ export class VerifyEmailEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store: Store, private afa: AngularFireAuth) {}
+  constructor(private actions$: Actions, private store: Store, private auth: Auth) {}
 }

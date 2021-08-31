@@ -1,4 +1,3 @@
-import { browser, ExpectedConditions as until } from 'protractor';
 import { AppSharedPage } from './page-objects/app-shared.po';
 
 describe('when the app loads', () => {

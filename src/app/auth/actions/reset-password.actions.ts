@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ResetPasswordContext, User } from '@auth/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const verifyResetPasswordCode = createAction('[ResetPassword] Verify Code');

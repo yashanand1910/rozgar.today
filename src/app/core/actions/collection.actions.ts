@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Collection, CollectionItem } from '@core/models/collection';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const loadCollection = createAction(

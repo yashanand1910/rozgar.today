@@ -4,19 +4,20 @@ import { StripeActions } from '../actions';
 import { StripeSelectors } from '../selectors';
 import { AuthSelectors } from '@auth/selectors';
 import { catchError, exhaustMap, first, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { Collection, Cart, PaymentIntent, Function } from '../models';
-import firebase from 'firebase/app';
-import FirebaseError = firebase.FirebaseError;
+import { Functions, httpsCallableData } from '@angular/fire/functions';
+import { Cart, Collection, Function, PaymentIntent } from '../models';
+import firebase from 'firebase/compat/app';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { select, Store } from '@ngrx/store';
+import { collection, doc, docData, Firestore } from '@angular/fire/firestore';
 import { StoreUser } from '@auth/models';
 import { Logger } from '@core/services';
 import { getSerializableFirebaseError } from '@shared/helper';
+import FirebaseError = firebase.FirebaseError;
 
 const log = new Logger('StripeEffects');
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class StripeEffects {
   /**
@@ -37,38 +38,42 @@ export class StripeEffects {
           return of(StripeActions.createPaymentIntentSuccess({ context: action.context, clientSecret }));
         } else {
           if (customerId) {
-            return this.functions
-              .httpsCallable<Cart, PaymentIntent>(Function.CreatePaymentIntent)({
-                context: action.context,
-                products: action.products,
-                customerId
-              })
-              .pipe(
-                map((paymentIntent) =>
-                  StripeActions.createPaymentIntentSuccess({
+            return httpsCallableData<Cart, PaymentIntent>(
+              this.functions,
+              Function.CreatePaymentIntent
+            )({
+              context: action.context,
+              products: action.products,
+              customerId
+            }).pipe(
+              map((paymentIntent) =>
+                StripeActions.createPaymentIntentSuccess({
+                  context: action.context,
+                  ...paymentIntent
+                })
+              ),
+              catchError((error: FirebaseError) =>
+                of(
+                  StripeActions.createPaymentIntentFailure({
                     context: action.context,
-                    ...paymentIntent
+                    error: getSerializableFirebaseError(error)
                   })
-                ),
-                catchError((error: FirebaseError) =>
-                  of(
-                    StripeActions.createPaymentIntentFailure({
-                      context: action.context,
-                      error: getSerializableFirebaseError(error)
-                    })
-                  )
                 )
-              );
+              )
+            );
           }
 
           // Fetch customerId from user profile since it is not found
           return this.store.select(AuthSelectors.selectUserUid).pipe(
             first(),
-            switchMap((uid) => this.afs.collection<StoreUser>(Collection.Users).doc(uid).get()),
-            map((snapshot) => snapshot.data().metadata.stripeId),
+            switchMap((uid) => docData<Partial<StoreUser>>(doc(collection(this.firestore, Collection.Users), uid))),
+            map((user) => user.metadata.stripeId),
             switchMap((id) => {
               customerId = id;
-              return this.functions.httpsCallable<Cart, PaymentIntent>(Function.CreatePaymentIntent)({
+              return httpsCallableData<Cart, PaymentIntent>(
+                this.functions,
+                Function.CreatePaymentIntent
+              )({
                 context: action.context,
                 products: action.products,
                 customerId
@@ -105,38 +110,42 @@ export class StripeEffects {
         const customerId = state.customerId;
 
         if (customerId) {
-          return this.functions
-            .httpsCallable<Cart, PaymentIntent>(Function.UpdatePaymentIntent)({
-              context: action.context,
-              products: action.products,
-              id: state.paymentIntentState[action.context].id,
-              customerId
-            })
-            .pipe(
-              map((paymentIntent) =>
-                StripeActions.updatePaymentIntentSuccess({
+          return httpsCallableData<Cart, PaymentIntent>(
+            this.functions,
+            Function.UpdatePaymentIntent
+          )({
+            context: action.context,
+            products: action.products,
+            id: state.paymentIntentState[action.context].id,
+            customerId
+          }).pipe(
+            map((paymentIntent) =>
+              StripeActions.updatePaymentIntentSuccess({
+                context: action.context,
+                ...paymentIntent
+              })
+            ),
+            catchError((error: FirebaseError) =>
+              of(
+                StripeActions.updatePaymentIntentFailure({
                   context: action.context,
-                  ...paymentIntent
+                  error: getSerializableFirebaseError(error)
                 })
-              ),
-              catchError((error: FirebaseError) =>
-                of(
-                  StripeActions.updatePaymentIntentFailure({
-                    context: action.context,
-                    error: getSerializableFirebaseError(error)
-                  })
-                )
               )
-            );
+            )
+          );
         }
 
         // Fetch customerId from user profile since it is not found
         return this.store.select(AuthSelectors.selectUserUid).pipe(
           first(),
-          switchMap((uid) => this.afs.collection<StoreUser>(Collection.Users).doc(uid).get()),
-          map((snapshot) => snapshot.data().metadata.stripeId),
+          switchMap((uid) => docData<Partial<StoreUser>>(doc(collection(this.firestore, Collection.Users), uid))),
+          map((user) => user.metadata.stripeId),
           switchMap(() => {
-            return this.functions.httpsCallable<Cart, PaymentIntent>(Function.UpdatePaymentIntent)({
+            return httpsCallableData<Cart, PaymentIntent>(
+              this.functions,
+              Function.UpdatePaymentIntent
+            )({
               context: action.context,
               products: action.products,
               id: state.paymentIntentState[action.context].id,
@@ -166,7 +175,8 @@ export class StripeEffects {
     return this.actions$.pipe(
       ofType(StripeActions.loadPaymentIntent),
       exhaustMap((action) => {
-        return this.store.select(StripeSelectors.selectPaymentIntentState, { context: action.context }).pipe(
+        return this.store.pipe(
+          select(StripeSelectors.selectPaymentIntentState, { context: action.context }),
           first(),
           switchMap((paymentIntent) => {
             if (paymentIntent.clientSecret) {
@@ -178,27 +188,28 @@ export class StripeEffects {
                 })
               );
             } else {
-              return this.functions
-                .httpsCallable<Partial<Cart>, PaymentIntent>(Function.LoadPaymentIntent)({
-                  id: action.id,
-                  context: action.context
-                })
-                .pipe(
-                  map((paymentIntent) =>
-                    StripeActions.loadPaymentIntentSuccess({
+              return httpsCallableData<Partial<Cart>, PaymentIntent>(
+                this.functions,
+                Function.LoadPaymentIntent
+              )({
+                id: action.id,
+                context: action.context
+              }).pipe(
+                map((paymentIntent) =>
+                  StripeActions.loadPaymentIntentSuccess({
+                    context: action.context,
+                    ...paymentIntent
+                  })
+                ),
+                catchError((error: FirebaseError) =>
+                  of(
+                    StripeActions.loadPaymentIntentFailure({
                       context: action.context,
-                      ...paymentIntent
+                      error: getSerializableFirebaseError(error)
                     })
-                  ),
-                  catchError((error: FirebaseError) =>
-                    of(
-                      StripeActions.loadPaymentIntentFailure({
-                        context: action.context,
-                        error: getSerializableFirebaseError(error)
-                      })
-                    )
                   )
-                );
+                )
+              );
             }
           })
         );
@@ -208,8 +219,8 @@ export class StripeEffects {
 
   constructor(
     private actions$: Actions,
-    private functions: AngularFireFunctions,
-    private afs: AngularFirestore,
+    private functions: Functions,
+    private firestore: Firestore,
     private store: Store
   ) {}
 }

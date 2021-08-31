@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { AlertActions } from '../actions';
 import { Alerts } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'alert';

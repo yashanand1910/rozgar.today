@@ -2,7 +2,7 @@
   <ng-container *ngIf="!isLoading">
     <div class="steps-container">
       <nz-steps [nzCurrent]="currentStepNumber$ | ngrxPush" (nzIndexChange)="onStepClick($event)">
-        <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzDisabled]="((currentStepNumber$ | ngrxPush) != i) && step.disabled" [nzTitle]="step.title" [nzStatus]="(step.status == 'wait') && ((currentStepNumber$ | ngrxPush) == i) ? 'process' : step.status" [nzDescription]="(step.status == 'finish' || step.status == 'error') ? step.description : null"></nz-step>
+        <nz-step *ngFor="let step of steps$ | ngrxPush; let i = index" [nzDisabled]="((currentStepNumber$ | ngrxPush) !== i) && step.disabled" [nzTitle]="step.title" [nzStatus]="(step.status === 'wait') && ((currentStepNumber$ | ngrxPush) === i) ? 'process' : step.status" [nzDescription]="(step.status === 'finish' || step.status === 'error') ? step.description : null"></nz-step>
       </nz-steps>
     </div>
     <div>

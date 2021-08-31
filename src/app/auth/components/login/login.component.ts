@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { LoginActions, AuthActions } from '../../actions';
+import { AuthActions, LoginActions } from '../../actions';
 import { LoginSelectors } from '../../selectors';
 import { CustomValidators } from '@shared/validators';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({

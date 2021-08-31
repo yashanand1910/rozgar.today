@@ -1,6 +1,6 @@
 import { selectState } from './login.selectors';
 import { MockState } from '@ngrx/store/testing';
-import { featureKey as authFeatureKey, AuthState, State } from '@auth/reducers';
+import { AuthState, featureKey as authFeatureKey, State } from '@auth/reducers';
 import { featureKey, State as LoginState } from '@auth/reducers/login.reducer';
 
 describe('Login Selectors', () => {

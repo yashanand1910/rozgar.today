@@ -1,6 +1,5 @@
 import * as fromStripe from './stripe.actions';
 import { PaymentIntentContext } from '@core/models';
-import { Product } from '@core/models/product';
 
 describe('loadStripes', () => {
   it('should return an action', () => {

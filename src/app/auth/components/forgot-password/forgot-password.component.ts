@@ -4,8 +4,8 @@ import { CustomValidators } from '@shared/validators';
 import { ForgotPasswordActions } from '@auth/actions';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/app';
 import { ForgotPasswordSelectors } from '@auth/selectors';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({

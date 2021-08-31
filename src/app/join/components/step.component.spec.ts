@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StepComponent } from './step.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

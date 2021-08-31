@@ -1,5 +1,5 @@
 import { selectState } from '@auth/selectors/auth.selectors';
-import { featureKey, AuthState, State } from '@auth/reducers';
+import { AuthState, featureKey, State } from '@auth/reducers';
 import { MockState } from '@ngrx/store/testing';
 
 describe('Auth Selectors', () => {

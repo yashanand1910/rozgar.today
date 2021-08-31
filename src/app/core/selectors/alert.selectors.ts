@@ -5,9 +5,8 @@ export const selectState = createFeatureSelector<fromAlert.State>(fromAlert.feat
 
 export const selectAll = createSelector(selectState, (state) => state.alerts);
 
-export const select = createSelector(
-  selectAll,
-  (state: fromAlert.State['alerts'], props: { component: string }) => (state ? state[props.component] : null)
+export const select = createSelector(selectAll, (state: fromAlert.State['alerts'], props: { component: string }) =>
+  state ? state[props.component] : null
 );
 
 export const selectIsLoading = createSelector(selectState, (state) => state.isLoading);

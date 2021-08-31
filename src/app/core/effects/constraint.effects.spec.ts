@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
 import { ConstraintEffects } from './constraint.effects';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

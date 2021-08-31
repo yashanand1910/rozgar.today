@@ -19,16 +19,13 @@
           "options": {
             "allowedCommonJsDependencies": [
               "@ant-design/colors",
-              "firebase/app",
-              "@firebase/auth",
-              "@angular/fire/firestore"
+              "firebase/compat/app"
             ],
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               {
                 "glob": "**/*",
@@ -111,6 +108,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "rozgar-today:build",
+            "sourceMap": true,
             "hmr": true
           },
           "configurations": {

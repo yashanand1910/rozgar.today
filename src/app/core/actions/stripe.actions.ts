@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Cart, PaymentIntent, PaymentIntentContext } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const createPaymentIntent = createAction('[Stripe] Create Payment Intent', props<Cart>());

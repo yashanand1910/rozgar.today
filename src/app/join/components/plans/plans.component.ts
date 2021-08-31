@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Plan } from '@app/join/models';
 import { CollectionActions } from '@core/actions';
-import { CollectionSelectors } from '@core/selectors';
+import { CollectionSelectors, CoreSelectors } from '@core/selectors';
 import { JoinActions } from '@app/join/actions';
 import { JoinSelectors } from '@app/join/selectors';
-import { CoreSelectors } from '@core/selectors';
 import { Collection, CollectionItem } from '@core/models';
 import { StepComponent } from '../step.component';
 

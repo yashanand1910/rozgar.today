@@ -4,7 +4,8 @@
 // This is useful for granularity you might need beyond just the environment.
 // Note that as usual, any environment variables you expose through it will end up in your
 // bundle, and you should not use it for any sensitive information like passwords or keys.
-// noinspection ES6PreferShortImport
+// noinspection SpellCheckingInspection
+
 import { env } from './.env';
 
 export const environment = {
@@ -14,11 +15,17 @@ export const environment = {
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
   firebase: {
-    useEmulators: env.USE_BACKEND_EMULATOR == 'Yes',
     emulator: {
-      authURL: ['localhost', 9099],
-      firestoreURL: ['localhost', 8080],
-      functionsURL: ['localhost', 5001]
+      active: env.USE_BACKEND_EMULATOR == 'Yes',
+      authURL: 'http://localhost:9099',
+      firestoreURL: {
+        host: 'localhost',
+        port: 8080
+      },
+      functionsURL: {
+        host: 'localhost',
+        port: 5001
+      }
     },
     apiKey: env.FIREBASE_API_KEY,
     authDomain: 'rozgar-today.firebaseapp.com',

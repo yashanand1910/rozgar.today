@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
 import { Injectable } from '@angular/core';
 

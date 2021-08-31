@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromStripe from '../reducers/stripe.reducer';
-import { PaymentIntentContext } from '@core/models';
 import { PaymentIntentState } from '../reducers/stripe.reducer';
+import { PaymentIntentContext } from '@core/models';
 
 export const selectState = createFeatureSelector<fromStripe.State>(fromStripe.featureKey);
 

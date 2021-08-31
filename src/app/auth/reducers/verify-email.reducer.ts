@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { VerifyEmailActions } from '../actions';
 import { User } from '@auth/models';
 import { extract } from '@i18n/services';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'verifyEmail';
@@ -25,7 +25,7 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
 
-  on(VerifyEmailActions.verifyEmailCode, (state) => initialState),
+  on(VerifyEmailActions.verifyEmailCode, () => initialState),
   on(VerifyEmailActions.verifyEmailCodeSuccess, (state, action) => {
     return {
       ...state,
@@ -41,13 +41,13 @@ export const reducer = createReducer(
       error: action.error
     };
   }),
-  on(VerifyEmailActions.verifyEmail, (state, action) => {
+  on(VerifyEmailActions.verifyEmail, (state) => {
     return {
       ...state,
       isLoading: true
     };
   }),
-  on(VerifyEmailActions.verifyEmailSuccess, (state, action) => {
+  on(VerifyEmailActions.verifyEmailSuccess, (state) => {
     return {
       ...state,
       isLoading: false,

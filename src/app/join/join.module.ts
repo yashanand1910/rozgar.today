@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { JoinRoutingModule } from './join-routing.module';
 import {
-  PaymentComponent,
-  PlansComponent,
-  JoinComponent,
-  StepComponent,
   AccountComponent,
   CreateAccountComponent,
+  JoinComponent,
+  PaymentComponent,
   PlanComponent,
+  PlansComponent,
+  StepComponent,
   VerifyAccountComponent
 } from './components';
 import { NzAlertModule } from 'ng-zorro-antd/alert';

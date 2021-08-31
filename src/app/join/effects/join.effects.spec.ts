@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { JoinEffects } from './join.effects';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
 
 describe('JoinEffects', () => {

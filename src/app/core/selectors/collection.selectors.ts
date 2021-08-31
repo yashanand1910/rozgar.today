@@ -2,8 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromCollection from '../reducers/collection.reducer';
 import { Collection } from '@core/models';
 
-export const selectState = <T>(collection: Collection) =>
-  createFeatureSelector<fromCollection.State<T>>(collection);
+export const selectState = <T>(collection: Collection) => createFeatureSelector<fromCollection.State<T>>(collection);
 
 export const entitySelectors = <T>(collection: Collection) =>
   fromCollection.adapter<T>().getSelectors<fromCollection.State<T>>(selectState<T>(collection));

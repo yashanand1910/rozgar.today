@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { LoginActions } from '../actions';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'login';

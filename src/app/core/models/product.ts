@@ -1,6 +1,7 @@
 /**
  * Enum of allowed currencies
  */
+// noinspection JSUnusedGlobalSymbols
 export enum Currency {
   INR = 'INR',
   USD = 'USD'

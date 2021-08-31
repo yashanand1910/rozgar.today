@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { SignupActions } from '../actions';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'signup';
@@ -44,7 +44,7 @@ export const reducer = createReducer(
       error: action.error
     };
   }),
-  on(SignupActions.sendVerificationEmailSuccess, (state, action) => {
+  on(SignupActions.sendVerificationEmailSuccess, (state) => {
     return {
       ...state,
       error: null

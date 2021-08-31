@@ -3,17 +3,18 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { RouterSelectors } from '@core/selectors';
 import { ResetPasswordSelectors } from '../selectors';
 import { ResetPasswordActions } from '../actions';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Auth, confirmPasswordReset, verifyPasswordResetCode } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { from, of } from 'rxjs';
+import { defer, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
-import firebase from 'firebase/app';
-import FirebaseError = firebase.FirebaseError;
+import firebase from 'firebase/compat/app';
 import { getSerializableFirebaseError } from '@shared/helper';
+import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class ResetPasswordEffects {
   verifyCode$ = createEffect(() => {
@@ -21,7 +22,7 @@ export class ResetPasswordEffects {
       ofType(ResetPasswordActions.verifyResetPasswordCode),
       withLatestFrom(this.store.select(RouterSelectors.selectQueryParam('oobCode'))),
       exhaustMap(([, code]) =>
-        from(this.afa.verifyPasswordResetCode(code)).pipe(
+        defer(() => verifyPasswordResetCode(this.auth, code)).pipe(
           map((email) => ResetPasswordActions.verifyResetPasswordCodeSuccess({ user: { email }, code })),
           catchError((error: FirebaseError) =>
             of(
@@ -40,7 +41,7 @@ export class ResetPasswordEffects {
       ofType(ResetPasswordActions.resetPassword),
       withLatestFrom(this.store.select(ResetPasswordSelectors.selectCode)),
       switchMap(([action, code]) =>
-        from(this.afa.confirmPasswordReset(code, action.context.password)).pipe(
+        defer(() => confirmPasswordReset(this.auth, code, action.context.password)).pipe(
           map(() => {
             this.messageService.success(
               extract('Password was successfully reset. You can login with your new password.')
@@ -62,7 +63,7 @@ export class ResetPasswordEffects {
 
   constructor(
     private actions$: Actions,
-    private afa: AngularFireAuth,
+    private auth: Auth,
     private store: Store,
     private messageService: NzMessageService,
     private router: Router

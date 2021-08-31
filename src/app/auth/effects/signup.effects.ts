@@ -3,19 +3,26 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { AuthActions, SignupActions } from '@auth/actions';
 import { CoreActions } from '@core/actions';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { from, of } from 'rxjs';
+import {
+  Auth,
+  authState,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile
+} from '@angular/fire/auth';
+import { defer, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Profile, SignupContext, StoreUser, User } from '@auth/models';
+import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { Profile, SignupContext, User } from '@auth/models';
 import { extract } from '@i18n/services';
 import { Collection } from '@core/models';
 import { TranslateService } from '@ngx-translate/core';
-import firebase from 'firebase/app';
-import FirebaseError = firebase.FirebaseError;
+import firebase from 'firebase/compat/app';
 import { getSerializableFirebaseError, toTitleCase } from '@shared/helper';
+import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class SignupEffects {
   signUp$ = createEffect(() => {
@@ -23,22 +30,20 @@ export class SignupEffects {
       ofType(SignupActions.signUp),
       map((props) => props.context),
       exhaustMap((context) =>
-        from(this.afa.createUserWithEmailAndPassword(context.email, context.password)).pipe(
+        defer(() => createUserWithEmailAndPassword(this.auth, context.email, context.password)).pipe(
           // Update display name
           switchMap((userCredential) => {
             const partialUser: Partial<User> = {
               displayName: this.getDisplayName(context.firstName, context.lastName),
               uid: userCredential.user.uid
             };
-            return userCredential.user.updateProfile(partialUser).then(() => partialUser);
+            return updateProfile(userCredential.user, partialUser).then(() => partialUser);
           }),
           // Update other details
           switchMap((user) => {
-            return this.afs
-              .collection<StoreUser>(Collection.Users)
-              .doc<StoreUser>(user.uid)
-              .set({ profile: this.getSanitizedProfile(context) })
-              .then(() => user);
+            return setDoc(doc(collection(this.firestore, Collection.Users), user.uid), {
+              profile: this.getSanitizedProfile(context)
+            }).then(() => user);
           }),
           switchMap((user) => {
             this.messageService.success(extract('Account creation successful.'));
@@ -64,9 +69,9 @@ export class SignupEffects {
   sendVerificationEmail$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(SignupActions.sendVerificationEmail),
-      withLatestFrom(this.afa.authState),
+      withLatestFrom(authState(this.auth)),
       exhaustMap(([, user]) =>
-        from(user.sendEmailVerification()).pipe(
+        defer(() => sendEmailVerification(user)).pipe(
           map(() => {
             this.messageService.info(extract('A verification email has been sent.'));
             return SignupActions.sendVerificationEmailSuccess();
@@ -86,8 +91,8 @@ export class SignupEffects {
 
   constructor(
     private actions$: Actions,
-    private afa: AngularFireAuth,
-    private afs: AngularFirestore,
+    private auth: Auth,
+    private firestore: Firestore,
     private store: Store,
     private messageService: NzMessageService,
     private translationService: TranslateService

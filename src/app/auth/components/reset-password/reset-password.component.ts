@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CustomValidators } from '@shared/validators';
 import { User } from '@auth/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({

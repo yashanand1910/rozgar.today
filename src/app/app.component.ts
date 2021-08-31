@@ -7,7 +7,6 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-
 import { environment } from '@env/environment';
 import { Logger } from '@core/services';
 import { I18nService } from '@i18n/services';
@@ -16,7 +15,7 @@ import { en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { CoreActions } from '@core/actions';
 import { Store } from '@ngrx/store';
 import { CoreSelectors } from '@core/selectors';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 const log = new Logger('App');

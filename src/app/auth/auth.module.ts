@@ -35,12 +35,21 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { SharedModule } from '@shared';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import { environment } from '@env/environment';
 
 @NgModule({
   imports: [
     CommonModule,
     TranslateModule,
     ReactiveFormsModule,
+    provideAuth(() => {
+      const auth = getAuth();
+      if (environment.firebase.emulator.active) {
+        connectAuthEmulator(auth, environment.firebase.emulator.authURL);
+      }
+      return auth;
+    }),
     I18nModule,
     AuthRoutingModule,
     StoreModule.forFeature(fromAuth.featureKey, fromAuth.reducers),

@@ -1,9 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { StripeActions } from '../actions';
-import { CoreActions } from '../actions';
+import { CoreActions, StripeActions } from '../actions';
 import { AuthActions } from '@auth/actions';
 import { PaymentIntent } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'stripe';

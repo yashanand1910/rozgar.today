@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { CollectionActions } from '../actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Collection, CollectionItem } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export interface State<T> extends EntityState<CollectionItem<T>> {

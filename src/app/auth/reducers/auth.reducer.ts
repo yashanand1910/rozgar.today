@@ -7,7 +7,7 @@ import * as fromResetPassword from './reset-password.reducer';
 import * as fromVerifyEmail from './verify-email.reducer';
 import { AuthActions } from '../actions';
 import { User } from '@auth/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'auth';
@@ -80,7 +80,7 @@ export const additionalReducer = createReducer(
       isLoading: true
     };
   }),
-  on(AuthActions.logOutSuccess, (state, action) => {
+  on(AuthActions.logOutSuccess, (state) => {
     return {
       ...state,
       isLoading: false,

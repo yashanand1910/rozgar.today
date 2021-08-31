@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AlertEffects } from './alert.effects';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
 
 describe('AlertEffects', () => {
