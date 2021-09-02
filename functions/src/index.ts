@@ -1,15 +1,15 @@
-import { Cart, Collection, Currency, CurrencyMultiplier, Price, Product, StoreUser } from "./model";
+import { Cart, Collection, Currency, CurrencyMultiplier, Price, Product, StoreUser } from './model';
 import {
   generateIdempotencyKey,
   generatePaymentIntentMetadata,
   generatePaymentIntentOutput,
   getContextDescription,
   getDisplayName
-} from "./helper";
+} from './helper';
 
-import * as functions from "firebase-functions";
-import * as firebase from "firebase-admin";
-import Stripe from "stripe";
+import * as functions from 'firebase-functions';
+import * as firebase from 'firebase-admin';
+import Stripe from 'stripe';
 
 // Initialize
 firebase.initializeApp();
