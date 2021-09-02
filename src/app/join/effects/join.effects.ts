@@ -30,13 +30,14 @@ export class JoinEffects {
       switchMap(([, plans, selectedPlanId, user]) => {
         if (selectedPlanId && !plans[selectedPlanId]) {
           return docData<Partial<Plan>>(doc(collection(this.firestore, Collection.Plans), selectedPlanId)).pipe(
+            first(),
             withLatestFrom(of(user))
           );
         } else {
           return of([plans[selectedPlanId], user]);
         }
       }),
-      mergeMap(([selectedPlan, user]) => {
+      switchMap(([selectedPlan, user]) => {
         let nextActions = [];
         if (selectedPlan) {
           nextActions.push(

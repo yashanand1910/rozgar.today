@@ -2,13 +2,13 @@ import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 /**
- * Checks whether the 2 arrays have the same elements
+ * Checks whether the 2 array of objects that have an 'id' field have the same elements
  * @param {Array} a
  * @param {Array} b
  * @return {boolean} True/False whether the arrays have the same elements
  */
 export const areArrayElementsEqual = <T>(a: Array<T>, b: Array<T>): boolean => {
-  return a?.length === b?.length && a.every((i) => b.map((j) => JSON.stringify(j)).includes(JSON.stringify(i)));
+  return a?.length === b?.length && a.map((i) => i['id']).every((i) => b.map((j) => j['id']).includes(i));
 };
 
 /**
