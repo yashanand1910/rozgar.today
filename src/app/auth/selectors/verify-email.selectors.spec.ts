@@ -1,7 +1,7 @@
 import { selectState } from './verify-email.selectors';
 import { MockState } from '@ngrx/store/testing';
-import { featureKey as authFeatureKey, AuthState, State } from '@auth/reducers';
-import { State as VerifyEmailState, featureKey } from '@auth/reducers/verify-email.reducer';
+import { AuthState, featureKey as authFeatureKey, State } from '@auth/reducers';
+import { featureKey, State as VerifyEmailState } from '@auth/reducers/verify-email.reducer';
 
 describe('VerifyEmail Selectors', () => {
   it('should select the state', () => {

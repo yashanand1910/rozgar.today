@@ -2,7 +2,7 @@ import { LoginEffects } from './login.effects';
 import { Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NzMessageModule } from 'ng-zorro-antd/message';

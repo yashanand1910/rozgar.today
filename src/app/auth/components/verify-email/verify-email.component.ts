@@ -4,7 +4,7 @@ import { VerifyEmailActions } from '@auth/actions';
 import { VerifyEmailSelectors } from '@auth/selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({

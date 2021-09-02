@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Auth, authState, signOut } from '@angular/fire/auth';
 import * as fromRouter from '@ngrx/router-store';
 import { CoreActions } from '@core/actions';
 import { AuthActions } from '../actions';
@@ -17,16 +17,18 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-import { EMPTY, from, interval, of } from 'rxjs';
+import { defer, EMPTY, interval, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { extract } from '@i18n/services';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { QueryParamKey } from '@core/models';
-import firebase from 'firebase/app';
-import User = firebase.User;
+import firebase from 'firebase/compat/app';
+import { getSerializableFirebaseError } from '@shared/helper';
+import { User } from '@auth/models';
 import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class AuthEffects {
   private logoutDelay = 2000;
@@ -37,38 +39,36 @@ export class AuthEffects {
       ofType(AuthActions.logOut),
       tap(() => this.messageService.loading(extract('Logging out...'), { nzDuration: 1500 })),
       delay(this.logoutDelay),
-      exhaustMap(() => {
-        return this.afa
-          .signOut()
+      exhaustMap(() =>
+        signOut(this.auth)
           .then(() => {
             this.router.navigate(['/auth']).then();
             return AuthActions.logOutSuccess();
           })
           .catch((error: FirebaseError) =>
-            AuthActions.logOutFailiure({
-              error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+            AuthActions.logOutFailure({
+              error: getSerializableFirebaseError(error)
             })
-          );
-      })
+          )
+      )
     )
   );
 
   ensureLogOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.ensureLogOut),
-      exhaustMap(() => {
-        return this.afa.authState.pipe(
+      exhaustMap(() =>
+        authState(this.auth).pipe(
           first(),
           switchMap((user) => {
             if (user) {
-              return this.afa
-                .signOut()
+              return signOut(this.auth)
                 .then(() => {
                   return AuthActions.logOutSuccess();
                 })
                 .catch((error: FirebaseError) =>
-                  AuthActions.logOutFailiure({
-                    error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  AuthActions.logOutFailure({
+                    error: getSerializableFirebaseError(error)
                   })
                 );
             }
@@ -76,13 +76,13 @@ export class AuthEffects {
           }),
           catchError((error: FirebaseError) =>
             of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              AuthActions.loadAuthFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
-        );
-      })
+        )
+      )
     )
   );
 
@@ -101,8 +101,8 @@ export class AuthEffects {
   loadAuth$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loadAuth),
-      exhaustMap(() => {
-        return this.afa.authState.pipe(
+      exhaustMap(() =>
+        authState(this.auth).pipe(
           map((user) => {
             return AuthActions.loadAuthSuccess({
               user: user ? this.sanitizeUser(user) : null
@@ -110,14 +110,14 @@ export class AuthEffects {
           }),
           catchError((error: FirebaseError) => {
             return of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              AuthActions.loadAuthFailure({
+                error: getSerializableFirebaseError(error)
               }),
               CoreActions.networkError()
             );
           })
-        );
-      })
+        )
+      )
     )
   );
 
@@ -125,11 +125,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.startReloadingAuth),
       switchMap(() =>
-        this.afa.authState.pipe(
-          switchMap((user) =>
-            interval(this.authReloadInterval).pipe(
-              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth))),
-              switchMap(() => from(user.reload())),
+        interval(this.authReloadInterval).pipe(
+          withLatestFrom(authState(this.auth)),
+          switchMap(([, user]) =>
+            defer(() => user?.reload()).pipe(
               map(() =>
                 AuthActions.loadAuthSuccess({
                   user: user ? this.sanitizeUser(user) : null
@@ -137,13 +136,7 @@ export class AuthEffects {
               )
             )
           ),
-          catchError((error: FirebaseError) =>
-            of(
-              AuthActions.loadAuthFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
-              })
-            )
-          )
+          takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth)))
         )
       )
     )
@@ -181,7 +174,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private store: Store,
-    private afa: AngularFireAuth,
+    private auth: Auth,
     private messageService: NzMessageService,
     private router: Router
   ) {}

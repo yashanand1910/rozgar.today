@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { JoinSelectors } from '@app/join/selectors';
 import { CoreSelectors } from '@core/selectors';
@@ -16,7 +16,7 @@ const log = new Logger('JoinComponent');
   templateUrl: './join.component.html',
   styleUrls: ['./join.component.less']
 })
-export class JoinComponent implements OnInit, OnDestroy {
+export class JoinComponent implements OnInit {
   currentStepNumber$: Observable<number>;
   steps$: Observable<Step[]>;
   isLoading$: Observable<boolean>;
@@ -30,8 +30,6 @@ export class JoinComponent implements OnInit, OnDestroy {
 
     this.setCurrentStepBasedOnState();
   }
-
-  ngOnDestroy() {}
 
   // Set step based on user's saved state (progress) if no step is set
   setCurrentStepBasedOnState() {

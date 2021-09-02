@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 const untilDestroyedSymbol = Symbol('untilDestroyed');
 
 /**
- * RxJS operator that unsubscribe from observables on destory.
+ * RxJS operator that unsubscribe from observables on destroy.
  * Code forked from https://github.com/NetanelBasal/ngx-take-until-destroy
  *
  * IMPORTANT: Add the `untilDestroyed` operator as the last one to prevent leaks with intermediate observables in the

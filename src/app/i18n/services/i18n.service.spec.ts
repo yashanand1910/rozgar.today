@@ -18,9 +18,6 @@ class MockTranslateService {
       translations: {}
     });
   }
-
-  setTranslation(lang: string, translations: object) {}
-
   getBrowserCultureLang() {
     return 'en-US';
   }

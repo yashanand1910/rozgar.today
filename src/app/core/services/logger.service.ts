@@ -34,6 +34,7 @@
  * The possible log levels.
  * LogLevel.Off is never emitted and only used with Logger.level property to disable logs.
  */
+// noinspection JSUnusedGlobalSymbols
 export enum LogLevel {
   Off = 0,
   Error,

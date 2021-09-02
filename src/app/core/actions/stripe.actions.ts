@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Cart, PaymentIntent, PaymentIntentContext } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const createPaymentIntent = createAction('[Stripe] Create Payment Intent', props<Cart>());
@@ -10,8 +10,8 @@ export const createPaymentIntentSuccess = createAction(
   props<{ context: PaymentIntentContext; customerId?: string } & Partial<PaymentIntent>>()
 );
 
-export const createPaymentIntentFailiure = createAction(
-  '[Stripe] Create Payment Intent Failiure',
+export const createPaymentIntentFailure = createAction(
+  '[Stripe] Create Payment Intent Failure',
   props<{ context: PaymentIntentContext; error: FirebaseError }>()
 );
 
@@ -22,22 +22,19 @@ export const updatePaymentIntentSuccess = createAction(
   props<{ context: PaymentIntentContext } & Partial<PaymentIntent>>()
 );
 
-export const updatePaymentIntentFailiure = createAction(
-  '[Stripe] Update Payment Intent Failiure',
+export const updatePaymentIntentFailure = createAction(
+  '[Stripe] Update Payment Intent Failure',
   props<{ context: PaymentIntentContext; error: FirebaseError }>()
 );
 
-export const loadPaymentIntent = createAction(
-  '[Stripe] Load Payment Intent',
-  props<{ id: string; context: PaymentIntentContext }>()
-);
+export const loadPaymentIntent = createAction('[Stripe] Load Payment Intent', props<Partial<Cart>>());
 
 export const loadPaymentIntentSuccess = createAction(
   '[Stripe] Load Payment Intent Success',
   props<{ context: PaymentIntentContext } & Partial<PaymentIntent>>()
 );
 
-export const loadPaymentIntentFailiure = createAction(
-  '[Stripe] Load Payment Intent Failiure',
+export const loadPaymentIntentFailure = createAction(
+  '[Stripe] Load Payment Intent Failure',
   props<{ context: PaymentIntentContext; error: FirebaseError }>()
 );

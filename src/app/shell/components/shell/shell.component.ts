@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthSelectors } from '@auth/selectors';
 import { AuthActions } from '@auth/actions';
@@ -21,7 +21,7 @@ export interface MenuItem {
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.less']
 })
-export class ShellComponent implements OnInit, OnDestroy {
+export class ShellComponent implements OnInit {
   user$: Observable<User>;
   isLoading$: Observable<boolean>;
   headerMenuItemsLeft: MenuItem[];
@@ -34,8 +34,6 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.user$ = this.store.select(AuthSelectors.selectUser);
     this.updateHeader();
   }
-
-  ngOnDestroy() {}
 
   invokeAction(action: MenuItem['action']) {
     action?.call(this);

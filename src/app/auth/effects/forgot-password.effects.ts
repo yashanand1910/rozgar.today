@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { ForgotPasswordActions } from '../actions';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { from, of } from 'rxjs';
-import firebase from 'firebase/app';
+import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
+import { defer, of } from 'rxjs';
+import firebase from 'firebase/compat/app';
+import { getSerializableFirebaseError } from '@shared/helper';
 import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class ForgotPasswordEffects {
   forgotPassword$ = createEffect(() => {
@@ -14,12 +16,12 @@ export class ForgotPasswordEffects {
       ofType(ForgotPasswordActions.forgotPassword),
       map((action) => action.context),
       exhaustMap((context) =>
-        from(this.afa.sendPasswordResetEmail(context.email)).pipe(
+        defer(() => sendPasswordResetEmail(this.auth, context.email)).pipe(
           map(() => ForgotPasswordActions.forgotPasswordSuccess()),
           catchError((error: FirebaseError) =>
             of(
-              ForgotPasswordActions.forgotPasswordFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              ForgotPasswordActions.forgotPasswordFailure({
+                error: getSerializableFirebaseError(error)
               })
             )
           )
@@ -28,5 +30,5 @@ export class ForgotPasswordEffects {
     );
   });
 
-  constructor(private actions$: Actions, private afa: AngularFireAuth) {}
+  constructor(private actions$: Actions, private auth: Auth) {}
 }

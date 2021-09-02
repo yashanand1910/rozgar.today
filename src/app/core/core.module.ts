@@ -12,19 +12,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { AngularFireModule } from '@angular/fire';
 import { metaReducers, reducers } from './reducers/core.reducer';
-import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
 import { ngZorroConfig } from '@core/nz-global.config';
-import { AngularFireRemoteConfigModule, DEFAULTS, SETTINGS } from '@angular/fire/remote-config';
-import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
+import { connectFunctionsEmulator, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { NgxStripeModule } from 'ngx-stripe';
 import { StripeEffects } from './effects/stripe.effects';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 @NgModule({
   imports: [
@@ -35,16 +34,36 @@ import { StripeEffects } from './effects/stripe.effects';
     HttpClientModule,
     NzMessageModule,
     TranslateModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireRemoteConfigModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      if (environment.firebase.emulator.active) {
+        connectFirestoreEmulator(
+          firestore,
+          environment.firebase.emulator.firestoreURL.host,
+          environment.firebase.emulator.firestoreURL.port
+        );
+      }
+      return firestore;
+    }),
+    provideFunctions(() => {
+      const functions = getFunctions();
+      if (environment.firebase.emulator.active) {
+        connectFunctionsEmulator(
+          functions,
+          environment.firebase.emulator.functionsURL.host,
+          environment.firebase.emulator.functionsURL.port
+        );
+      }
+      return functions;
+    }),
+    provideRemoteConfig(() => getRemoteConfig()),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
         // strictStateImmutability and strictActionImmutability are enabled by default
         strictStateSerializability: true,
-        // strictActionSerializability: true,
+        strictActionSerializability: true,
         strictActionWithinNgZone: true,
         strictActionTypeUniqueness: true
       }
@@ -67,18 +86,7 @@ import { StripeEffects } from './effects/stripe.effects';
     {
       provide: NZ_CONFIG,
       useValue: ngZorroConfig
-    },
-    {
-      provide: DEFAULTS,
-      useValue: {}
-    },
-    {
-      provide: SETTINGS,
-      useFactory: () => (!environment.production ? { minimumFetchIntervalMillis: 10_000 } : {})
-    },
-    { provide: USE_AUTH_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 9099] : undefined },
-    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 8080] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebase.useEmulators ? ['localhost', 5001] : undefined }
+    }
   ]
 })
 export class CoreModule {

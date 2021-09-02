@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { ResetPasswordActions } from '../actions';
 import { User } from '@auth/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'resetPassword';
@@ -34,7 +34,7 @@ export const reducer = createReducer(
       isVerifying: false
     };
   }),
-  on(ResetPasswordActions.verifyResetPasswordCodeFailiure, (state, action) => {
+  on(ResetPasswordActions.verifyResetPasswordCodeFailure, (state, action) => {
     return {
       ...state,
       error: action.error,
@@ -54,7 +54,7 @@ export const reducer = createReducer(
       error: null
     };
   }),
-  on(ResetPasswordActions.resetPasswordFailiure, (state, action) => {
+  on(ResetPasswordActions.resetPasswordFailure, (state, action) => {
     return {
       ...state,
       isLoading: false,

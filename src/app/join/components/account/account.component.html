@@ -1,6 +1,4 @@
 <ng-container *ngrxLet="user$; let user">
-  <ng-container *ngrxLet="signupIsLoading$; let signupIsLoading">
-    <app-verify-account *ngIf="user && !signupIsLoading"></app-verify-account>
-    <app-create-account *ngIf="!user || signupIsLoading"></app-create-account>
-  </ng-container>
+  <app-verify-account *ngIf="user"></app-verify-account>
+  <app-create-account *ngIf="!user"></app-create-account>
 </ng-container>

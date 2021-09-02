@@ -1,9 +1,15 @@
-import { Collection, Cart, CurrencyMultiplier, Product, StoreUser, Currency, Price } from './model';
-import { getContextDescription, getDisplayName, getIdempotencyKey } from './helper';
+import { Cart, Collection, Currency, CurrencyMultiplier, Price, Product, StoreUser } from "./model";
+import {
+  generateIdempotencyKey,
+  generatePaymentIntentMetadata,
+  generatePaymentIntentOutput,
+  getContextDescription,
+  getDisplayName
+} from "./helper";
 
-import * as functions from 'firebase-functions';
-import * as firebase from 'firebase-admin';
-import Stripe from 'stripe';
+import * as functions from "firebase-functions";
+import * as firebase from "firebase-admin";
+import Stripe from "stripe";
 
 // Initialize
 firebase.initializeApp();
@@ -11,8 +17,11 @@ const stripe = new Stripe(functions.config().stripe.secret, { apiVersion: '2020-
 const logger = functions.logger;
 
 /**
- * TODO Delete user record in Firestore when user account is deleted
+ * Delete user record in Firestore when user account is deleted
  */
+exports.deleteUser = functions.auth.user().onDelete((user) => {
+  return firebase.firestore().collection(Collection.Users).doc(user.uid).delete();
+});
 
 /**
  * Create Stripe Customer when user document is created in Firestore
@@ -56,50 +65,50 @@ exports.createCustomer = functions.firestore
  * Create a Stripe PaymentIntent
  */
 exports.createPaymentIntent = functions.https.onCall(async (cart: Cart) => {
-  // Create PaymentIntent
   logger.log('Creating payment intent on Stripe...');
   const paymentIntent = await stripe.paymentIntents.create(
     {
       ...(await calculateTotalPrice(cart.products)),
       customer: cart.customerId,
-      description: getContextDescription(cart.context)
+      description: getContextDescription(cart.context),
+      metadata: generatePaymentIntentMetadata(cart)
     },
-    { idempotencyKey: getIdempotencyKey(cart.context, <string>cart.customerId, 'create') }
+    { idempotencyKey: generateIdempotencyKey(cart.context, <string>cart.customerId, 'create') }
   );
 
-  // Return client secret, id etc
-  return {
-    id: paymentIntent.id,
-    clientSecret: paymentIntent.client_secret,
-    amount: paymentIntent.amount,
-    currency: paymentIntent.currency
-  };
+  return generatePaymentIntentOutput(paymentIntent);
 });
 
 /**
  * Update a Stripe PaymentIntent
  */
 exports.updatePaymentIntent = functions.https.onCall(async (cart: Cart) => {
-  // Create PaymentIntent
   logger.log('Creating payment intent on Stripe...');
-  const paymentIntent = await stripe.paymentIntents.update(
-    <string>cart.id,
-    {
-      ...(await calculateTotalPrice(cart.products)),
-      description: getContextDescription(cart.context)
-    },
-    { idempotencyKey: getIdempotencyKey(cart.context, <string>cart.customerId, 'update') }
-  );
+  const paymentIntent = await stripe.paymentIntents.update(<string>cart.id, {
+    ...(await calculateTotalPrice(cart.products)),
+    description: getContextDescription(cart.context),
+    metadata: generatePaymentIntentMetadata(cart)
+  });
 
-  // Return client secret, id etc
-  return {
-    id: paymentIntent.id,
-    clientSecret: paymentIntent.client_secret,
-    amount: paymentIntent.amount,
-    currency: paymentIntent.currency
-  };
+  return generatePaymentIntentOutput(paymentIntent);
 });
 
+/**
+ * TODO Load a Stripe PaymentIntent
+ */
+exports.loadPaymentIntent = functions.https.onCall(async ({ id }) => {
+  return generatePaymentIntentOutput(await stripe.paymentIntents.retrieve(id));
+});
+
+/*******************
+ * Helpers
+ *******************/
+
+/**
+ * Calculate total price of products after fetching from Firestore
+ * @param {Reference<Product>[]} productReferences
+ * @return {Promise<Price>} Promise of total price
+ */
 const calculateTotalPrice = async (productReferences: Cart['products']): Promise<Price> => {
   // Get products from Firestore
   logger.log('Getting products from Firestore...');

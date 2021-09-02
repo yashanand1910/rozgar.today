@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, filter, first, map, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ConstraintActions, CoreActions } from '../actions';
 import { ConstraintSelectors } from '../selectors';
 import { Constraints, CoreConfig } from '@core/models';
 import { Store } from '@ngrx/store';
-import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
-import firebase from 'firebase/app';
+import { getStringChanges, RemoteConfig } from '@angular/fire/remote-config';
+import firebase from 'firebase/compat/app';
+import { getSerializableFirebaseError } from '@shared/helper';
 import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class ConstraintEffects {
   loadConstraints$ = createEffect(() => {
@@ -20,17 +22,16 @@ export class ConstraintEffects {
         if (existing) {
           return of(ConstraintActions.loadConstraintsSuccess({ constraints: existing }));
         } else {
-          return this.afr.changes.pipe(
-            filter((param) => param.key === CoreConfig.Constraints),
+          return getStringChanges(this.remoteConfig, CoreConfig.Constraints).pipe(
             first(),
-            map((str) => JSON.parse(str._value) as Constraints),
+            map((str) => JSON.parse(str) as Constraints),
             map((constraints) => {
               return ConstraintActions.loadConstraintsSuccess({ constraints });
             }),
             catchError((error: FirebaseError) =>
               of(
                 ConstraintActions.loadConstraintsFailure({
-                  error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                  error: getSerializableFirebaseError(error)
                 }),
                 CoreActions.networkError()
               )
@@ -41,5 +42,5 @@ export class ConstraintEffects {
     );
   });
 
-  constructor(private actions$: Actions, private store: Store, private afr: AngularFireRemoteConfig) {}
+  constructor(private actions$: Actions, private store: Store, private remoteConfig: RemoteConfig) {}
 }

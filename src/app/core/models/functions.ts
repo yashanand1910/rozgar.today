@@ -7,7 +7,8 @@ import { Reference } from '../models/collection';
 
 export enum Function {
   CreatePaymentIntent = 'createPaymentIntent',
-  UpdatePaymentIntent = 'updatePaymentIntent'
+  UpdatePaymentIntent = 'updatePaymentIntent',
+  LoadPaymentIntent = 'loadPaymentIntent'
 }
 
 // List of allowed contexts in order to reuse payment intents for a customer
@@ -19,7 +20,7 @@ export interface Cart {
   context: PaymentIntentContext;
   id?: string; // Stripe ID of payment intent
   customerId?: string; // Stripe ID of the user
-  products: Set<Reference<Product>>; // Firestore reference of products
+  products: Reference<Product>[]; // Array of Firestore references
 }
 
 export type PaymentIntent = {

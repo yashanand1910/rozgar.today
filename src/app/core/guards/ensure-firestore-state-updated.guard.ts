@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CoreActions } from '@core/actions';
 import { CoreSelectors } from '@core/selectors';
@@ -14,10 +14,7 @@ import { filter, first, switchMap, withLatestFrom } from 'rxjs/operators';
 export class EnsureFirestoreStateUpdatedGuard implements CanActivate {
   constructor(private store: Store) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.store.pipe(
       select(CoreSelectors.selectIsUpdated),
       withLatestFrom(this.store.pipe(select(AuthSelectors.selectUser))),

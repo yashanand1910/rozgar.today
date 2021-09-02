@@ -6,16 +6,17 @@ import { JoinSelectors } from '../selectors';
 import { AuthSelectors } from '@auth/selectors';
 import { JoinActions } from '../actions';
 import { CoreActions } from '@core/actions';
-import { exhaustMap, first, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { exhaustMap, first, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { collection, doc, docData, Firestore } from '@angular/fire/firestore';
 import { User } from '@auth/models';
 import { of } from 'rxjs';
 import { Plan, StepPath } from '@app/join/models';
 import { extract } from '@i18n/services';
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class JoinEffects {
   refreshSteps$ = createEffect(() =>
@@ -28,14 +29,9 @@ export class JoinEffects {
       ),
       switchMap(([, plans, selectedPlanId, user]) => {
         if (selectedPlanId && !plans[selectedPlanId]) {
-          return this.afs
-            .collection(Collection.Plans)
-            .doc<Plan>(selectedPlanId)
-            .get()
-            .pipe(
-              map((snapshot) => snapshot.data()),
-              withLatestFrom(of(user))
-            );
+          return docData<Partial<Plan>>(doc(collection(this.firestore, Collection.Plans), selectedPlanId)).pipe(
+            withLatestFrom(of(user))
+          );
         } else {
           return of([plans[selectedPlanId], user]);
         }
@@ -113,5 +109,5 @@ export class JoinEffects {
     { dispatch: false }
   );
 
-  constructor(private actions$: Actions, private store: Store, private router: Router, private afs: AngularFirestore) {}
+  constructor(private actions$: Actions, private store: Store, private router: Router, private firestore: Firestore) {}
 }

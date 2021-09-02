@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { ForgotPasswordActions } from '../actions';
 import { extract } from '@i18n/services';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'forgotPassword';
@@ -36,7 +36,7 @@ export const reducer = createReducer(
     };
   }),
 
-  on(ForgotPasswordActions.forgotPasswordFailiure, (state, action) => {
+  on(ForgotPasswordActions.forgotPasswordFailure, (state, action) => {
     return {
       ...state,
       isLoading: false,
@@ -45,14 +45,14 @@ export const reducer = createReducer(
     };
   }),
 
-  on(ForgotPasswordActions.clearForgotPasswordError, (state, action) => {
+  on(ForgotPasswordActions.clearForgotPasswordError, (state) => {
     return {
       ...state,
       error: null
     };
   }),
 
-  on(ForgotPasswordActions.clearForgotPasswordInfo, (state, action) => {
+  on(ForgotPasswordActions.clearForgotPasswordInfo, (state) => {
     return {
       ...state,
       info: null

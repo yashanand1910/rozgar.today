@@ -10,10 +10,7 @@ describe('StripeEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        StripeEffects,
-        provideMockActions(() => actions$)
-      ]
+      providers: [StripeEffects, provideMockActions(() => actions$)]
     });
 
     effects = TestBed.inject(StripeEffects);

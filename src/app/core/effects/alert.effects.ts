@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
 import { AlertActions, CoreActions } from '../actions';
 import { AlertSelectors } from '../selectors';
-import { catchError, exhaustMap, filter, first, map, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Alerts, CoreConfig } from '@core/models';
-import { AngularFireRemoteConfig } from '@angular/fire/remote-config';
-import firebase from 'firebase/app';
+import { getStringChanges, RemoteConfig } from '@angular/fire/remote-config';
+import { getSerializableFirebaseError } from '@shared/helper';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class AlertEffects {
   loadAlerts$ = createEffect(() =>
@@ -21,15 +22,14 @@ export class AlertEffects {
         if (existing) {
           return of(AlertActions.loadAlertsSuccess({ alerts: existing }));
         } else {
-          return this.afr.changes.pipe(
-            filter((param) => param.key === CoreConfig.Alerts),
+          return getStringChanges(this.remoteConfig, CoreConfig.Alerts).pipe(
             first(),
-            map((str) => JSON.parse(str._value) as Alerts),
+            map((str) => JSON.parse(str) as Alerts),
             map((alerts) => AlertActions.loadAlertsSuccess({ alerts })),
             catchError((error: FirebaseError) =>
               of(
-                AlertActions.loadAlertsFailiure({
-                  error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+                AlertActions.loadAlertsFailure({
+                  error: getSerializableFirebaseError(error)
                 }),
                 CoreActions.networkError()
               )
@@ -40,5 +40,5 @@ export class AlertEffects {
     )
   );
 
-  constructor(private actions$: Actions, private store: Store, private afr: AngularFireRemoteConfig) {}
+  constructor(private actions$: Actions, private store: Store, private remoteConfig: RemoteConfig) {}
 }

@@ -1,22 +1,22 @@
 import { ReferencePipe } from './reference.pipe';
 import { TestBed } from '@angular/core/testing';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireModule } from '@angular/fire';
+import { Firestore } from '@angular/fire/firestore';
 import { environment } from '@env/environment';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 describe('ReferencePipe', () => {
-  let afs: AngularFirestore;
+  let firestore: Firestore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AngularFireModule.initializeApp(environment.firebase)]
+      imports: [provideFirebaseApp(() => initializeApp(environment.firebase))]
     });
 
-    afs = TestBed.inject(AngularFirestore);
+    firestore = TestBed.inject(Firestore);
   });
 
   it('create an instance', () => {
-    const pipe = new ReferencePipe(afs);
+    const pipe = new ReferencePipe(firestore);
     expect(pipe).toBeTruthy();
   });
 });

@@ -11,12 +11,12 @@ import { User } from '@auth/models';
 })
 export class AccountComponent implements OnInit {
   user$: Observable<User>;
-  signupIsLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     this.user$ = this.store.select(AuthSelectors.selectUser);
-    this.signupIsLoading$ = this.store.select(AuthSelectors.selectIsLoading);
+    this.isLoading$ = this.store.select(AuthSelectors.selectIsLoading);
   }
 }

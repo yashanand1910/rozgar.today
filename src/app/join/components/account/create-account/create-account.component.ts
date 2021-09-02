@@ -9,7 +9,7 @@ import { SignupSelectors } from '@auth/selectors';
 import { SignupActions } from '@auth/actions';
 import { City, Collection, Country, QueryParamKey, Reference } from '@core/models';
 import { StepComponent } from '../../step.component';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 @Component({
@@ -23,9 +23,11 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
   error$: Observable<FirebaseError>;
   isLoading$: Observable<boolean>;
   _countries: Reference<Country> = {
+    id: null,
     collection: Collection.Countries
   };
   _cities: Reference<City> = {
+    id: null,
     collection: Collection.Cities
   };
 
@@ -51,6 +53,7 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
       });
   }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnDestroy() {
     // Required for untilDestroyed
   }

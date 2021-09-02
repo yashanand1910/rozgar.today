@@ -15,7 +15,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
+const bootstrap = () => platformBrowserDynamic([]).bootstrapModule(AppModule);
 
 if (environment.hmr) {
   hmrBootstrap(module, bootstrap);

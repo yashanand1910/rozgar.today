@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
 import { SignupEffects } from './signup.effects';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NzMessageModule } from 'ng-zorro-antd/message';

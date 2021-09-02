@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { CoreActions, ConstraintActions, AlertActions } from '@core/actions';
+import { AlertActions, ConstraintActions, CoreActions } from '@core/actions';
 import { AuthActions } from '@auth/actions';
 import { extract } from '@i18n/services';
 import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message';
@@ -12,13 +12,21 @@ import { CoreSelectors } from '../selectors';
 import { Collection } from '@core/models';
 import { StoreUser } from '@auth/models';
 import { Store } from '@ngrx/store';
-import { AngularFirestore } from '@angular/fire/firestore';
-import firebase from 'firebase/app';
-import FirebaseError = firebase.FirebaseError;
+import { collection, doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
+import firebase from 'firebase/compat/app';
 import { JoinActions } from '@app/join/actions';
+import { getSerializableFirebaseError } from '@shared/helper';
+import FirebaseError = firebase.FirebaseError;
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class CoreEffects {
+  private errorMessageDuration = 9999999;
+  private networkError: NzMessageRef;
+  private loadingMessageDuration = 9999999;
+  private loadingMessage: NzMessageRef;
+  private loadingMessageCount = 0;
+
   initialize$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CoreActions.initialize),
@@ -34,16 +42,12 @@ export class CoreEffects {
         this.store.select(CoreSelectors.selectFirestoreState)
       ),
       exhaustMap(([action, user, state]) =>
-        defer(() =>
-          this.afs.collection(Collection.Users).doc<StoreUser>(user.uid).update({
-            state
-          })
-        ).pipe(
+        defer(() => updateDoc(doc(collection(this.firestore, Collection.Users), user.uid), { state })).pipe(
           map(() => CoreActions.setFirestoreStateSuccess({ firstTime: action.firstTime })),
           catchError((error: FirebaseError) =>
             of(
-              CoreActions.setFirestoreStateFailiure({
-                error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
+              CoreActions.setFirestoreStateFailure({
+                error: getSerializableFirebaseError(error)
               }),
               CoreActions.networkError()
             )
@@ -59,22 +63,19 @@ export class CoreEffects {
       withLatestFrom(this.store.select(AuthSelectors.selectUser)),
       exhaustMap(([, user]) => {
         if (user) {
-          return this.afs
-            .collection(Collection.Users)
-            .doc<StoreUser>(user.uid)
-            .get()
-            .pipe(
-              map((snapshot) => snapshot.data().state),
-              map((state) => CoreActions.getFirestoreStateSuccess({ state })),
-              catchError((error: FirebaseError) =>
-                of(
-                  CoreActions.getFirestoreStateFailiure({
-                    error: { code: error.code, message: error.message, name: error.name, stack: error.stack }
-                  }),
-                  CoreActions.networkError()
-                )
+          return docData<Partial<StoreUser>>(doc(collection(this.firestore, Collection.Users), user.uid)).pipe(
+            first(),
+            map((user) => user.state),
+            map((state) => CoreActions.getFirestoreStateSuccess({ state })),
+            catchError((error: FirebaseError) =>
+              of(
+                CoreActions.getFirestoreStateFailure({
+                  error: getSerializableFirebaseError(error)
+                }),
+                CoreActions.networkError()
               )
-            );
+            )
+          );
         } else {
           return of(CoreActions.getFirestoreStateSuccess()).pipe(observeOn(asyncScheduler));
         }
@@ -142,17 +143,11 @@ export class CoreEffects {
     { dispatch: false }
   );
 
-  private errorMessageDuration = 9999999;
-  private networkError: NzMessageRef;
-  private loadingMessageDuration = 9999999;
-  private loadingMessage: NzMessageRef;
-  private loadingMessageCount = 0;
-
   constructor(
     private actions$: Actions,
     private router: Router,
     private messageService: NzMessageService,
     private store: Store,
-    private afs: AngularFirestore
+    private firestore: Firestore
   ) {}
 }

@@ -1,6 +1,6 @@
 import { selectState } from './reset-password.selectors';
 import { MockState } from '@ngrx/store/testing';
-import { featureKey as authFeatureKey, AuthState, State } from '@auth/reducers';
+import { AuthState, featureKey as authFeatureKey, State } from '@auth/reducers';
 import { featureKey, State as ResetPasswordState } from '@auth/reducers/reset-password.reducer';
 
 describe('ResetPassword Selectors', () => {

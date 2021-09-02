@@ -35,6 +35,7 @@ Object.defineProperty(window, 'getComputedStyle', {
   })
 });
 
+// noinspection JSUnusedGlobalSymbols
 Object.defineProperty(window, 'matchMedia', {
   value: (query: any) => ({
     matches: false,

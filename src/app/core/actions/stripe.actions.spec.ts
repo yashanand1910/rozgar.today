@@ -6,7 +6,7 @@ describe('loadStripes', () => {
     expect(
       fromStripe.createPaymentIntent({
         context: PaymentIntentContext.FirstTimePlanPurchase,
-        productPaths: new Set()
+        products: []
       }).type
     ).toBe('[Stripe] Create Payment Intent');
   });

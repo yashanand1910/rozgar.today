@@ -10,7 +10,7 @@ import { CoreActions } from '../actions';
 import { Collection } from '@core/models';
 import { InjectionToken } from '@angular/core';
 import { AuthActions } from '@auth/actions';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 // Every feature state will also have an 'additional' state for storing state for containers
@@ -41,14 +41,14 @@ export const additionalReducer = createReducer(
   on(CoreActions.getFirestoreStateSuccess, (state, action) => {
     return action.state ? { ...state, error: null, isUpdated: true } : { ...state, error: null, isUpdated: false };
   }),
-  on(CoreActions.getFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
+  on(CoreActions.getFirestoreStateFailure, (state, action) => ({ ...state, error: action.error })),
   on(CoreActions.setFirestoreState, (state) => ({ ...state, isProcessing: true })),
   on(CoreActions.setFirestoreStateSuccess, (state, action) => {
     return action.firstTime
       ? { ...state, isProcessing: false, error: null, isUpdated: true }
       : { ...state, isProcessing: false, error: null };
   }),
-  on(CoreActions.setFirestoreStateFailiure, (state, action) => ({ ...state, error: action.error })),
+  on(CoreActions.setFirestoreStateFailure, (state, action) => ({ ...state, error: action.error })),
   on(AuthActions.logOutSuccess, (state) => ({ ...state, isUpdated: false }))
 );
 

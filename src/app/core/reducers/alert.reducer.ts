@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { AlertActions } from '../actions';
 import { Alerts } from '@core/models';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
 
 export const featureKey = 'alert';
@@ -27,5 +27,5 @@ export const reducer = createReducer(
     error: null,
     alerts: action.alerts
   })),
-  on(AlertActions.loadAlertsFailiure, (state, action) => ({ ...state, error: action.error }))
+  on(AlertActions.loadAlertsFailure, (state, action) => ({ ...state, error: action.error }))
 );

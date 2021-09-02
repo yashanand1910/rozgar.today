@@ -1,5 +1,6 @@
 import { Product } from '@core/models/product';
 
+// noinspection JSUnusedGlobalSymbols
 export enum PlanName {
   Basic = 'Basic',
   Standard = 'Standard',

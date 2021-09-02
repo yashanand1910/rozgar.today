@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromStripe from '../reducers/stripe.reducer';
-import { PaymentIntentContext } from '@core/models';
 import { PaymentIntentState } from '../reducers/stripe.reducer';
+import { PaymentIntentContext } from '@core/models';
 
 export const selectState = createFeatureSelector<fromStripe.State>(fromStripe.featureKey);
 
@@ -10,9 +10,9 @@ export const selectPaymentIntentState = createSelector(
   (state: fromStripe.State, props: { context: PaymentIntentContext }) => state.paymentIntentState[props.context]
 );
 
-export const selectPaymentIntentClientSecret = createSelector(
+export const selectPaymentIntentIsLoading = createSelector(
   (state: PaymentIntentState, props: { context: PaymentIntentContext }) => selectPaymentIntentState(state, props),
-  (state: PaymentIntentState) => state.clientSecret
+  (state: PaymentIntentState) => (state && 'isLoading' in state ? state.isLoading : true)
 );
 
 export const selectPaymentIntentProducts = createSelector(
@@ -29,7 +29,7 @@ export const selectFirestoreState = createSelector(selectState, (state) => {
     if (state.paymentIntentState[context]) {
       firestoreState.paymentIntentState[context] = {
         id: state.paymentIntentState[context].id ? state.paymentIntentState[context].id : null,
-        productPaths: state.paymentIntentState[context].products ? state.paymentIntentState[context].products : null
+        products: state.paymentIntentState[context].products ? state.paymentIntentState[context].products : null
       };
     }
   }

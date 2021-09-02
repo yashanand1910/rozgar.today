@@ -1,4 +1,4 @@
-import { reducer, initialState } from './stripe.reducer';
+import { initialState, reducer } from './stripe.reducer';
 
 describe('Stripe Reducer', () => {
   describe('an unknown action', () => {
