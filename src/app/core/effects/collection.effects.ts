@@ -16,8 +16,10 @@ export class CollectionEffects {
     return this.actions$.pipe(
       ofType(CollectionActions.loadCollection),
       exhaustMap((action) =>
-        collectionData<CollectionItem<any>>(collection(this.firestore, action.collection), { idField: 'id' }).pipe(
-          take(action.live ? Infinity : 1),
+        collectionData<CollectionItem<any>>(collection(this.firestore, action.collection), {
+          idField: 'id'
+        }).pipe(
+          take(action.live ? 9999999 : 1),
           takeUntil(
             this.actions$.pipe(
               ofType(CollectionActions.stopLoadCollection),

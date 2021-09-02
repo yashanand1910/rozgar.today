@@ -1,15 +1,15 @@
-import { Collection, Cart, CurrencyMultiplier, Product, StoreUser, Currency, Price } from './model';
+import { Cart, Collection, Currency, CurrencyMultiplier, Price, Product, StoreUser } from "./model";
 import {
+  generateIdempotencyKey,
+  generatePaymentIntentMetadata,
   generatePaymentIntentOutput,
   getContextDescription,
-  getDisplayName,
-  generateIdempotencyKey,
-  generatePaymentIntentMetadata
-} from './helper';
+  getDisplayName
+} from "./helper";
 
-import * as functions from 'firebase-functions';
-import * as firebase from 'firebase-admin';
-import Stripe from 'stripe';
+import * as functions from "firebase-functions";
+import * as firebase from "firebase-admin";
+import Stripe from "stripe";
 
 // Initialize
 firebase.initializeApp();
@@ -17,8 +17,11 @@ const stripe = new Stripe(functions.config().stripe.secret, { apiVersion: '2020-
 const logger = functions.logger;
 
 /**
- * TODO Delete user record in Firestore when user account is deleted
+ * Delete user record in Firestore when user account is deleted
  */
+exports.deleteUser = functions.auth.user().onDelete((user) => {
+  return firebase.firestore().collection(Collection.Users).doc(user.uid).delete();
+});
 
 /**
  * Create Stripe Customer when user document is created in Firestore

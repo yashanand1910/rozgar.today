@@ -125,11 +125,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.startReloadingAuth),
       switchMap(() =>
-        authState(this.auth).pipe(
-          switchMap((user) =>
-            interval(this.authReloadInterval).pipe(
-              takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth))),
-              switchMap(() => defer(() => user.reload())),
+        interval(this.authReloadInterval).pipe(
+          withLatestFrom(authState(this.auth)),
+          switchMap(([, user]) =>
+            defer(() => user?.reload()).pipe(
               map(() =>
                 AuthActions.loadAuthSuccess({
                   user: user ? this.sanitizeUser(user) : null
@@ -137,13 +136,7 @@ export class AuthEffects {
               )
             )
           ),
-          catchError((error: FirebaseError) =>
-            of(
-              AuthActions.loadAuthFailure({
-                error: getSerializableFirebaseError(error)
-              })
-            )
-          )
+          takeUntil(this.actions$.pipe(ofType(AuthActions.stopReloadingAuth)))
         )
       )
     )

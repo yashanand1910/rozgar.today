@@ -12,6 +12,7 @@ import { InjectionToken } from '@angular/core';
 import { AuthActions } from '@auth/actions';
 import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
+
 // Every feature state will also have an 'additional' state for storing state for containers
 export const additionalKey = 'additional';
 

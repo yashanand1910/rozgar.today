@@ -21,9 +21,9 @@ import FirebaseError = firebase.FirebaseError;
 // noinspection JSUnusedGlobalSymbols
 @Injectable()
 export class CoreEffects {
-  private errorMessageDuration = Infinity;
+  private errorMessageDuration = 9999999;
   private networkError: NzMessageRef;
-  private loadingMessageDuration = Infinity;
+  private loadingMessageDuration = 9999999;
   private loadingMessage: NzMessageRef;
   private loadingMessageCount = 0;
 

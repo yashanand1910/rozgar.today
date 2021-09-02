@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { StripeActions } from '../actions';
+import { CoreActions, StripeActions } from '../actions';
 import { StripeSelectors } from '../selectors';
 import { AuthSelectors } from '@auth/selectors';
 import { catchError, exhaustMap, first, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export class StripeEffects {
         let customerId = state.customerId;
         if (clientSecret) {
           log.debug('Client secret found, skipping API call...');
-          return of(StripeActions.createPaymentIntentSuccess({ context: action.context, clientSecret }));
+          return of(StripeActions.createPaymentIntentSuccess({ context: action.context }));
         } else {
           if (customerId) {
             return httpsCallableData<Cart, PaymentIntent>(
@@ -65,8 +65,8 @@ export class StripeEffects {
 
           // Fetch customerId from user profile since it is not found
           return this.store.select(AuthSelectors.selectUserUid).pipe(
-            first(),
             switchMap((uid) => docData<Partial<StoreUser>>(doc(collection(this.firestore, Collection.Users), uid))),
+            first(),
             map((user) => user.metadata.stripeId),
             switchMap((id) => {
               customerId = id;
@@ -138,8 +138,8 @@ export class StripeEffects {
 
         // Fetch customerId from user profile since it is not found
         return this.store.select(AuthSelectors.selectUserUid).pipe(
-          first(),
           switchMap((uid) => docData<Partial<StoreUser>>(doc(collection(this.firestore, Collection.Users), uid))),
+          first(),
           map((user) => user.metadata.stripeId),
           switchMap(() => {
             return httpsCallableData<Cart, PaymentIntent>(
@@ -183,8 +183,7 @@ export class StripeEffects {
               log.debug('Client secret found, skipping API call...');
               return of(
                 StripeActions.loadPaymentIntentSuccess({
-                  context: action.context,
-                  ...paymentIntent
+                  context: action.context
                 })
               );
             } else {
@@ -216,6 +215,13 @@ export class StripeEffects {
       })
     );
   });
+
+  createOrUpdatePaymentIntentSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StripeActions.createPaymentIntentSuccess, StripeActions.updatePaymentIntentSuccess),
+      switchMap(() => of(CoreActions.setFirestoreState()))
+    )
+  );
 
   constructor(
     private actions$: Actions,
