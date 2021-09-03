@@ -12,11 +12,6 @@ const routes: Routes = [
   Shell.childRoutes([
     {
       path: '',
-      redirectTo: 'join',
-      pathMatch: 'full'
-    },
-    {
-      path: 'join',
       component: JoinComponent,
       canActivate: [EnsureFirestoreStateUpdatedGuard],
       children: [

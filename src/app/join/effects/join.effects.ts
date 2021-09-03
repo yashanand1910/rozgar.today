@@ -6,7 +6,7 @@ import { JoinSelectors } from '../selectors';
 import { AuthSelectors } from '@auth/selectors';
 import { JoinActions } from '../actions';
 import { CoreActions } from '@core/actions';
-import { exhaustMap, first, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { exhaustMap, first, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Collection, QueryParamKey } from '@core/models';
@@ -29,10 +29,9 @@ export class JoinEffects {
       ),
       switchMap(([, plans, selectedPlanId, user]) => {
         if (selectedPlanId && !plans[selectedPlanId]) {
-          return docData<Partial<Plan>>(doc(collection(this.firestore, Collection.Plans), selectedPlanId)).pipe(
-            first(),
-            withLatestFrom(of(user))
-          );
+          return docData<Partial<Plan>>(doc(collection(this.firestore, Collection.Plans), selectedPlanId), {
+            idField: 'id'
+          }).pipe(first(), withLatestFrom(of(user)));
         } else {
           return of([plans[selectedPlanId], user]);
         }

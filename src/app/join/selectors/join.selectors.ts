@@ -1,9 +1,13 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import * as fromJoin from '../reducers';
-import { additionalKey } from '@core/reducers';
+import { additionalKey, State } from '@core/reducers';
 import * as RouterSelectors from '@core/selectors/router.selectors';
 
-export const selectState = createFeatureSelector<fromJoin.State, fromJoin.JoinState>(fromJoin.featureKey);
+// Not using createFeatureSelector since this module is lazy-loading
+export const selectState = createSelector(
+  (state: State) => state[fromJoin.featureKey],
+  (value) => value as fromJoin.JoinState
+);
 
 export const selectAdditionalState = createSelector(selectState, (state) => state[additionalKey]);
 
