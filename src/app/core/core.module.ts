@@ -57,7 +57,12 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
       }
       return functions;
     }),
-    provideRemoteConfig(() => getRemoteConfig()),
+    provideRemoteConfig(() => {
+      const remoteConfig = getRemoteConfig();
+      console.warn(remoteConfig.lastFetchStatus);
+      remoteConfig.settings = { minimumFetchIntervalMillis: 0, ...remoteConfig.settings };
+      return remoteConfig;
+    }),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

@@ -8,6 +8,7 @@ import { first, tap, withLatestFrom } from 'rxjs/operators';
 import { areArrayElementsEqual } from '@shared/helper';
 import { Product } from '@core/models/product';
 import { Observable } from 'rxjs';
+import { PaymentIntentState } from '@core/reducers/stripe.reducer';
 
 @Component({
   selector: 'app-payment',
@@ -15,14 +16,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./payment.component.less', '../join.component.less']
 })
 export class PaymentComponent implements OnInit {
-  isLoading$: Observable<boolean>;
+  paymentIntent$: Observable<PaymentIntentState>;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(StripeSelectors.selectPaymentIntentIsLoading, {
-      context: PaymentIntentContext.FirstTimePlanPurchase
-    });
+    this.paymentIntent$ = this.store.pipe(
+      select(StripeSelectors.selectPaymentIntentState, {
+        context: PaymentIntentContext.FirstTimePlanPurchase
+      })
+    );
 
     this.initialize();
   }

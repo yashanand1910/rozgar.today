@@ -4,14 +4,15 @@
     Please complete the payment before we activate your plan.
   </div>
 </div>
-<div nzGrid>
+<div *ngrxLet="paymentIntent$; let paymentIntent" nzGrid>
   <div nz-row>
-    <div *ngrxLet="isLoading$ as isLoading" [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
-      <nz-skeleton *ngIf="isLoading"></nz-skeleton>
-      <div *ngIf="!isLoading">
+    <div [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
+      <nz-skeleton *ngIf="paymentIntent.isLoading"></nz-skeleton>
+
+      <ng-template [ngIf]="!paymentIntent.isLoading">
         <ngx-stripe-card></ngx-stripe-card>
-        <button nz-button translate>Pay</button>
-      </div>
+        <button nz-button nzType="primary" translate>Pay</button>
+      </ng-template>
     </div>
     <div [nzXl]="12" [nzXs]="24" [nzMd]="8" nz-col>
       <div class="illustration-container">
