@@ -7,7 +7,7 @@ on:
 jobs:
   main:
     name: Check & Deploy
-    if: "!contains(github.event.head_commit.message, 'deploy-backend-only')"
+    if: ${{ !contains(github.event.head_commit.message, 'deploy-backend-only') && !contains(github.event.head_commit.message, 'WIP') }}
     concurrency:
       group: build-alpha
       cancel-in-progress: true
@@ -46,7 +46,7 @@ jobs:
 
   backend:
     name: Deploy Backend
-    if: "contains(github.event.head_commit.message, 'deploy-backend')"
+    if: ${{ contains(github.event.head_commit.message, 'deploy-backend') && !contains(github.event.head_commit.message, 'WIP') }}
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
