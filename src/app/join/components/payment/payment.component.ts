@@ -72,4 +72,8 @@ export class PaymentComponent implements OnInit {
       )
       .subscribe();
   }
+
+  pay() {
+    // TODO
+  }
 }
