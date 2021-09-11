@@ -176,7 +176,7 @@ export class StripeEffects {
       ofType(StripeActions.loadPaymentIntent),
       exhaustMap((action) => {
         return this.store.pipe(
-          select(StripeSelectors.selectPaymentIntentState, { context: action.context }),
+          select(StripeSelectors.selectPaymentIntentState(action.context)),
           first(),
           switchMap((paymentIntent) => {
             if (paymentIntent.clientSecret) {

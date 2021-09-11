@@ -17,12 +17,11 @@ import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angul
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { AlertEffects, CollectionEffects, ConstraintEffects, CoreEffects } from '@core/effects';
+import { CollectionEffects, CoreEffects, StripeEffects } from '@core/effects';
 import { ngZorroConfig } from '@core/nz-global.config';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { connectFunctionsEmulator, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { NgxStripeModule } from 'ngx-stripe';
-import { StripeEffects } from './effects/stripe.effects';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 @NgModule({
@@ -59,8 +58,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
     }),
     provideRemoteConfig(() => {
       const remoteConfig = getRemoteConfig();
-      console.warn(remoteConfig.lastFetchStatus);
-      remoteConfig.settings = { minimumFetchIntervalMillis: 0, ...remoteConfig.settings };
+      if (!environment.production) remoteConfig.settings.minimumFetchIntervalMillis = 60000;
       return remoteConfig;
     }),
     StoreModule.forRoot(reducers, {
@@ -73,7 +71,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
         strictActionTypeUniqueness: true
       }
     }),
-    EffectsModule.forRoot([CoreEffects, ConstraintEffects, AlertEffects, CollectionEffects, StripeEffects]),
+    EffectsModule.forRoot([CoreEffects, CollectionEffects, StripeEffects]),
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : [],
     NgxStripeModule.forRoot(environment.stripe.publishableKey)

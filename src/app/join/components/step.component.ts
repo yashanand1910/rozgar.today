@@ -6,8 +6,8 @@ import { StepPath } from '@app/join/models';
 import { Alert, QueryParamKey } from '@core/models';
 import { JoinActions } from '@app/join/actions';
 import { Observable } from 'rxjs';
-import { AlertSelectors } from '@core/selectors';
 import { Actions } from '@ngrx/effects';
+import { CoreSelectors } from '@core/selectors';
 
 @Component({
   template: ``
@@ -24,7 +24,7 @@ export class StepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.alert$ = this.store.select(AlertSelectors.select, { component: 'createAccount' });
+    this.alert$ = this.store.select(CoreSelectors.selectAlert('createAccount'));
   }
 
   changePlan() {

@@ -22,9 +22,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentIntent$ = this.store.pipe(
-      select(StripeSelectors.selectPaymentIntentState, {
-        context: PaymentIntentContext.FirstTimePlanPurchase
-      })
+      select(StripeSelectors.selectPaymentIntentState(PaymentIntentContext.FirstTimePlanPurchase))
     );
 
     this.initialize();
@@ -39,9 +37,7 @@ export class PaymentComponent implements OnInit {
         select(JoinSelectors.selectSelectedPlanId),
         first(),
         withLatestFrom(
-          this.store.select(StripeSelectors.selectPaymentIntentState, {
-            context: PaymentIntentContext.FirstTimePlanPurchase
-          })
+          this.store.select(StripeSelectors.selectPaymentIntentState(PaymentIntentContext.FirstTimePlanPurchase))
         ),
         tap(([planId, paymentIntent]) => {
           const products = [{ collection: Collection.Plans, id: planId }];

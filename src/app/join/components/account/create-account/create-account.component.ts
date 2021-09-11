@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { select } from '@ngrx/store';
-import { ConstraintSelectors } from '@core/selectors';
 import { CustomValidators } from '@shared/validators';
 import { untilDestroyed } from '@core/utils';
 import { SignupSelectors } from '@auth/selectors';
@@ -11,6 +10,7 @@ import { City, Collection, Country, QueryParamKey, Reference } from '@core/model
 import { StepComponent } from '../../step.component';
 import firebase from 'firebase/compat/app';
 import FirebaseError = firebase.FirebaseError;
+import { CoreSelectors } from '@core/selectors';
 
 @Component({
   selector: 'app-create-account',
@@ -42,7 +42,7 @@ export class CreateAccountComponent extends StepComponent implements OnInit, OnD
     this.error$ = this.store.select(SignupSelectors.selectError);
     this.isLoading$ = this.store.select(SignupSelectors.selectIsLoading);
     this.store
-      .pipe(select(ConstraintSelectors.select, { name: 'lastSalary' }), untilDestroyed(this))
+      .pipe(select(CoreSelectors.selectConstraint('lastSalary')), untilDestroyed(this))
       .subscribe((constraint) => {
         if (constraint) {
           return this.signupForm.controls.lastSalary.setValidators([
