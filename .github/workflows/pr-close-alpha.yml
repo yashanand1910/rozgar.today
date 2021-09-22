@@ -10,7 +10,7 @@ jobs:
     name: Deactivate Preview Environment
     runs-on: ubuntu-latest
     steps:
-    - name: Deactivate Environment
+    - name: Deactivate Deployment
       uses: bobheadxi/deployments@v0.6.0
       with:
         step: deactivate-env
@@ -18,3 +18,8 @@ jobs:
         logs: 'https://console.firebase.google.com/u/0/project/rozgar-today/hosting/sites/alpha-rozgar-today'
         env: "Preview (${{ github.head_ref }})"
         desc: Deployment was pruned
+    - name: Delete Environment
+      uses: strumwolf/delete-deployment-environment@v2.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        environment: "Preview (${{ github.head_ref }})"
