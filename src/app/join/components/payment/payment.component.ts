@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { StripeActions } from '@core/actions';
 import { JoinSelectors } from '../../selectors';
 import { StripeSelectors } from '@core/selectors';
@@ -9,18 +9,19 @@ import { areArrayElementsEqual } from '@shared/helper';
 import { Product } from '@core/models/product';
 import { Observable } from 'rxjs';
 import { PaymentIntentState } from '@core/reducers/stripe.reducer';
+import { StepComponent } from '@app/join/components';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.less', '../join.component.less']
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent extends StepComponent implements OnInit {
   paymentIntent$: Observable<PaymentIntentState>;
 
-  constructor(private store: Store) {}
-
   ngOnInit(): void {
+    super.ngOnInit();
+
     this.paymentIntent$ = this.store.pipe(
       select(StripeSelectors.selectPaymentIntentState(PaymentIntentContext.FirstTimePlanPurchase))
     );

@@ -58,7 +58,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
     }),
     provideRemoteConfig(() => {
       const remoteConfig = getRemoteConfig();
-      if (!environment.production) remoteConfig.settings.minimumFetchIntervalMillis = 60000;
+      // if (!environment.production) remoteConfig.settings.minimumFetchIntervalMillis = 60000;
       return remoteConfig;
     }),
     StoreModule.forRoot(reducers, {

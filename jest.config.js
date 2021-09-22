@@ -10,7 +10,6 @@ module.exports = {
   coverageDirectory: 'reports',
   setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
-
   globals: {
     'ts-jest': {
       allowSyntheticDefaultImports: true,
