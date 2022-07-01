@@ -112,12 +112,10 @@
           },
           "configurations": {
             "beta": {
-              "progress": false,
               "browserTarget": "rozgar-today:build:beta",
               "hmr": false
             },
             "production": {
-              "progress": false,
               "browserTarget": "rozgar-today:build:production",
               "hmr": false
             }
