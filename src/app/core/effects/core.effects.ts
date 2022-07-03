@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CoreActions } from '@core/actions';
 import { AuthActions } from '@auth/actions';
@@ -17,7 +17,7 @@ import firebase from 'firebase/compat/app';
 import { JoinActions } from '@app/join/actions';
 import { getSerializableFirebaseError } from '@shared/helper';
 import FirebaseError = firebase.FirebaseError;
-import { fetchAndActivate, RemoteConfig, getValue } from '@angular/fire/remote-config';
+import { fetchAndActivate, RemoteConfig, getValue, isSupported } from '@angular/fire/remote-config';
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable()
@@ -31,7 +31,7 @@ export class CoreEffects {
   initialize$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CoreActions.initialize),
-      exhaustMap(() => [CoreActions.getConfig(), AuthActions.loadAuth()])
+      exhaustMap(() => [AuthActions.loadAuth(), CoreActions.getConfig()])
     )
   );
 
@@ -176,6 +176,6 @@ export class CoreEffects {
     private messageService: NzMessageService,
     private store: Store,
     private firestore: Firestore,
-    private remoteConfig: RemoteConfig
+    @Optional() private remoteConfig: RemoteConfig
   ) {}
 }

@@ -175,6 +175,7 @@
   },
   "defaultProject": "rozgar-today",
   "cli": {
+    "analytics": "adfd5b9c-0837-4d67-b289-7ec8d07049f6",
     "defaultCollection": "@ngrx/schematics"
   }
 }

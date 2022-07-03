@@ -56,11 +56,11 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
       }
       return functions;
     }),
-    provideRemoteConfig(() => {
-      const remoteConfig = getRemoteConfig();
-      // if (!environment.production) remoteConfig.settings.minimumFetchIntervalMillis = 60000;
-      return remoteConfig;
-    }),
+    // provideRemoteConfig(() => {
+    //   const remoteConfig = getRemoteConfig();
+    //   // if (!environment.production) remoteConfig.settings.minimumFetchIntervalMillis = 60000;
+    //   return remoteConfig;
+    // }),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
