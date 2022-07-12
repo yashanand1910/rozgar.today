@@ -4,7 +4,7 @@
       "parameters": {
         "alerts": {
           "defaultValue": {
-            "value": "{\"createAccount\":{\"info\":[],\"warn\":[\"We try to provide you an upgrade over your last salary. Though, due to COVID-19, our support is currently impacted.\"]}}"
+            "value": "{\"createAccount\":{\"info\":[],\"warn\":[\"We try LOL1 provide you an upgrade over your last salary. Though, due to COVID-19, our support is currently impacted.\"]}}"
           },
           "description": "Alerts based on user's location in the UI"
         },

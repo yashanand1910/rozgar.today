@@ -12,29 +12,27 @@ describe('JoinComponent', () => {
   let fixture: ComponentFixture<JoinComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveComponentModule, RouterTestingModule],
-        providers: [
-          provideMockStore({
-            selectors: [
-              {
-                selector: JoinSelectors.selectAdditionalState,
-                value: false
-              },
-              {
-                selector: JoinSelectors.selectCurrentStepNumber,
-                value: false
-              }
-            ]
-          })
-        ],
-        declarations: [JoinComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveComponentModule, RouterTestingModule],
+      providers: [
+        provideMockStore({
+          selectors: [
+            {
+              selector: JoinSelectors.selectAdditionalState,
+              value: false
+            },
+            {
+              selector: JoinSelectors.selectCurrentStepNumber,
+              value: false
+            }
+          ]
+        })
+      ],
+      declarations: [JoinComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(JoinComponent);

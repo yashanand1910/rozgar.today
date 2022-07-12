@@ -6,14 +6,12 @@ describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [FooterComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [FooterComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);

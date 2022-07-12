@@ -7,15 +7,13 @@ describe('AuthComponent', () => {
   let component: AuthComponent;
   let fixture: ComponentFixture<AuthComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        declarations: [AuthComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [AuthComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthComponent);

@@ -11,29 +11,27 @@ describe('AccountComponent', () => {
   let fixture: ComponentFixture<AccountComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveComponentModule],
-        providers: [
-          provideMockStore({
-            selectors: [
-              {
-                selector: AuthSelectors.selectAdditionalState,
-                value: false
-              },
-              {
-                selector: AuthSelectors.selectState,
-                value: false
-              }
-            ]
-          })
-        ],
-        declarations: [AccountComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveComponentModule],
+      providers: [
+        provideMockStore({
+          selectors: [
+            {
+              selector: AuthSelectors.selectAdditionalState,
+              value: false
+            },
+            {
+              selector: AuthSelectors.selectState,
+              value: false
+            }
+          ]
+        })
+      ],
+      declarations: [AccountComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountComponent);

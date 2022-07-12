@@ -5,20 +5,17 @@ import { PaymentIntentContext } from '@core/models';
 
 export const selectState = createFeatureSelector<fromStripe.State>(fromStripe.featureKey);
 
-export const selectPaymentIntentState = createSelector(
-  selectState,
-  (state: fromStripe.State, props: { context: PaymentIntentContext }) => state.paymentIntentState[props.context]
-);
+export const selectPaymentIntentState = (context: PaymentIntentContext) =>
+  createSelector(selectState, (state: fromStripe.State) => state.paymentIntentState[context]);
 
-export const selectPaymentIntentIsLoading = createSelector(
-  (state: PaymentIntentState, props: { context: PaymentIntentContext }) => selectPaymentIntentState(state, props),
-  (state: PaymentIntentState) => (state && 'isLoading' in state ? state.isLoading : true)
-);
+export const selectPaymentIntentIsLoading = (context: PaymentIntentContext) =>
+  createSelector(
+    selectPaymentIntentState(context),
+    (state: PaymentIntentState) => (state && 'isLoading' in state ? state.isLoading : true) // Since state / property may not exist
+  );
 
-export const selectPaymentIntentProducts = createSelector(
-  (state: PaymentIntentState, props: { context: PaymentIntentContext }) => selectPaymentIntentState(state, props),
-  (state: PaymentIntentState) => state.products
-);
+export const selectPaymentIntentProducts = (context: PaymentIntentContext) =>
+  createSelector(selectPaymentIntentState(context), (state: PaymentIntentState) => state.products);
 
 export const selectFirestoreState = createSelector(selectState, (state) => {
   const firestoreState = {

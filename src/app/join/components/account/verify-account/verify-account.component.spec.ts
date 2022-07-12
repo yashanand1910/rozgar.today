@@ -16,26 +16,24 @@ describe('VerifyAccountComponent', () => {
   let store: MockStore;
   let actions$: Actions;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot(), ReactiveComponentModule, RouterTestingModule, ReactiveFormsModule],
-        providers: [
-          provideMockStore({
-            selectors: [
-              {
-                selector: AuthSelectors.selectAdditionalState,
-                value: false
-              }
-            ]
-          }),
-          provideMockActions(() => actions$)
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        declarations: [VerifyAccountComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), ReactiveComponentModule, RouterTestingModule, ReactiveFormsModule],
+      providers: [
+        provideMockStore({
+          selectors: [
+            {
+              selector: AuthSelectors.selectAdditionalState,
+              value: false
+            }
+          ]
+        }),
+        provideMockActions(() => actions$)
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [VerifyAccountComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VerifyAccountComponent);

@@ -8,15 +8,13 @@ describe('PaymentComponent', () => {
   let component: PaymentComponent;
   let fixture: ComponentFixture<PaymentComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NzGridModule],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        declarations: [PaymentComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NzGridModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PaymentComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentComponent);

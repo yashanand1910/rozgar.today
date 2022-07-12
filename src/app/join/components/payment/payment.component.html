@@ -1,16 +1,28 @@
 <div class="header-container">
   <div nz-typography class="title" translate>Payment</div>
   <div nz-typography nzType="secondary" class="subtitle" translate>
-    Please complete the payment before we activate your plan.
+    Please complete the payment to activate your plan.
   </div>
 </div>
-<div nzGrid>
+<div *ngrxLet="paymentIntent$; let paymentIntent" nzGrid>
   <div nz-row>
-    <div *ngrxLet="isLoading$ as isLoading" [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
-      <nz-skeleton *ngIf="isLoading"></nz-skeleton>
-      <div *ngIf="!isLoading">
-        <ngx-stripe-card></ngx-stripe-card>
-        <button nz-button translate>Pay</button>
+    <div [nzMd]="16" [nzXl]="12" [nzXs]="24" nz-col>
+      <div nz-row>
+        <div [nzSpan]="24" nz-col>
+          <nz-skeleton *ngIf="paymentIntent.isLoading"></nz-skeleton>
+          <ng-template [ngIf]="!paymentIntent.isLoading">
+            <nz-form-item><nz-form-control>
+              <ngx-stripe-card></ngx-stripe-card>
+            </nz-form-control>
+            </nz-form-item>
+          </ng-template>
+        </div>
+      </div>
+      <div nz-row nzJustify="end">
+        <div nz-col>
+          <button (click)="changePlan()" nz-button nzType="link" type="button">Change Plan</button>
+          <button nz-button nzType="primary" nzSize='large' translate>Pay Now</button>
+        </div>
       </div>
     </div>
     <div [nzXl]="12" [nzXs]="24" [nzMd]="8" nz-col>

@@ -15,8 +15,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '@env/environment';
-import { selectAll } from '@core/selectors/alert.selectors';
-import { AuthSelectors } from '@auth/selectors';
 
 describe('CreateAccountComponent', () => {
   let component: CreateAccountComponent;
@@ -24,50 +22,35 @@ describe('CreateAccountComponent', () => {
   let store: MockStore;
   let actions$: Actions;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveComponentModule,
-          ReactiveFormsModule,
-          NzFormModule,
-          NzIconModule,
-          SharedModule,
-          NzButtonModule,
-          RouterTestingModule,
-          AngularFireModule.initializeApp(environment.firebase)
-        ],
-        providers: [
-          provideMockStore({
-            selectors: [
-              {
-                selector: selectAll,
-                value: false
-              },
-              {
-                selector: AuthSelectors.selectState,
-                value: false
-              }
-            ]
-          }),
-          provideMockActions(() => actions$)
-        ],
-        declarations: [CreateAccountComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveComponentModule,
+        ReactiveFormsModule,
+        NzFormModule,
+        NzIconModule,
+        SharedModule,
+        NzButtonModule,
+        RouterTestingModule,
+        AngularFireModule.initializeApp(environment.firebase)
+      ],
+      providers: [
+        provideMockStore({
+          selectors: []
+        }),
+        provideMockActions(() => actions$)
+      ],
+      declarations: [CreateAccountComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
-  it(
-    'should create',
-    waitForAsync(() => {
-      fixture = TestBed.createComponent(CreateAccountComponent);
-      component = fixture.componentInstance;
-      store = TestBed.inject(MockStore);
-      actions$ = TestBed.inject(MockStore);
-      expect(component).toBeTruthy();
-    }),
-    30000
-  );
+  it('should create', waitForAsync(() => {
+    fixture = TestBed.createComponent(CreateAccountComponent);
+    component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+    actions$ = TestBed.inject(MockStore);
+    expect(component).toBeTruthy();
+  }), 30000);
 });

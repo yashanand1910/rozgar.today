@@ -16,30 +16,28 @@ describe('ShellComponent', () => {
   let fixture: ComponentFixture<ShellComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          HttpClientTestingModule,
-          RouterTestingModule,
-          TranslateModule.forRoot(),
-          ReactiveComponentModule,
-          NzMenuModule,
-          NzIconModule
-        ],
-        providers: [
-          provideMockStore({
-            selectors: [
-              { selector: AuthSelectors.selectIsLoading, value: false },
-              { selector: AuthSelectors.selectUser, value: false }
-            ]
-          })
-        ],
-        declarations: [HeaderComponent, ShellComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        ReactiveComponentModule,
+        NzMenuModule,
+        NzIconModule
+      ],
+      providers: [
+        provideMockStore({
+          selectors: [
+            { selector: AuthSelectors.selectIsLoading, value: false },
+            { selector: AuthSelectors.selectUser, value: false }
+          ]
+        })
+      ],
+      declarations: [HeaderComponent, ShellComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShellComponent);

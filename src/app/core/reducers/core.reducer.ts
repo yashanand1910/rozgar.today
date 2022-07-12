@@ -2,12 +2,10 @@ import { ActionReducer, ActionReducerMap, createReducer, MetaReducer, on } from 
 import { environment } from '@env/environment';
 import { Logger } from '@core/services';
 import * as fromRouter from '@ngrx/router-store';
-import * as fromConstraint from './constraint.reducer';
-import * as fromAlert from './alert.reducer';
 import * as fromCollection from './collection.reducer';
 import * as fromStripe from './stripe.reducer';
 import { CoreActions } from '../actions';
-import { Collection } from '@core/models';
+import { Collection, Config } from '@core/models';
 import { InjectionToken } from '@angular/core';
 import { AuthActions } from '@auth/actions';
 import firebase from 'firebase/compat/app';
@@ -18,8 +16,6 @@ export const additionalKey = 'additional';
 
 export interface State {
   router: fromRouter.RouterReducerState;
-  [fromConstraint.featureKey]: fromConstraint.State;
-  [fromAlert.featureKey]: fromAlert.State;
   [fromStripe.featureKey]: fromStripe.State;
   [additionalKey]: AdditionalState;
 }
@@ -27,16 +23,23 @@ export interface State {
 export interface AdditionalState {
   isUpdated: boolean; // Is updated with Firestore state?
   isProcessing: boolean;
+  isLoading: boolean;
+  config: Config;
   error?: FirebaseError;
 }
 
 export const initialState: AdditionalState = {
   isUpdated: false,
-  isProcessing: false
+  isProcessing: false,
+  isLoading: false,
+  config: null
 };
 
 export const additionalReducer = createReducer(
   initialState,
+
+  // Firestore State Reducers
+
   on(CoreActions.getFirestoreState, (state) => ({ ...state })),
   on(CoreActions.getFirestoreStateSuccess, (state, action) => {
     return action.state ? { ...state, error: null, isUpdated: true } : { ...state, error: null, isUpdated: false };
@@ -49,15 +52,29 @@ export const additionalReducer = createReducer(
       : { ...state, isProcessing: false, error: null };
   }),
   on(CoreActions.setFirestoreStateFailure, (state, action) => ({ ...state, error: action.error })),
-  on(AuthActions.logOutSuccess, (state) => ({ ...state, isUpdated: false }))
+
+  // Auth Reducers
+
+  on(AuthActions.logOutSuccess, (state) => ({ ...state, isUpdated: false })),
+
+  // Config Reducers
+
+  on(CoreActions.getConfig, (state) => ({ ...state, isLoading: true })),
+  on(CoreActions.getConfigSuccess, (state, action) => ({
+    ...state,
+    isLoading: false,
+    config: action.config
+  })),
+  on(CoreActions.getConfigFailure, (state, action) => ({
+    ...state,
+    error: action.error
+  }))
 );
 
 export const reducers = new InjectionToken<ActionReducerMap<State>>('Root reducers token', {
   factory: () => {
     const coreReducers: ActionReducerMap<State> = {
       router: fromRouter.routerReducer,
-      [fromConstraint.featureKey]: fromConstraint.reducer,
-      [fromAlert.featureKey]: fromAlert.reducer,
       [fromStripe.featureKey]: fromStripe.reducer,
       [additionalKey]: additionalReducer
     };

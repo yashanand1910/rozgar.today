@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { StripeActions } from '@core/actions';
 import { JoinSelectors } from '../../selectors';
 import { StripeSelectors } from '@core/selectors';
@@ -8,21 +8,23 @@ import { first, tap, withLatestFrom } from 'rxjs/operators';
 import { areArrayElementsEqual } from '@shared/helper';
 import { Product } from '@core/models/product';
 import { Observable } from 'rxjs';
+import { PaymentIntentState } from '@core/reducers/stripe.reducer';
+import { StepComponent } from '@app/join/components';
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.less', '../join.component.less']
 })
-export class PaymentComponent implements OnInit {
-  isLoading$: Observable<boolean>;
-
-  constructor(private store: Store) {}
+export class PaymentComponent extends StepComponent implements OnInit {
+  paymentIntent$: Observable<PaymentIntentState>;
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(StripeSelectors.selectPaymentIntentIsLoading, {
-      context: PaymentIntentContext.FirstTimePlanPurchase
-    });
+    super.ngOnInit();
+
+    this.paymentIntent$ = this.store.pipe(
+      select(StripeSelectors.selectPaymentIntentState(PaymentIntentContext.FirstTimePlanPurchase))
+    );
 
     this.initialize();
   }
@@ -36,9 +38,7 @@ export class PaymentComponent implements OnInit {
         select(JoinSelectors.selectSelectedPlanId),
         first(),
         withLatestFrom(
-          this.store.select(StripeSelectors.selectPaymentIntentState, {
-            context: PaymentIntentContext.FirstTimePlanPurchase
-          })
+          this.store.select(StripeSelectors.selectPaymentIntentState(PaymentIntentContext.FirstTimePlanPurchase))
         ),
         tap(([planId, paymentIntent]) => {
           const products = [{ collection: Collection.Plans, id: planId }];
@@ -72,5 +72,9 @@ export class PaymentComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  pay() {
+    // TODO
   }
 }
