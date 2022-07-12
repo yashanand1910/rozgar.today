@@ -22,41 +22,35 @@ describe('CreateAccountComponent', () => {
   let store: MockStore;
   let actions$: Actions;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveComponentModule,
-          ReactiveFormsModule,
-          NzFormModule,
-          NzIconModule,
-          SharedModule,
-          NzButtonModule,
-          RouterTestingModule,
-          AngularFireModule.initializeApp(environment.firebase)
-        ],
-        providers: [
-          provideMockStore({
-            selectors: []
-          }),
-          provideMockActions(() => actions$)
-        ],
-        declarations: [CreateAccountComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveComponentModule,
+        ReactiveFormsModule,
+        NzFormModule,
+        NzIconModule,
+        SharedModule,
+        NzButtonModule,
+        RouterTestingModule,
+        AngularFireModule.initializeApp(environment.firebase)
+      ],
+      providers: [
+        provideMockStore({
+          selectors: []
+        }),
+        provideMockActions(() => actions$)
+      ],
+      declarations: [CreateAccountComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
-  it(
-    'should create',
-    waitForAsync(() => {
-      fixture = TestBed.createComponent(CreateAccountComponent);
-      component = fixture.componentInstance;
-      store = TestBed.inject(MockStore);
-      actions$ = TestBed.inject(MockStore);
-      expect(component).toBeTruthy();
-    }),
-    30000
-  );
+  it('should create', waitForAsync(() => {
+    fixture = TestBed.createComponent(CreateAccountComponent);
+    component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+    actions$ = TestBed.inject(MockStore);
+    expect(component).toBeTruthy();
+  }), 30000);
 });

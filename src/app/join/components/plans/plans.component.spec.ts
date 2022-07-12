@@ -21,34 +21,32 @@ describe('PlansComponent', () => {
   let store: MockStore;
   let actions$: Actions;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveComponentModule, NzGridModule, NzButtonModule, ReactiveFormsModule],
-        providers: [
-          provideMockStore({
-            selectors: [
-              {
-                selector: selectState<Plan>(Collection.Plans),
-                value: false
-              },
-              {
-                selector: entitySelectors<Plan>(Collection.Plans).selectAll.toString(),
-                value: false
-              },
-              {
-                selector: JoinSelectors.selectAdditionalState,
-                value: false
-              }
-            ]
-          }),
-          provideMockActions(() => actions$)
-        ],
-        declarations: [PlansComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveComponentModule, NzGridModule, NzButtonModule, ReactiveFormsModule],
+      providers: [
+        provideMockStore({
+          selectors: [
+            {
+              selector: selectState<Plan>(Collection.Plans),
+              value: false
+            },
+            {
+              selector: entitySelectors<Plan>(Collection.Plans).selectAll.toString(),
+              value: false
+            },
+            {
+              selector: JoinSelectors.selectAdditionalState,
+              value: false
+            }
+          ]
+        }),
+        provideMockActions(() => actions$)
+      ],
+      declarations: [PlansComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PlansComponent);

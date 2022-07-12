@@ -15,23 +15,21 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveFormsModule,
-          NzFormModule,
-          ReactiveComponentModule,
-          NzButtonModule,
-          NzIconModule
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
-        declarations: [LoginComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        NzFormModule,
+        ReactiveComponentModule,
+        NzButtonModule,
+        NzIconModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
+      declarations: [LoginComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

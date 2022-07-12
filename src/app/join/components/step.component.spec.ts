@@ -13,15 +13,13 @@ describe('StepComponent', () => {
   let store: MockStore;
   let actions$: Actions;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule],
-        providers: [provideMockStore(), provideMockActions(() => actions$)],
-        declarations: [StepComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule],
+      providers: [provideMockStore(), provideMockActions(() => actions$)],
+      declarations: [StepComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StepComponent);

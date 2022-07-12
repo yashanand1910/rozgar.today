@@ -14,38 +14,32 @@ describe('AppComponent', () => {
   let splashScreenSpy: any;
   let keyboardSpy: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      statusBarSpy = jest.fn();
-      splashScreenSpy = {
-        hide: jest.fn()
-      };
-      keyboardSpy = {
-        hideFormAccessoryBar: jest.fn()
-      };
+  beforeEach(waitForAsync(() => {
+    statusBarSpy = jest.fn();
+    splashScreenSpy = {
+      hide: jest.fn()
+    };
+    keyboardSpy = {
+      hideFormAccessoryBar: jest.fn()
+    };
 
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveComponentModule, TranslateModule.forRoot()],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        declarations: [AppComponent],
-        providers: [
-          { provide: Keyboard, useValue: keyboardSpy },
-          { provide: StatusBar, useValue: statusBarSpy },
-          { provide: SplashScreen, useValue: splashScreenSpy },
-          provideMockStore()
-        ]
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveComponentModule, TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [AppComponent],
+      providers: [
+        { provide: Keyboard, useValue: keyboardSpy },
+        { provide: StatusBar, useValue: statusBarSpy },
+        { provide: SplashScreen, useValue: splashScreenSpy },
+        provideMockStore()
+      ]
+    }).compileComponents();
+  }));
 
-  it(
-    'should create the app',
-    waitForAsync(() => {
-      const fixture = TestBed.createComponent(AppComponent);
-      const app = fixture.debugElement.componentInstance;
-      TestBed.inject(MockStore);
-      expect(app).toBeTruthy();
-    }),
-    30000
-  );
+  it('should create the app', waitForAsync(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    TestBed.inject(MockStore);
+    expect(app).toBeTruthy();
+  }), 30000);
 });

@@ -14,22 +14,14 @@ describe('ForgotPasswordComponent', () => {
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveFormsModule,
-          NzFormModule,
-          ReactiveComponentModule,
-          NzButtonModule
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
-        declarations: [ForgotPasswordComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, NzFormModule, ReactiveComponentModule, NzButtonModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
+      declarations: [ForgotPasswordComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);

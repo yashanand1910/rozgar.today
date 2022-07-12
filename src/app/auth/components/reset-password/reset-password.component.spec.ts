@@ -16,23 +16,21 @@ describe('ResetPasswordComponent', () => {
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let store: MockStore;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          TranslateModule.forRoot(),
-          ReactiveComponentModule,
-          ReactiveFormsModule,
-          NzFormModule,
-          NzIconModule,
-          NzButtonModule
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
-        declarations: [ResetPasswordComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveComponentModule,
+        ReactiveFormsModule,
+        NzFormModule,
+        NzIconModule,
+        NzButtonModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [provideMockStore({ selectors: [{ selector: AuthSelectors.selectState, value: false }] })],
+      declarations: [ResetPasswordComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);

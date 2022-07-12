@@ -26,7 +26,7 @@ export const selectIsUpdated = createSelector(selectAdditionalState, (state) => 
 
 export const selectConfig = createSelector(selectAdditionalState, (state) => state.config);
 
-export const selectAlerts = createSelector(selectConfig, (state) => (state.alerts));
+export const selectAlerts = createSelector(selectConfig, (state) => state.alerts);
 
 export const selectAlert = (component: string) =>
   createSelector(selectAlerts, (state) => (state ? state[component] : null));
